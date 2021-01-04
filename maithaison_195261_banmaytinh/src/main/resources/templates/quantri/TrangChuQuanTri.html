@@ -1,0 +1,329 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Trang chủ quản trị viên</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.css">
+    <style>
+        @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #fafafa;
+        }
+        
+        p {
+            font-size: 1.1em;
+            font-weight: 300;
+            line-height: 1.7em;
+            color: #999;
+        }
+        
+        a,
+        a:hover,
+        a:focus {
+            color: inherit;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .navbar {
+            padding: 15px 10px;
+            background: #fff;
+            border: none;
+            border-radius: 0;
+            margin-bottom: 40px;
+            box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .navbar-btn {
+            box-shadow: none;
+            outline: none !important;
+            border: none;
+        }
+        
+        .line {
+            width: 100%;
+            height: 1px;
+            border-bottom: 1px dashed #ddd;
+        }
+        
+        .wrapper {
+            display: flex;
+            width: 100%;
+            align-items: stretch;
+        }
+        
+        #sidebar {
+            min-width: 250px;
+            max-width: 250px;
+            background: #005086;
+            color: #fff;
+            transition: all 0.3s;
+        }
+        
+        #sidebar.active {
+            margin-left: -250px;
+        }
+        
+        #sidebar .sidebar-header {
+            padding: 20px;
+            background: #005086;
+        }
+        
+        #sidebar ul.components {
+            padding: 20px 0px;
+            border-bottom: 1px solid #47748b;
+        }
+        
+        #sidebar ul p {
+            padding: 10px;
+            font-size: 15px;
+            display: block;
+            color: #fff;
+        }
+        
+        #sidebar ul li a {
+            padding: 10px;
+            font-size: 1.1em;
+            display: block;
+        }
+        
+        #sidebar ul li a:hover {
+            color: #fff;
+            background: #318fb5;
+        }
+        
+        #sidebar ul li.active>a,
+        a[aria-expanded="true"] {
+            color: #fff;
+            background: #318fb5;
+        }
+        
+        a[data-toggle="collapse"] {
+            position: relative;
+        }
+        
+        .dropdown-toggle::after {
+            display: block;
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+        }
+        
+        ul ul a {
+            font-size: 0.9em !important;
+            padding-left: 30px !important;
+            background: #318fb5;
+        }
+        
+        ul.CTAs {
+            padding: 20px;
+        }
+        
+        ul.CTAs a {
+            text-align: center;
+            font-size: 0.9em !important;
+            display: block;
+            border-radius: 5px;
+            margin-bottom: 5px;
+        }
+        
+        a.download,
+        a.download:hover {
+            background: #318fb5;
+            color: #fff;
+        }
+        
+        .content {
+            width: 100%;
+            padding: 20px;
+            min-height: 100vh;
+            transition: all 0.3s;
+        }
+        
+        .content-wrapper {
+            padding: 15px;
+        }
+        
+        @media(maz-width:768px) {
+            #sidebar {
+                margin-left: -250px;
+            }
+            #sidebar.active {
+                margin-left: 0px;
+            }
+            #sidebarCollapse span {
+                display: none;
+            }
+        }
+        
+        #baocao {
+            width: 1065px;
+            height: 125px;
+            display: flex;
+            margin-top: 25px;
+            display: flex;
+            justify-content: center;
+        }
+        
+        #baocao div {
+            width: 175px;
+            height: 100px;
+            border-radius: 5px;
+            box-shadow: 10px 10px 5px grey;
+        }
+        
+        #baocao div:hover {
+            opacity: 0.75;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <div class="wrapper">
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h4>QUẢN LÝ MÁY TÍNH</h4>
+                <hr>
+            </div>
+            <ul class="list-unstyled components">
+                <li> 
+                	<a class="mau nav-link active" id="v-pills-tc-tab" data-toggle="pill" href="#v-pills-tc" role="tab" aria-controls="v-pills-home" aria-selected="true">
+	                    <i class="fas fa-space-shuttle"><span style="margin-left: 10px;">Báo cáo tổng hợp</span></i>
+	                </a> 
+                </li>
+                <li>
+                	<a class="mau nav-link" id="v-pills-qlmt-tab" th:href="@{/trangquantri/trangquanlymaytinh}">
+	                    <i class="fas fa-desktop"><span style="margin-left: 10px;">Quản lý máy tính</span></i>
+	                </a>
+                </li>
+                <li> 
+                	<a class="mau nav-link" id="v-pills-qldt-tab" data-toggle="pill" href="#v-pills-qldt" role="tab" aria-controls="v-pills-profile" aria-selected="false">
+	                    <i class="fas fa-mobile-alt"><span style="margin-left: 10px;">Quản lý điện thoại</span></i>
+	                </a>
+                </li>
+                <li> 
+	                <a class="mau nav-link" id="v-pills-qlmtb-tab" data-toggle="pill" href="#v-pills-qlmtb" role="tab" aria-controls="v-pills-profile" aria-selected="false">
+	                    <i class="fas fa-tablet"><span style="margin-left: 10px;">Quản lý máy tính bảng</span></i>
+	                </a>
+                </li>
+                <li> 
+                	<a class="mau nav-link" id="v-pills-qlkh-tab" data-toggle="pill" href="#v-pills-qlkh" role="tab" aria-controls="v-pills-profile" aria-selected="false">
+	                    <i class="fas fa-user-friends"><span style="margin-left: 10px;">Quản lý khách hàng</span></i>
+	                </a>
+                </li>
+                <li> 
+                	<a class="mau nav-link" id="v-pills-qlbl-tab" data-toggle="pill" href="#v-pills-qlbl" role="tab" aria-controls="v-pills-messages" aria-selected="false">
+	                    <i class="fas fa-comments"><span style="margin-left: 10px;">Quản lý bình luận</span></i>
+	                </a>
+                </li>
+                <li> 
+                	<a class="mau nav-link" id="v-pills-qlhd-tab" data-toggle="pill" href="#v-pills-qlhd" role="tab" aria-controls="v-pills-settings" aria-selected="false">
+	                    <i class="fas fa-money-bill"><span style="margin-left: 10px;">Quản lý hóa đơn</span></i>
+	                </a>
+                </li>
+                <li> 
+                	<a class="mau nav-link" id="v-pills-qlht-tab" data-toggle="pill" href="#v-pills-qlht" role="tab" aria-controls="v-pills-settings" aria-selected="false">
+	                    <i class="fas fa-envelope-square"><span style="margin-left: 10px;">Quản lý hộp thư</span></i>
+	                </a> 
+                </li>
+            </ul>
+            <ul class="list-unstyled CTAs">
+                <li> <a href="#" class="download">Đăng xuất</a> </li>
+            </ul>
+        </nav>
+        
+        <div class="content tab-pane fade show active" id="v-pills-tc" role="tabpanel" aria-labelledby="v-pills-home-tab">
+            <div class="content-wrapper">
+                <h2 style="font-weight: bold;color: black;">
+                    <i class="fas fa-book-reader"><span style="margin-left: 10px;">Báo cáo mới nhất trong tháng</span></i>
+                </h2>                
+                <div id="baocao">
+                    <div style="background-color: rgba(117, 42, 255, 0.911);">
+                        <i class="fas fa-shipping-fast" style="margin-left: 15px;margin-top: 15px;font-size: 35px;color: rgb(92, 0, 0);">
+                            <span style="font-size: 25px;margin-left: 25px;text-shadow: 5px 5px 10px rgb(255, 255, 255);">
+                                19 <br>new orders
+                            </span>
+                        </i>
+                    </div>
+                    <div style="margin-left: 25px;background-color: rgba(12, 214, 12, 0.932);">
+                        <i class="fas fa-chart-bar" style="margin-left: 15px;margin-top: 15px;font-size: 35px;color: rgb(112, 112, 0);">
+                            <span style="font-size: 25px;margin-left: 25px;text-shadow: 5px 5px 10px rgb(255, 255, 255);">
+                                19 <br>new products
+                            </span>
+                        </i>
+                    </div>
+                    <div style="margin-left: 25px;background-color: rgba(255, 255, 35, 0.884);">
+                        <i class="fas fa-user-plus" style="margin-left: 15px;margin-top: 15px;font-size: 35px;color: rgb(112, 112, 0);">
+                            <span style="font-size: 25px;margin-left: 25px;text-shadow: 5px 5px 10px rgb(0, 4, 252);">
+                                19 <br>new users
+                            </span>
+                        </i>
+                    </div>
+                    <div style="margin-left: 25px;background-color: rgba(252, 44, 44, 0.822);">
+                        <i class="fas fa-comments" style="margin-left: 15px;margin-top: 15px;font-size: 35px;color: rgb(65, 55, 55);">
+                            <span style="font-size: 25px;margin-left: 25px;text-shadow: 2px 2px 5px rgb(255, 255, 255);">
+                                19 <br><span style="font-size: 22px;">new comments</span>
+                            </span>
+                        </i>
+                    </div>
+                </div>               
+                <div class="line"></div>
+                <br>
+                <h2 style="font-weight: bold;color: black;">
+                    <i class="fas fa-book-reader"><span style="margin-left: 10px;">Thông tin tài khoản</span></i>
+                </h2> 
+                <form action="" style="margin-top: 10px;color: white;">
+                    <div class="form-group">
+                        <label style="color: black;">Họ và tên:</label>
+                        <input disabled type="text" class="form-control" placeholder="Nhập họ và tên..." name="hoten">
+                    </div>
+                    <div class="form-group">
+                        <label style="color: black;" for="email">Email:</label>
+                        <input disabled type="email" class="form-control" id="email" placeholder="Nhập email..." name="email">
+                    </div>
+                    <div class="form-group">
+                        <label style="color: black;">Mật khẩu:</label>
+                        <input type="text" class="form-control" placeholder="Thay đổi mật khẩu..." name="matkhau">
+                    </div>
+                    <div class="form-group">
+                        <label style="color: black;">Số điện thoại:</label>
+                        <input type="text" class="form-control" placeholder="Thay đổi số điện thoại..." name="sodienthoai">
+                    </div>
+                    <div class="form-group">
+                        <label style="color: black;">Địa chỉ:</label>
+                        <input type="text" class="form-control" placeholder="Thay đổi địa chỉ..." name="diachi">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Lưu thông tin</button>
+                </form>
+            </div>
+        </div>
+        
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $("#sidebarCollapse").on('click', function() {
+                $("#sidebar").toggleClass('active');
+            });
+        });
+    </script>
+
+</body>
+
+</html>
