@@ -136,7 +136,7 @@
 
         <div style="float: left;height: 75px;margin-left: 50px;">
             <div style="text-align: center;margin-top: 10px;">
-                <i class="fas fa-cart-plus" style="color: white;font-size: 30px;"></i>
+                <i class="fas fa-user" style="color: white;font-size: 30px;"></i> 
             </div>
             <div style="color: white;font-weight: bold;">
                 <a th:href="@{/trangkhachhang/trangthongtinkhachhang/{makh}(makh=${hoten})}" th:text="${hoten}" style="text-decoration: none;color: white;"></a>
@@ -145,7 +145,7 @@
 
         <div style="float: left;height: 75px;margin-left: 50px;">
             <div style="text-align: center;margin-top: 10px;">
-                <i class="fas fa-cart-plus" style="color: white;font-size: 30px;"></i>
+                <i class="fas fa-sign-out-alt" style="color: white;font-size: 30px;"></i> 
             </div>
             <div style="color: white;font-weight: bold;">
                 <a th:href="@{/dangxuat}" style="color: white;font-weight: bold;">Đăng xuất</a>
@@ -157,12 +157,13 @@
     <div class="topnav bg-dark" style="display: flex;width: 1515px;">
         <a class="active" th:href="@{/trangchu}">Home</a>
         <a th:href="@{/tranglaptop}" style="color: white;">Laptop</a>
-        <a href="#" style="color: white;">Điện thoại</a>
+        <a th:href="@{/trangdienthoai}" style="color: white;">Điện thoại</a>
         <a href="#" style="color: white;">Máy tính bảng</a>
+        <a href="#" data-toggle="modal" data-target="#tuongtacvoituvanvien" style="color: white;">Tư vấn, hỏi đáp</a>
         <div class="search-container">
             <form th:action="@{/trangtimkiemsanpham}">
-                <input type="text" placeholder="Tên sản phẩm cần tìm.." name="tensanpham">
-             	<button type="submit">Tìm kiếm</button>
+                <input type="text" placeholder="Tên sản phẩm cần tìm..." name="tensanpham">
+                <button type="submit">Tìm kiếm</button>
             </form>
         </div>
     </div>
@@ -217,39 +218,77 @@
     <div id="ketquatimkiem">
         <!--hang thu nhat-->
         <th:block>
-        	<div class="row">
-	            <th:block th:each="dssp : ${danhsachsanpham}">
-	            	<div class="card hieuung" style="width: 25%;height: 450px;">
-		                <img class="card-img-top" th:src="@{${dssp.hinhanh}}" style="width:100%;height: 35%;padding-left: 50px;padding-right: 50px;margin-top: 30px;">
-		                <div class="card-body">
-		                    <div style="text-align: center;color: rgb(58, 58, 58);font-size: 15px;font-weight: bold;">
-		                        <span th:utext="${dssp.tensanpham}"></span>
-		                    </div>
-		                    <div style="margin-top: 15px;background-color: red;border-radius: 5px;text-align: center;color: rgb(255, 255, 255);font-size: 16px;font-weight: bold;">
-		                        <span th:utext="${dssp.gia} + 'USD'"></span>
-		                    </div>
-		                    <div style="border-radius: 10px;margin-top: 10px;padding-left: 45px;padding-bottom: 10px;background-color: rgb(221, 212, 212, 0.25);">
-		                        <div style="clear: both;padding-top: 10px;">
-		                            <i class="fas fa-memory" style="color: gray;">SSD <span th:utext="${dssp.dungluongbonho}"></span> GB</i>
-		                            <i class="fas fa-microchip" style="margin-left: 15px;color: gray;"><span th:utext="${dssp.dungluongram}"></span> GB</i>
-		                        </div>
-		                        <div>
-		                            <i class="fas fa-laptop" style="color: gray;"><span th:utext="${dssp.kichthuocmanhinh}"></span>''</i>
-		                            <i class="fas fa-server" style="margin-left: 15px;color: gray;"><span th:utext="${dssp.congnghecpu}"></span></i>
-		                        </div>
-		                    </div>
-		                    <div style="margin-top: 15px;padding-left: 40px;">
-		                        <th:block th:if="${dssp.masanpham.contains('mt')}">
-	                        		<a th:href="@{/trangchitietmaytinh/{masanpham}(masanpham=${dssp.masanpham})}" type="button" class="btn btn-primary">Xem chi tiết</a>	
-	                        	</th:block>
-	                        	<th:block th:if="${dssp.masanpham.contains('dt')}">
-	                        		<a th:href="@{/trangchitietdienthoai/{masanpham}(masanpham=${dssp.masanpham})}" type="button" class="btn btn-primary">Xem chi tiết</a>	
-	                        	</th:block>
-		                        <a href="./TrangDienThoai.html" type="button" class="btn btn-success">So sánh</a>
-		                    </div>
-		                </div>
-		            </div>
-	            </th:block>
+        	<div class="row">	           	            	
+	        		<th:block th:each="dssp : ${danhsachsanpham}">
+		            	<div th:if="${loaisanpham1} == 1" class="card hieuung" style="width: 25%;height: 450px;">	            		
+			                <img class="card-img-top" th:src="@{${dssp.hinhanh}}" style="width:100%;height: 35%;padding-left: 50px;padding-right: 50px;margin-top: 30px;">
+			                <div class="card-body">
+			                    <div style="text-align: center;color: rgb(58, 58, 58);font-size: 15px;font-weight: bold;">
+			                        <span th:utext="${dssp.tensanpham}"></span>
+			                    </div>
+			                    <div style="margin-top: 15px;background-color: red;border-radius: 5px;text-align: center;color: rgb(255, 255, 255);font-size: 16px;font-weight: bold;">
+			                        <span th:utext="${dssp.gia} + ',000 USD'"></span>
+			                    </div>
+			                    <div style="border-radius: 10px;margin-top: 10px;padding-left: 45px;padding-bottom: 10px;background-color: rgb(221, 212, 212, 0.25);">
+			                        <div style="clear: both;padding-top: 10px;">
+			                            <i class="fas fa-memory" style="color: gray;">SSD <span th:utext="${dssp.dungluongbonho}"></span> GB</i>
+			                            <i class="fas fa-microchip" style="margin-left: 15px;color: gray;"><span th:utext="${dssp.dungluongram}"></span> GB</i>
+			                        </div>
+			                        <div>
+			                            <i class="fas fa-laptop" style="color: gray;"><span th:utext="${dssp.kichthuocmanhinh}"></span>''</i>
+			                            <i class="fas fa-server" style="margin-left: 15px;color: gray;"><span th:utext="${dssp.congnghecpu}"></span></i>
+			                        </div>
+			                    </div>
+			                    <div style="margin-top: 15px;padding-left: 40px;">
+			                        <th:block th:if="${dssp.masanpham.contains('mt')}">
+		                        		<a th:href="@{/trangchitietmaytinh/{masanpham}(masanpham=${dssp.masanpham})}" type="button" class="btn btn-primary">Xem chi tiết</a>	
+		                        	</th:block>
+		                        	<th:block th:if="${dssp.masanpham.contains('dt')}">
+		                        		<a th:href="@{/trangchitietdienthoai/{masanpham}(masanpham=${dssp.masanpham})}" type="button" class="btn btn-primary">Xem chi tiết</a>	
+		                        	</th:block>
+		                        	
+		                        	<th:block th:if="${vaitro} == 'ROLE_ADMIN'">
+		                            	<a th:href="@{/trangquantri/trangsuathongtinsanpham/{masanpham}(masanpham=${dssp.masanpham})}" type="button" class="btn btn-success">Sửa thông tin</a>
+		                            </th:block>     
+		                            <th:block th:unless="${vaitro} == 'ROLE_ADMIN'">
+		                            	<a href="#" type="button" class="btn btn-success">So sánh</a>
+		                            </th:block>     
+			                        
+			                    </div>
+			                </div>
+			            </div>
+			            
+			            <div th:if="${loaisanpham1} == 2" class="card hieuung" style="width: 25%;height: 625px;">	            		
+			                <img class="card-img-top" th:src="@{${dssp.hinhanh}}" style="width:100%;height: 55%;padding-left: 50px;padding-right: 50px;margin-top: 30px;">
+			                <div class="card-body">
+			                    <div style="text-align: center;color: rgb(58, 58, 58);font-size: 15px;font-weight: bold;">
+			                        <span th:utext="${dssp.tensanpham}"></span>
+			                    </div>
+			                    <div style="margin-top: 15px;background-color: red;border-radius: 5px;text-align: center;color: rgb(255, 255, 255);font-size: 16px;font-weight: bold;">
+			                        <span th:utext="${dssp.gia} + ',000 USD'"></span>
+			                    </div>
+			                    <div style="border-radius: 10px;margin-top: 10px;padding-left: 45px;padding-bottom: 10px;background-color: rgb(221, 212, 212, 0.25);">
+			                        <div style="clear: both;padding-top: 10px;">
+			                            <i class="fas fa-memory" style="color: gray;">SSD <span th:utext="${dssp.dungluongbonho}"></span> GB</i>
+			                            <i class="fas fa-microchip" style="margin-left: 15px;color: gray;"><span th:utext="${dssp.dungluongram}"></span> GB</i>
+			                        </div>
+			                        <div>
+			                            <i class="fas fa-laptop" style="color: gray;"><span th:utext="${dssp.kichthuocmanhinh}"></span>''</i>
+			                            <i class="fas fa-server" style="margin-left: 15px;color: gray;"><span th:utext="${dssp.congnghecpu}"></span></i>
+			                        </div>
+			                    </div>
+			                    <div style="margin-top: 15px;padding-left: 40px;">
+			                        <th:block th:if="${dssp.masanpham.contains('mt')}">
+		                        		<a th:href="@{/trangchitietmaytinh/{masanpham}(masanpham=${dssp.masanpham})}" type="button" class="btn btn-primary">Xem chi tiết</a>	
+		                        	</th:block>
+		                        	<th:block th:if="${dssp.masanpham.contains('dt')}">
+		                        		<a th:href="@{/trangchitietdienthoai/{masanpham}(masanpham=${dssp.masanpham})}" type="button" class="btn btn-primary">Xem chi tiết</a>	
+		                        	</th:block>
+			                        <a href="./TrangDienThoai.html" type="button" class="btn btn-success">So sánh</a>
+			                    </div>
+			                </div>
+			            </div>
+		            </th:block>    	          
 	        </div>
         </th:block>
        

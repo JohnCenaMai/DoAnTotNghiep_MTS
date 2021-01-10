@@ -87,7 +87,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-    <div style="width: 100%;height: 75px;background-color: red;">
+    <div style="width: 1515px;height: 75px;background-color: red;display: flex;">
         <div style="float: left;width: 75px;height: 75px;margin-left: 30px;">
             <a href="#">
                 <i class="fas fa-gem" style="color: gold;font-size: 35px;margin-top: 20px;margin-left: 20px;"></i>
@@ -116,29 +116,77 @@
                 Giỏ hàng
             </div>
         </div>
-        	
+
         <div style="float: left;height: 75px;margin-left: 50px;">
             <div style="text-align: center;margin-top: 10px;">
-                <i class="fas fa-cart-plus" style="color: white;font-size: 30px;"></i>
+                <i class="fas fa-user" style="color: white;font-size: 30px;"></i>
             </div>
             <div style="color: white;font-weight: bold;">
-            	<a th:href="@{/trangkhachhang/trangthongtinkhachhang/{makh}(makh=${hoten})}" th:text="${hoten}" style="text-decoration: none;color: white;"></a>                
+                <a th:href="@{/trangkhachhang/trangthongtinkhachhang/{makh}(makh=${hoten})}" th:text="${hoten}" style="text-decoration: none;color: white;"></a>
             </div>
         </div>
-        
+
         <div style="float: left;height: 75px;margin-left: 50px;">
             <div style="text-align: center;margin-top: 10px;">
-                <i class="fas fa-cart-plus" style="color: white;font-size: 30px;"></i>
+                <i class="fas fa-sign-out-alt" style="color: white;font-size: 30px;"></i>  
             </div>
             <div style="color: white;font-weight: bold;">
                 <a th:href="@{/dangxuat}" style="color: white;font-weight: bold;">Đăng xuất</a>
             </div>
         </div>
-        
+
     </div>
 
-    <div style="margin-right: 50px;margin-left: 50px;margin-top: 10px;overflow: auto;">
+    <!--search bar-->
+    <div class="topnav bg-dark" style="display: flex;width: 1515px;">
+        <a class="active" th:href="@{/trangchu}">Home</a>
+        <a th:href="@{/tranglaptop}" style="color: white;">Laptop</a>
+        <a th:href="@{/trangdienthoai}" style="color: white;">Điện thoại</a>
+        <a href="#" style="color: white;">Máy tính bảng</a>
+        <a href="#" style="color: white;">Đồng hồ</a>
+        
+        <a href="#" data-toggle="modal" data-target="#tuongtacvoituvanvien" style="color: white;">Tư vấn, hỏi đáp</a>
+        <div class="search-container">
+            <form th:action="@{/trangtimkiemsanpham}">
+                <input type="text" placeholder="Tên sản phẩm cần tìm..." name="tensanpham">
+                <button type="submit">Tìm kiếm</button>
+            </form>
+        </div>
+    </div>
 
+	<div id="tuongtacvoituvanvien" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Gửi câu hỏi cho tư vấn viên.</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <form th:action="@{/hoidaptuvanvien}">
+                            <div class="form-group">
+                                <label for="email">Địa chỉ email:</label>
+                                <input type="text" class="form-control" name="email" placeholder="Nhập email....">
+                            </div>
+                            <div class="form-group">
+                                <label>Chủ đề:</label>
+                                <input type="text" class="form-control" name="chude" placeholder="Chủ đề....">
+                            </div>
+                            <div class="form-group">
+                                <label>Nội dung:</label>
+                                <textarea placeholder="Viết nội dung...." class="form-control" rows="3" name="noidung"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Gửi câu hỏi</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <div style="width: 1415px;margin-right: 50px;margin-left: 50px;margin-top: 10px;overflow: auto;">
         <div id="demo" class="carousel slide" data-ride="carousel">
             <!-- Indicators -->
             <ul class="carousel-indicators">
@@ -185,20 +233,6 @@
             </a>
         </div>
 
-        <!--search bar-->
-        <div class="topnav bg-dark" style="margin-top: 25px;margin-left: 50px;margin-right: 50px;">
-            <a class="active" th:href="@{/trangchu}">Home</a>
-            <a th:href="@{/tranglaptop}" style="color: white;">Laptop</a>
-            <a href="#" style="color: white;">Điện thoại</a>
-            <a href="#" style="color: white;">Máy tính bảng</a>
-            <div class="search-container">
-                <form th:action="@{/trangtimkiemsanpham}">
-                    <input type="text" placeholder="Tên sản phẩm cần tìm.." name="tensanpham">
-                    <button type="submit">Tìm kiếm</button>
-                </form>
-            </div>
-        </div>
-
         <!--Tieu de-->
         <div style="overflow: auto;margin-top: 20px;margin-left: 200px;margin-right: 200px;">
             <div style="float: left;">
@@ -212,40 +246,40 @@
         <div style="overflow: auto;margin-top: 5px;margin-left: 200px;margin-right: 200px;background-color: white;padding: 15px;">
 
             <!--San pham dat vao gio-->
-            
-            	<div style="overflow: auto;border-bottom: 1px solid rgb(216, 215, 215);padding: 5px;">
+
+            <div style="overflow: auto;border-bottom: 1px solid rgb(216, 215, 215);padding: 5px;">
                 <!--san pham chi tiet-->
                 <th:block th:each="dssp : ${danhsachsanpham}">
-                	<div style="clear: both;">
-	                	<div style="float: left;overflow: auto;padding: 10px;border: 1px solid rgb(211, 206, 206);">
-		                    <img th:src="@{${dssp.hinhanh}}" style="width: 125px;height: 125px;">
-		                </div>
-		                <!--ten-->
-		                <div style="float: left;overflow: auto;margin-left: 15px;font-weight: bold;">
-		                    <span th:utext="${dssp.tensanpham}"></span>
-		                    <br>
-		                </div>
-		                <!--gia-->
-		                <div style="float: left;overflow: auto;margin-left: 20px;">
-		                    <span th:utext="${dssp.gia} + 'USD'"></span>
-		                </div>
-		                <!--so luong-->
-		                <div style="float: left;overflow: auto;margin-left: 50px;">
-		                    <form th:action="@{/trangkhachhang/capnhatsoluong/{masanpham}(masanpham=${dssp.masanpham})}"> 
-		                        <input type="number" name="soluong" th:value="${dssp.soluong}" min="1" max="5">
-		                        <br>
-		                        <br>
-		                        <input type="submit" value="Chọn" class="btn btn-danger">
-		                    </form>
-		                </div>
-		                 <!--close-->
-		                <div style="float: left;overflow: auto;margin-left: 25px;">
-		                    <a th:href="@{/trangkhachhang/xulyxoakhoigiohang/{masanpham}(masanpham=${dssp.masanpham})}"><i class="fas fa-window-close"></i></a>
-		                </div>
-	                </div>
-                </th:block>               
-            </div>	
-            
+                    <div style="clear: both;">
+                        <div style="float: left;overflow: auto;padding: 10px;border: 1px solid rgb(211, 206, 206);">
+                            <img th:src="@{${dssp.hinhanh}}" style="width: 125px;height: 125px;">
+                        </div>
+                        <!--ten-->
+                        <div style="float: left;overflow: auto;margin-left: 15px;font-weight: bold;">
+                            <span th:utext="${dssp.tensanpham}"></span>
+                            <br>
+                        </div>
+                        <!--gia-->
+                        <div style="float: left;overflow: auto;margin-left: 20px;">
+                            <span th:utext="${dssp.gia} + 'USD'"></span>
+                        </div>
+                        <!--so luong-->
+                        <div style="float: left;overflow: auto;margin-left: 50px;">
+                            <form th:action="@{/trangkhachhang/capnhatsoluong/{masanpham}(masanpham=${dssp.masanpham})}">
+                                <input type="number" name="soluong" th:value="${dssp.soluong}" min="1" max="5">
+                                <br>
+                                <br>
+                                <input type="submit" value="Chọn" class="btn btn-danger">
+                            </form>
+                        </div>
+                        <!--close-->
+                        <div style="float: left;overflow: auto;margin-left: 25px;">
+                            <a th:href="@{/trangkhachhang/xulyxoakhoigiohang/{masanpham}(masanpham=${dssp.masanpham})}"><i class="fas fa-window-close"></i></a>
+                        </div>
+                    </div>
+                </th:block>
+            </div>
+
             <!--Tong tien-->
             <div style="overflow: auto;clear: both;margin-top: 10px;">
                 <div style="float: right;font-weight: bold;">Tổng tiền:
@@ -256,9 +290,9 @@
             <!--Thong tin khach hang-->
             <div style="margin-top: 15px;overflow: auto;padding-left: 5px;padding-top: 5px;border-top: 1px solid rgb(211, 211, 211);">
                 <div style="font-weight: bold;color: red;font-size: 20px;">Thông tin khách hàng</div>
-                
+
                 <div class="form-group">
-                 	<label for="email">Họ tên:</label>
+                    <label for="email">Họ tên:</label>
                     <input type="text" disabled th:value="${ttkh.tenkhachhang}" class="form-control" id="email" placeholder="Nhập họ tên..." name="hoten">
                 </div>
                 <div class="form-group">
@@ -277,7 +311,7 @@
 
     </div>
 
-    <div style="background-color: white;overflow: auto;margin-top: 25px;">
+    <div style="background-color: white;overflow: auto;margin-top: 10px;display: flex;width: 1515px;">
         <div style="margin-right: 100px;margin-left: 100px;margin-top: 25px;overflow: auto;">
 
             <div style="float: left;margin-bottom: 25px;">

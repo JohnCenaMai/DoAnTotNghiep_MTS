@@ -1,14 +1,9 @@
 package sonmt.banmaytinh.pac.controller;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -53,12 +48,12 @@ public class DangKyController {
 			//neu dau vao dung
 			if(isValidPhone(sodienthoai))
 			{
-				System.out.println("So dien thoai hop le");
+				//System.out.println("So dien thoai hop le");
 				//kiem tra email da co trong csdl chua
 				Khachhang khachhang = khachHangRepository.findByUsername(email);
 				if(khachhang == null)
 				{
-					System.out.println("Chưa tồn tại trong cơ sở dữ liệu");
+					//System.out.println("Chưa tồn tại trong cơ sở dữ liệu");
 					//ma hoa mat khau
 					if(matkhau.equals(xacnhanmatkhau))
 					{
@@ -66,28 +61,24 @@ public class DangKyController {
 						matkhau = passwordEncoder.encode(matkhau);
 						
 						//insert vao csdl
-						khachHangRepository.ThemKhachHang(email, hoten, matkhau, diachi, sodienthoai, ngaysinh);
+						khachHangRepository.ThemKhachHang(email, hoten, matkhau, diachi, sodienthoai, ngaysinh, true, true, true, true);
 						if(vaitro.equals("USER"))
 						{							
 							khachHang_VaiTroRepository.ThemThongTinKH_VT(khachHangRepository.LayMaKhachHang(email), 1);
 						}
-						else if(vaitro.equals("SELLER"))
-						{
-							khachHang_VaiTroRepository.ThemThongTinKH_VT(khachHangRepository.LayMaKhachHang(email), 3);
-						}
 					}
 					else {
-						System.out.println("Nhập lại mật khẩu");
+						//System.out.println("Nhập lại mật khẩu");
 						return "redirect:/trangdangky";
 					}
 				}
 				else {
-					System.out.println("Đã tồn tại trong cơ sở dữ liệu");
+					//System.out.println("Đã tồn tại trong cơ sở dữ liệu");
 					return "redirect:/trangdangky";
 				}	
 			}
 			else {
-				System.out.println("So dien thoai k hop le");
+				//System.out.println("So dien thoai k hop le");
 				return "redirect:/trangdangky";
 			}
 		}

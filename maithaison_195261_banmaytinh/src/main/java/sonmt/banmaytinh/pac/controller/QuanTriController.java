@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import sonmt.banmaytinh.pac.mailtext.MyConstants;
 import sonmt.banmaytinh.pac.model.Banphim;
@@ -39,6 +40,7 @@ import sonmt.banmaytinh.pac.repository.ChiTietHoaDonRepository;
 import sonmt.banmaytinh.pac.repository.DoHoaRepository;
 import sonmt.banmaytinh.pac.repository.HeDieuHanhRepository;
 import sonmt.banmaytinh.pac.repository.HoaDonRepository;
+import sonmt.banmaytinh.pac.repository.HopThuRepository;
 import sonmt.banmaytinh.pac.repository.KhachHangRepository;
 import sonmt.banmaytinh.pac.repository.LoaRepository;
 import sonmt.banmaytinh.pac.repository.ManHinhRepository;
@@ -50,6 +52,7 @@ import sonmt.banmaytinh.pac.service.JoinQueryService;
 import sonmt.banmaytinh.pac.service.MayTinhService;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
@@ -118,20 +121,29 @@ public class QuanTriController {
 	@Autowired
 	private MayTinhService mayTinhService;
 
+	@Autowired
+	private HopThuRepository hopThuRepository;
+	
 	Maytinhchitiet maytinhchitiet = new Maytinhchitiet();
 	
 	boolean xacnhanmoi = false;
 	
 	@RequestMapping(value = "/")
-	public String GetTrangQuanTri(Model thongtinquantrivien,
-			Model danhsachmaytinh,
-			Model danhsachkhachhang,
-			Model danhsachhoadon,
-			Model danhsachbinhluan,
-			Model danhsachhopthu)
+	public String GetTrangQuanTri(Model thongtinquantrivien)
 	{
 		//thong tin quan tri vien
 		int maquantrivien = Integer.parseInt(SecurityContextHolder.getContext().getAuthentication().getName());
+		
+		LocalDate today = LocalDate.now();
+		int thang = today.getMonthValue();
+		int nam = today.getYear();
+		
+		thongtinquantrivien.addAttribute("sohoadonmoinhat", hoaDonRepository.getDanhSachHoaDonTrongThang(thang, nam).size());
+		
+		thongtinquantrivien.addAttribute("songuoidungmoidangky", khachHangRepository.getSoNguoiDungMoiDangKy(thang, nam).size());
+		
+		thongtinquantrivien.addAttribute("soluottuongtacmoi", binhLuanRepository.getBinhLuanTrongThang(thang, nam).size());
+		
 		thongtinquantrivien.addAttribute("ttqtv", khachHangRepository.findByMakh(maquantrivien));
 		
 		return "/quantri/TrangChuQuanTri";
@@ -183,7 +195,8 @@ public class QuanTriController {
 			@RequestParam(required = false) float trongluong,
 			@RequestParam(required = false) int soluong,
 			@RequestParam(required = false) int gia,
-			@RequestParam("hinhanh") MultipartFile multipartFile ) throws IOException
+			@RequestParam("hinhanh") MultipartFile multipartFile,
+			RedirectAttributes redirect) throws IOException
 	{		
 		//System.out.println(multipartFile.getOriginalFilename());
 		
@@ -289,6 +302,9 @@ public class QuanTriController {
 		}
 	
 		maytinhchitiet.setMamaytinh(mamaytinh);
+		
+		redirect.addFlashAttribute("success","Thêm mới thông tin máy tính thành công!!!");
+		
 		return "redirect:/trangquantri/trangthemmoiboxuly";
 	}
 	
@@ -310,7 +326,8 @@ public class QuanTriController {
 			@RequestParam int bonhodem,
 			@RequestParam float tocdobus,
 			@RequestParam int soluong,
-			@RequestParam int soloi)
+			@RequestParam int soloi,
+			RedirectAttributes redirect)
 	{
 		Boxuly boxuly = new Boxuly();
 		boxuly.setMacpu(macpu);
@@ -327,6 +344,9 @@ public class QuanTriController {
 		//maytinhchitiet.setMacpu(boxuly.getMacpu());
 		boXuLyRepository.save(boxuly);
 		maytinhchitiet.setMacpu(macpu);
+		
+		redirect.addFlashAttribute("success","Thêm mới bộ xử lý thành công!!!");
+		
 		return "redirect:/trangquantri/trangthemmoiboxuly";
 	}
 	
@@ -347,7 +367,8 @@ public class QuanTriController {
 			@RequestParam byte sokhecamroi,
 			@RequestParam byte sokheramconlai,
 			@RequestParam byte soramonboard,
-			@RequestParam byte soramtoida)
+			@RequestParam byte soramtoida,
+			RedirectAttributes redirect)
 	{		
 		Ram ram = new Ram();
 		ram.setMaram(maram);
@@ -362,6 +383,8 @@ public class QuanTriController {
 		ramRepository.save(ram);
 		
 		maytinhchitiet.setMaram(maram);
+		
+		redirect.addFlashAttribute("success","Thêm mới RAM thành công!!!");
 		
 		return "redirect:/trangquantri/trangthemmoidohoa";
 	}
@@ -380,7 +403,8 @@ public class QuanTriController {
 			@RequestParam float xungnhip,
 			@RequestParam float xungnhiptoida,
 			@RequestParam String model,
-			@RequestParam String cardonboard)
+			@RequestParam String cardonboard,
+			RedirectAttributes redirect)
 	{		
 		Dohoa dohoa = new Dohoa();
 		
@@ -394,6 +418,8 @@ public class QuanTriController {
 		doHoaRepository.save(dohoa);
 		
 		maytinhchitiet.setMadohoa(madohoa);
+		
+		redirect.addFlashAttribute("success","Thêm mới đồ họa thành công!!!");
 		
 		return "redirect:/trangquantri/trangthemmoimanhinh";
 	}
@@ -418,7 +444,8 @@ public class QuanTriController {
 			@RequestParam String dophangiai,
 			@RequestParam byte tansoquet,
 			@RequestParam String loaimanhinh,
-			@RequestParam String kichthuocmanhinh)
+			@RequestParam String kichthuocmanhinh,
+			RedirectAttributes redirect)
 	{		
 		Manhinh manhinh = new Manhinh();
 		
@@ -441,6 +468,8 @@ public class QuanTriController {
 		
 		maytinhchitiet.setMamanhinh(mamanhinh);
 		
+		redirect.addFlashAttribute("success","Thêm mới màn hình thành công!!!");
+		
 		return "redirect:/trangquantri/trangthemmoiloa";
 	}
 	
@@ -455,7 +484,8 @@ public class QuanTriController {
 	@RequestMapping(value = "/saveloa")
 	public String saveLoa(@RequestParam String maloa,
 			@RequestParam byte soloa,
-			@RequestParam String congngheamthanh)
+			@RequestParam String congngheamthanh,
+			RedirectAttributes redirect)
 	{		
 		Loa loa = new Loa();
 		loa.setMaloa(maloa);
@@ -465,6 +495,8 @@ public class QuanTriController {
 		loaRepository.save(loa);
 		
 		maytinhchitiet.setMaloa(maloa);
+		
+		redirect.addFlashAttribute("success","Thêm mới loa thành công!!!");
 		
 		return "redirect:/trangquantri/trangthemmoihedieuhanh";
 	}
@@ -479,7 +511,8 @@ public class QuanTriController {
 	@RequestMapping(value = "/savehedieuhanh")
 	public String saveHDH(@RequestParam String phienban,
 			@RequestParam String ten,
-			@RequestParam String kieu)
+			@RequestParam String kieu,
+			RedirectAttributes redirect)
 	{		
 		Hedieuhanh hedieuhanh = new Hedieuhanh();
 		hedieuhanh.setPhienbanhedieuhanh(phienban);
@@ -489,6 +522,8 @@ public class QuanTriController {
 		heDieuHanhRepository.save(hedieuhanh);
 		
 		maytinhchitiet.setPhienbanhedieuhanh(phienban);
+		
+		redirect.addFlashAttribute("success","Thêm mới hệ điều hành thành công!!!");
 		
 		return "redirect:/trangquantri/trangthemmoichatlieu";
 	}
@@ -506,7 +541,8 @@ public class QuanTriController {
 			@RequestParam String chatlieumatbenngoaicung,
 			@RequestParam String chatlieukhungmanhinh,
 			@RequestParam String chatlieumatbanphim,
-			@RequestParam String chatlieumatlung)
+			@RequestParam String chatlieumatlung,
+			RedirectAttributes redirect)
 	{		
 		Chatlieu chatlieu = new Chatlieu();
 		
@@ -519,6 +555,8 @@ public class QuanTriController {
 		chatLieuRepository.save(chatlieu);
 		
 		maytinhchitiet.setMachatlieu(machatlieu);
+		
+		redirect.addFlashAttribute("success","Thêm mới chất liệu thành công!!!");
 		
 		return "redirect:/trangquantri/trangthemmoibanphim";
 	}
@@ -538,7 +576,8 @@ public class QuanTriController {
 			@RequestParam String loaidenbanphim,
 			@RequestParam String maudenled,
 			@RequestParam String congnghedenbanphim,
-			@RequestParam String touchpad)
+			@RequestParam String touchpad,
+			RedirectAttributes redirect)
 	{		
 		Banphim banphim = new Banphim();
 		
@@ -553,6 +592,8 @@ public class QuanTriController {
 		banPhimRepository.save(banphim);
 		
 		maytinhchitiet.setMabanphim(mabanphim);
+		
+		redirect.addFlashAttribute("success","Thêm mới bàn phím thành công!!!");
 		
 		return "redirect:/trangquantri/trangthemmoibonho";
 	}
@@ -570,7 +611,8 @@ public class QuanTriController {
 			@RequestParam String kieu,
 			@RequestParam String dungluong,
 			@RequestParam String tocdodocghi,
-			@RequestParam String sokhecam)
+			@RequestParam String sokhecam,
+			RedirectAttributes redirect)
 	{		
 		Bonho bonho = new Bonho();
 		bonho.setMabonho(mabonho);
@@ -584,11 +626,44 @@ public class QuanTriController {
 		maytinhchitiet.setMabonho(mabonho);
 		mayTinhChiTietRepository.save(maytinhchitiet);
 		
+		redirect.addFlashAttribute("success","Thêm mới bộ nhớ thành công!!!");
+		
 		return "redirect:/trangquantri/trangquanlymaytinh";
 	}
 	
-	@RequestMapping(value = "/trangquanlykhachhang/{makh}")
-	public String GetTrangQuanLyKhachHang(@PathVariable int makh,
+	//dsht
+	@RequestMapping(value = "/trangquanlyhopthu")
+	public String GetTrangQuanLyHopThu(Model danhsachhopthu)
+	{
+		danhsachhopthu.addAttribute("danhsachhopthu", hopThuRepository.DanhSachTatCaHopThu());
+		return "/quantri/TrangQuanLyHopThu";
+	}
+	
+	//dshd
+	@RequestMapping(value = "/trangquanlyhoadon")
+	public String GetTrangQuanLyHoaDon(Model danhsachhoadon)
+	{
+		danhsachhoadon.addAttribute("danhsachhoadon", hoaDonRepository.TimTatCaHoaDonTrongNam(2021));
+		return "/quantri/TrangQuanLyHoaDon";
+	}
+	
+	//dsbl
+	@RequestMapping(value = "/trangquanlybinhluan")
+	public String GetTrangQuanLyBinhLuan(Model danhsachbinhluan)
+	{
+		danhsachbinhluan.addAttribute("danhsachbinhluan", joinQueryService.binhLuanPhanHoi());
+		return "/quantri/TrangQuanLyBinhLuan";
+	}
+	
+	@RequestMapping(value = "/trangquanlykhachhang")
+	public String GetTrangQuanLyKhachHang(Model danhsachkhachhang)
+	{
+		danhsachkhachhang.addAttribute("danhsachkhachhang", khachHangRepository.LayDanhSachKhachHang());
+		return "/quantri/TrangQuanLyKhachHang";
+	}
+	
+	@RequestMapping(value = "/trangchitietkhachhang/{makh}")
+	public String GetTrangChiTietKhachHang(@PathVariable int makh,
 			Model ngaythang,
 			Model thongtinkhachhang,
 			Model sodondattrongthang,
@@ -682,7 +757,7 @@ public class QuanTriController {
 		
 		tongtienchitheothang.addAttribute("tongtienchitheothang", bieudo);
 		
-		return "/quantri/TrangQuanLyKhachHang";
+		return "/quantri/TrangChiTietKhachHang";
 	}
 	
 	@RequestMapping(value = "/trangchitiethoadon/{mahoadon}")
@@ -826,5 +901,158 @@ public class QuanTriController {
 		return "redirect:/trangquantri/";
 	}
 
+	@RequestMapping(value = "/trangsuathongtinsanpham/{masanpham}")
+	public String GetTrangSuaThongTinSanPham(@PathVariable String masanpham,
+			Model thongtinsanpham)
+	{
+		thongtinsanpham.addAttribute("masanpham1", masanpham);
+		return "/quantri/TrangSuaThongTinSanPham";	
+	}
+	
+	@RequestMapping(value = "/xulysuathongtinsanpham/{masanpham}")
+	public String XuLySuaThongTinSanPham(@PathVariable String masanpham,
+			@RequestParam String tenmaytinh,
+			@RequestParam int gia,
+			@RequestParam byte thoigianbaohanh,
+			RedirectAttributes redirect)
+	{
+		
+		if(masanpham.contains("mt"))
+		{
+			if(tenmaytinh!=null)
+			{
+				if(!tenmaytinh.isEmpty())
+				{
+					mayTinhRepository.SuaThongTinTen(tenmaytinh, masanpham);
+				}
+			}
+			
+			if(gia!=0)
+			{
+				mayTinhRepository.SuaThongTinGia(gia, masanpham);
+			}
+			
+			if(thoigianbaohanh!=0)
+			{
+				mayTinhRepository.SuaThongTinTGBH(thoigianbaohanh, masanpham);
+			}
+			redirect.addFlashAttribute("success","Cập nhật thành công!!!");
+		}
+		else if (masanpham.contains("dt")) {
+			
+		}
+		
+		return "redirect:/trangquantri/trangquanlymaytinh";
+	}
+	
+	@RequestMapping(value = "/xulythemhinhanh/{masanpham}")
+	public String XuLyThemHinhAnh(@PathVariable String masanpham,
+			@RequestParam("hinhanh") MultipartFile multipartFile,
+			RedirectAttributes redirect) throws IOException 
+	{
+		
+		Maytinhhinhanh maytinhhinhanh = new Maytinhhinhanh();
+		maytinhhinhanh.setMamaytinh(masanpham);
+		
+		if(masanpham.contains("mt"))
+		{
+			Maytinh maytinh = mayTinhRepository.TimKiemMayTinh(masanpham);
+			String tensanpham = maytinh.getTensanpham();
+			
+			String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+			
+			if(tensanpham.contains("Acer"))
+			{
+				//luu vao thu muc
+				String uploadDir = "./src/main/resources/static/Máy tính/ACER/" + tensanpham;
+				String pathString = uploadDir + "/" + fileName;
+				
+				//luu vao csdl
+				String uploadCsdl = "/Máy tính/ACER/" + tensanpham;
+				String pathString1 = uploadCsdl + "/" + fileName;
+				
+				maytinhhinhanh.setHinhanh(pathString1);
+							
+				FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+				//luu vao co so du lieu
+				mayTinhRepository.save(maytinh);
+				mayTinhHinhAnhRepository.save(maytinhhinhanh);
+				redirect.addFlashAttribute("success","Cập nhật thành công!!!");
+			}
+			else if (tensanpham.contains("Dell")) {
+				//luu vao thu muc
+				String uploadDir = "./src/main/resources/static/Máy tính/DELL/" + tensanpham;
+				String pathString = uploadDir + "/" + fileName;
+				
+				//luu vao csdl
+				String uploadCsdl = "/Máy tính/DELL/" + tensanpham;
+				String pathString1 = uploadCsdl + "/" + fileName;
+				
+				maytinhhinhanh.setHinhanh(pathString1);
+							
+				FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+				//luu vao co so du lieu
+				mayTinhRepository.save(maytinh);
+				mayTinhHinhAnhRepository.save(maytinhhinhanh);
+				redirect.addFlashAttribute("success","Cập nhật thành công!!!");
+			}
+			else if (tensanpham.contains("HP")) {
+				//luu vao thu muc
+				String uploadDir = "./src/main/resources/static/Máy tính/HP/" + tensanpham;
+				String pathString = uploadDir + "/" + fileName;
+				
+				//luu vao csdl
+				String uploadCsdl = "/Máy tính/HP/" + tensanpham;
+				String pathString1 = uploadCsdl + "/" + fileName;
+				
+				maytinhhinhanh.setHinhanh(pathString1);
+							
+				FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+				//luu vao co so du lieu
+				mayTinhRepository.save(maytinh);
+				mayTinhHinhAnhRepository.save(maytinhhinhanh);
+				redirect.addFlashAttribute("success","Cập nhật thành công!!!");
+			}
+			else if (tensanpham.contains("Asus")) {
+				//luu vao thu muc
+				String uploadDir = "./src/main/resources/static/Máy tính/ASUS/" + tensanpham;
+				String pathString = uploadDir + "/" + fileName;
+				
+				//luu vao csdl
+				String uploadCsdl = "/Máy tính/ASUS/" + tensanpham;
+				String pathString1 = uploadCsdl + "/" + fileName;
+				
+				maytinhhinhanh.setHinhanh(pathString1);
+							
+				FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+				//luu vao co so du lieu
+				mayTinhRepository.save(maytinh);
+				mayTinhHinhAnhRepository.save(maytinhhinhanh);
+				redirect.addFlashAttribute("success","Cập nhật thành công!!!");
+			}
+			else if (tensanpham.contains("Lenovo")) {
+				//luu vao thu muc
+				String uploadDir = "./src/main/resources/static/Máy tính/LENOVO/" + tensanpham;
+				String pathString = uploadDir + "/" + fileName;
+				
+				//luu vao csdl
+				String uploadCsdl = "/Máy tính/LENOVO/" + tensanpham;
+				String pathString1 = uploadCsdl + "/" + fileName;
+				
+				maytinhhinhanh.setHinhanh(pathString1);
+							
+				FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+				//luu vao co so du lieu
+				mayTinhRepository.save(maytinh);
+				mayTinhHinhAnhRepository.save(maytinhhinhanh);
+				redirect.addFlashAttribute("success","Cập nhật thành công!!!");
+			}
+		}
+		
+		else if (masanpham.contains("dt")) {
+			
+		}
+		return "redirect:/trangquantri/trangquanlymaytinh";
+	}
 	
 }

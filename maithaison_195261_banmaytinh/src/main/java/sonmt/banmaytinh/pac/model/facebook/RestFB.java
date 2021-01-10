@@ -18,6 +18,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.restfb.DefaultFacebookClient;
 import com.restfb.FacebookClient;
+import com.restfb.Parameter;
 import com.restfb.Version;
 
 @Component
@@ -35,20 +36,23 @@ public class RestFB {
 	    return node.textValue();
 	  }
 	  
-	  public com.restfb.types.User getUserInfo(final String accessToken) {
+	  public CustomUser getUserInfo(final String accessToken) {
 	    FacebookClient facebookClient = new DefaultFacebookClient(accessToken, env.getProperty("facebook.app.secret"),
 	        Version.LATEST);
-	    return facebookClient.fetchObject("me", com.restfb.types.User.class);
+	    CustomUser customUser =  facebookClient.fetchObject("me", CustomUser.class,
+	               Parameter.with("fields",
+	                       "id, name, email, first_name, last_name"));
+	    return customUser;
 	  }
 	  
-	  public UserDetails buildUser(com.restfb.types.User user) {
+	  public UserDetails buildUser(CustomUser user) {
 	    boolean enabled = true;
 	    boolean accountNonExpired = true;
 	    boolean credentialsNonExpired = true;
 	    boolean accountNonLocked = true;
 	    List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 	    authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-	    UserDetails userDetail = new User(user.getId() + user.getName(), "", enabled, accountNonExpired, credentialsNonExpired,
+	    UserDetails userDetail = new User(user.getFullName(), "", enabled, accountNonExpired, credentialsNonExpired,
 	        accountNonLocked, authorities);
 	    return userDetail;
 	  }

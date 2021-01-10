@@ -33,4 +33,7 @@ public interface HoaDonRepository extends JpaRepository<Hoadon, Long> {
 	@Query(value = "select makh from hoadon where mahoadon = ?1",nativeQuery = true)
 	int LayMaKhachHang(int mahoadon);
 	
+	@Query(value = "select * from hoadon where month(ngaydathang) = ?1 and year(ngaydathang) = ?2",nativeQuery = true)
+	List<Hoadon> getDanhSachHoaDonTrongThang(int thang,int nam);
+	
 }

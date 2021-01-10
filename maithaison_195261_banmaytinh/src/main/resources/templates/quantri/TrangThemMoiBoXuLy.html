@@ -228,6 +228,16 @@
             </nav>
             <div class="content-wrapper">
                 <h2>Thêm mới bộ xử lý</h2>
+                
+                <div class="container main-content list" style="margin-top:15px">
+		            <div th:if="${success}" class="row alert alert-success alert-dismissible">
+		                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					    	<span aria-hidden="true">×</span>
+					   	</button>
+		                <span th:text="${success}"></span>
+		            </div>
+		        </div>
+                
                 <form th:action="@{/trangquantri/saveboxuly}">
                 	<table class="table table-striped" style="font-size: 14px;color: black;clear: both;">
 	                	<thead>
@@ -248,34 +258,34 @@
 	                    <tbody>
 	                    	<tr>
 			                    <td>
-			                        <input class="col-sm-12" name="macpu" type="text" th:value="${macpu1}" />
+			                        <input required class="col-sm-12" name="macpu" type="text" th:value="${macpu1}" />
 			                    </td>
 			                    <td>
-			                        <input class="col-sm-12" name="congnghecpu" type="text" id="congnghecpu1" />
+			                        <input required class="col-sm-12" name="congnghecpu" type="text" id="congnghecpu1" />
 			                    </td>
 			                    <td>
-			                        <input class="col-sm-12" name="loaicpu" type="text" id="loaicpu1" />
+			                        <input required class="col-sm-12" name="loaicpu" type="text" id="loaicpu1" />
 			                    </td>
 			                    <td>
-			                        <input class="col-sm-12" name="hangcpu" type="text" id="hangcpu1" />
+			                        <input required class="col-sm-12" name="hangcpu" type="text" id="hangcpu1" />
 			                    </td>
 			                    <td >
-			                        <input class="col-sm-12" name="tocdo" type="number" step="0.1" id="tocdo1" />
+			                        <input required class="col-sm-12" name="tocdo" type="number" step="0.1" id="tocdo1" />
 			                    </td>
 			                    <td>
-			                        <input class="col-sm-12" name="tocdotoida" type="number" step="0.1" id="tocdotoida1" />
+			                        <input required class="col-sm-12" name="tocdotoida" type="number" step="0.1" id="tocdotoida1" />
 			                    </td>
 			                    <td>
-			                        <input class="col-sm-12" name="bonhodem" type="number" id="bonhodem1" />
+			                        <input required class="col-sm-12" name="bonhodem" type="number" id="bonhodem1" />
 			                    </td>
 			                    <td>
-			                        <input class="col-sm-12" name="tocdobus" type="number" step="0.1" id="tocdobus1" />
+			                        <input required class="col-sm-12" name="tocdobus" type="number" step="0.1" id="tocdobus1" />
 			                    </td>
 			                    <td >
-			                        <input class="col-sm-12" name="soluong" type="number" id="soluong1" />
+			                        <input required class="col-sm-12" name="soluong" type="number" id="soluong1" />
 			                    </td>
 			                    <td>
-			                        <input class="col-sm-12" name="soloi" type="number" id="soloi1" />
+			                        <input required class="col-sm-12" name="soloi" type="number" id="soloi1" />
 			                    </td>
 			                    <td>
 			                    	<a id="timkiemkhop" class="btn btn-danger">Nhấn</a>		                           	
@@ -330,6 +340,10 @@
     <script>
         $(document).ready(function() {
 
+        	$("#sidebarCollapse").on('click', function() {
+                $("#sidebar").toggleClass('active');
+            });
+        	
             $("#timkiemkhop").click(function() {
                 
                 const congnghecpu1 = $("#congnghecpu1").val().toLowerCase();

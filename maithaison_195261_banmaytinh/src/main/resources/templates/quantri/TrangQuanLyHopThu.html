@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Thêm mới ram</title>
+    <title>Trang quản lý hộp thư</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -10,7 +10,6 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.css">
-
     <style>
         @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
         body {
@@ -164,6 +163,26 @@
                 display: none;
             }
         }
+        
+        #baocao {
+            width: 1065px;
+            height: 125px;
+            display: flex;
+            margin-top: 25px;
+            display: flex;
+            justify-content: center;
+        }
+        
+        #baocao div {
+            width: 175px;
+            height: 100px;
+            border-radius: 5px;
+            box-shadow: 10px 10px 5px grey;
+        }
+        
+        #baocao div:hover {
+            opacity: 0.75;
+        }
     </style>
 
 </head>
@@ -183,33 +202,46 @@
                 <hr>
             </div>
             <ul class="list-unstyled components">
+                <li> 
+                	<a class="mau nav-link active" id="v-pills-tc-tab" data-toggle="pill" href="#v-pills-tc" role="tab" aria-controls="v-pills-home" aria-selected="true">
+	                    <i class="fas fa-space-shuttle"><span style="margin-left: 10px;">Báo cáo tổng hợp</span></i>
+	                </a> 
+                </li>
                 <li>
-                	<a th:href="@{/trangquantri/trangquanlymaytinh}">
-                		<i class="fas fa-info-circle">
-	                		<span style="margin-left: 10px;">
-	                			Danh sách máy tính
-	                		</span>
-                		</i>
-                	</a> 
+                	<a class="mau nav-link" id="v-pills-qlmt-tab" th:href="@{/trangquantri/trangquanlymaytinh}">
+	                    <i class="fas fa-desktop"><span style="margin-left: 10px;">Quản lý máy tính</span></i>
+	                </a>
                 </li>
                 <li> 
-                	<a th:href="@{/trangquantri/trangthemmoimaytinh}">
-                		<i class="fas fa-info-circle">
-	                		<span style="margin-left: 10px;">
-	                			Thông tin máy tính
-	                		</span>
-                		</i>
-                	</a> 
+                	<a class="mau nav-link" id="v-pills-qldt-tab" data-toggle="pill" href="#v-pills-qldt" role="tab" aria-controls="v-pills-profile" aria-selected="false">
+	                    <i class="fas fa-mobile-alt"><span style="margin-left: 10px;">Quản lý điện thoại</span></i>
+	                </a>
                 </li>
-                <li> <a th:href="@{/trangquantri/trangthemmoiboxuly}"><i class="fas fa-microchip"><span style="margin-left: 10px;">Thông tin CPU</span></i></a> </li>
-                <li> <a th:href="@{/trangquantri/trangthemmoiram}"><i class="fas fa-memory"><span style="margin-left: 10px;">Thông tin RAM</span></i></a> </li>
-                <li> <a th:href="@{/trangquantri/trangthemmoidohoa}"><i class="fab fa-affiliatetheme"><span style="margin-left: 10px;font-weight: bold;">Thông tin đồ họa</span></i></a> </li>
-                <li> <a href="#"><i class="fas fa-desktop"><span style="margin-left: 10px;">Thông tin màn hình</span></i></a> </li>
-                <li> <a th:href="@{/trangquantri/trangthemmoiloa}"><i class="fas fa-volume-up"><span style="margin-left: 10px;">Thông tin loa</span></i></a> </li>
-                <li> <a th:href="@{/trangquantri/trangthemmoihedieuhanh}"><i class="fas fa-info-circle"><span style="margin-left: 10px;">Thông tin hệ điều hành</span></i></a> </li>
-                <li> <a th:href="@{/trangquantri/trangthemmoichatlieu}"><i class="fab fa-mdb"><span style="margin-left: 10px;">Thông tin chất liệu</span></i></a> </li>
-                <li> <a href="#"><i class="fas fa-keyboard"><span style="margin-left: 10px;">Thông tin bàn phím</span></i></a> </li>
-                <li> <a href="#"><i class="fas fa-memory"><span style="margin-left: 10px;">Thông tin bộ nhớ</span></i></a> </li>
+                <li> 
+	                <a class="mau nav-link" id="v-pills-qlmtb-tab" data-toggle="pill" href="#v-pills-qlmtb" role="tab" aria-controls="v-pills-profile" aria-selected="false">
+	                    <i class="fas fa-tablet"><span style="margin-left: 10px;">Quản lý máy tính bảng</span></i>
+	                </a>
+                </li>
+                <li> 
+                	<a class="mau nav-link" id="v-pills-qlkh-tab" th:href="@{/trangquantri/trangquanlykhachhang}">
+	                    <i class="fas fa-user-friends"><span style="margin-left: 10px;">Quản lý khách hàng</span></i>
+	                </a>
+                </li>
+                <li> 
+                	<a class="mau nav-link" id="v-pills-qlbl-tab" th:href="@{/trangquantri/trangquanlybinhluan}">
+	                    <i class="fas fa-comments"><span style="margin-left: 10px;">Quản lý bình luận</span></i>
+	                </a>
+                </li>
+                <li> 
+                	<a class="mau nav-link" id="v-pills-qlhd-tab" th:href="@{/trangquantri/trangquanlyhoadon}">
+	                    <i class="fas fa-money-bill"><span style="margin-left: 10px;">Quản lý hóa đơn</span></i>
+	                </a>
+                </li>
+                <li> 
+                	<a class="mau nav-link" id="v-pills-qlht-tab" data-toggle="pill" href="#v-pills-qlht" role="tab" aria-controls="v-pills-settings" aria-selected="false">
+	                    <i class="fas fa-envelope-square"><span style="margin-left: 10px;">Quản lý hộp thư</span></i>
+	                </a> 
+                </li>
             </ul>
             <ul class="list-unstyled CTAs">
                 <li> <a th:href="@{/dangxuat}" class="download">Đăng xuất</a> </li>
@@ -227,68 +259,34 @@
                 </form>
             </nav>
             <div class="content-wrapper">
-                <h2>Thông tin chất liệu</h2>
-                <form th:action="@{/trangquantri/savechatlieu}">
-                	<table class="table table-striped" style="font-size: 14px;color: black;clear: both;">
-	                	<thead>
-	                        <tr>
-	                            <th>Mã chất liệu</th>
-	                            <th>Chất liệu mặt bên ngoài cùng</th>
-	                            <th>Chất liệu khung màn hình</th>
-	                            <th>Chất liệu mặt bàn phím</th>
-	                            <th>Chất liệu mặt lưng</th>          
-	                            <th>Thao tác</th>      
-	                        </tr>
-	                    </thead>
-	                    <tbody>
-	                    	<tr>
-			                    <td>
-			                        <input class="col-sm-12" name="machatlieu" type="text" th:value="${machatlieu1}" />
-			                    </td>
-			                    <td>
-			                        <input class="col-sm-12" name="chatlieumatbenngoaicung" type="text" id="chatlieumatbenngoaicung1" />
-			                    </td>
-			                    <td>
-			                        <input class="col-sm-12" name="chatlieukhungmanhinh" type="text" id="chatlieukhungmanhinh1" />
-			                    </td>
-			                    <td>
-			                        <input class="col-sm-12" name="chatlieumatbanphim" type="text" id="chatlieumatbanphim1" />
-			                    </td>
-			                    <td >
-			                        <input class="col-sm-12" name="chatlieumatlung" type="text" id="chatlieumatlung1" />
-			                    </td>			                    	                    
-			                    <td>
-			                    	<a id="timkiemkhop" class="btn btn-danger">Nhấn</a>		                           	
-		                           	<button type="submit" class="btn btn-warning">Thêm</button>		                            
-		                        </td>
-			                </tr>
-	                    </tbody>
-	                </table>
-                </form>
-                <table class="table table-striped" style="font-size: 14px;color: black;clear: both;">
+                <h4 style="font-weight: bold;color: black;">Quản lý hộp thư</h4>
+                <table class="table table-hover" style="font-size: 14px;color: black;">
                     <thead>
                         <tr>
-                            <th>Mã chất liệu</th>
-	                       	<th>Chất liệu mặt bên ngoài cùng</th>
-	                        <th>Chất liệu khung màn hình</th>
-	                        <th>Chất liệu mặt bàn phím</th>
-	                        <th>Chất liệu mặt lưng</th>          	                                         
+                            <th>Mã hộp thư</th>
+                            <th>Email</th>
+                            <th>Chủ đề</th>
+                            <th>Nội dung</th>
+                            <th>Ngày gửi</th>
+                            <th>Trạng thái</th>
                         </tr>
                     </thead>
-                    <tbody id="myTable">
-                    	
-                    	<th:block th:each="dscl:${danhsachchatlieu}">
+                    <tbody>
+                    	<th:block th:each="dsht : ${danhsachhopthu}">
                     		<tr>
-	                            <td><a th:utext="'#' + ${dscl.machatlieu}" href="#" style="text-decoration: none;color: black;"></a></td>
-	                            <td th:utext="${dscl.chatlieumatbenngoaicung}"></td>
-	                            <td th:utext="${dscl.chatlieukhungmanhinh}"></td>
-	                            <td th:utext="${dscl.chatlieumatbanphim}"></td>
-	                            <td th:utext="${dscl.chatlieumatlung}"></td>	                                          
+	                            <td th:utext="${dsht.idhopthu}" style="color: black;"></td>
+	                            <td th:utext="${dsht.email}" style="color: black;"></td>
+	                            <td th:utext="${dsht.chude}" style="color: black;"></td>	      
+	                            <td th:utext="${dsht.noidunggui}" style="color: black;"></td>	
+	                            <td th:utext="${dsht.ngaygui}" style="color: black;"></td>	                               
+	                            <td th:if="${dsht.trangthai}" th:utext="'Đã trả lời'" style="color: black;"></td>       
+	                            <td th:unless="${dsht.trangthai}">
+	                            	<a th:href="@{/trangquantri/trangsoanthu(emailkhachhang=${dsht.email},emailadmin=${ttqtv.email},chude=${dsht.chude},noidung=${dsht.noidunggui})}" style="color: black;" type="button" class="btn btn-danger">Soạn thư trả lời</a>
+	                            </td>                            
 	                        </tr>
-                    	</th:block>
+                    	</th:block>                     
                     </tbody>
-                </table>
-                				
+                </table>   				
                 <div class="line"></div>
             </div>        	            
         </div>        
@@ -297,21 +295,8 @@
 
     <script>
         $(document).ready(function() {
-
-            $("#timkiemkhop").click(function() {
-                
-                const chatlieumatbenngoaicung1 = $("#chatlieumatbenngoaicung1").val().toLowerCase();
-                const chatlieukhungmanhinh1 = $("#chatlieukhungmanhinh1").val().toLowerCase();
-                
-                const chatlieumatbanphim1 = $("#chatlieumatbanphim1").val().toLowerCase();
-                const chatlieumatlung1 = $("#chatlieumatlung1").val().toLowerCase();
-                
-                $("#myTable tr").filter(function() {
-                    $(this).toggle($(this).find("td:eq(1)").text().toLowerCase().indexOf(chatlieumatbenngoaicung1) > -1 &&
-                        $(this).find("td:eq(2)").text().toLowerCase().indexOf(chatlieukhungmanhinh1) > -1 &&
-                        $(this).find("td:eq(3)").text().toLowerCase().indexOf(chatlieumatbanphim1) > -1 &&
-                        $(this).find("td:eq(4)").text().toLowerCase().indexOf(chatlieumatlung1) > -1);
-                });
+            $("#sidebarCollapse").on('click', function() {
+                $("#sidebar").toggleClass('active');
             });
         });
     </script>

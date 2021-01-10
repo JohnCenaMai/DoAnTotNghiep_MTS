@@ -114,7 +114,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-    <div style="width: 100%;height: 75px;background-color: red;">
+    <div style="width: 1515px;height: 75px;background-color: red;display: flex;">
         <div style="float: left;width: 75px;height: 75px;margin-left: 30px;">
             <a href="#">
                 <i class="fas fa-gem" style="color: gold;font-size: 35px;margin-top: 20px;margin-left: 20px;"></i>
@@ -137,24 +137,75 @@
         </div>
         <div style="float: left;height: 75px;margin-left: 50px;">
             <div style="text-align: center;margin-top: 10px;">
-                <i class="fas fa-newspaper" style="color: white;font-size: 30px;"></i>
+                <i class="fas fa-user" style="color: white;font-size: 30px;"></i>    
             </div>
             <div style="color: white;font-weight: bold;">
-                Thông tin hay
+                User
             </div>
         </div>
         <div style="float: left;height: 75px;margin-left: 50px;">
             <div style="text-align: center;margin-top: 10px;">
-                <i class="fas fa-cart-plus" style="color: white;font-size: 30px;"></i>
+            	<i class="fas fa-sign-out-alt" style="color: white;font-size: 30px;"></i>              
             </div>
             <div style="color: white;font-weight: bold;">
-                Giỏ hàng
+                <a th:href="@{/dangxuat}" style="color: white;font-weight: bold;">Đăng xuất</a>
             </div>
         </div>
     </div>
 
-    <div style="margin-right: 50px;margin-left: 50px;margin-top: 10px;overflow: auto;">
+    <!--search bar-->
+    <div class="topnav bg-dark" style="display: flex;width: 1515px;">
+        <a class="active" th:href="@{/trangchu}">Home</a>
+        <a th:href="@{/tranglaptop}" style="color: white;">Laptop</a>
+        <a th:href="@{/trangdienthoai}" style="color: white;">Điện thoại</a>
+        <a href="#" style="color: white;">Máy tính bảng</a>
+        <a href="#" style="color: white;">Đồng hồ</a>
+	    <a href="#" style="color: white;">Phụ kiện</a>
+	    <a href="#" style="color: white;">Sim thẻ</a>
+	    <a href="#" style="color: white;">Khuyến mãi</a>
+	    <a href="#" style="color: white;">Trả góp</a>
+        <a href="#" data-toggle="modal" data-target="#tuongtacvoituvanvien" style="color: white;">Tư vấn, hỏi đáp</a>
+        <div class="search-container">
+            <form th:action="@{/trangtimkiemsanpham}">
+                <input type="text" placeholder="Tên sản phẩm cần tìm..." name="tensanpham">
+                <button type="submit">Tìm kiếm</button>
+            </form>
+        </div>
+    </div>
 
+	<div id="tuongtacvoituvanvien" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Gửi câu hỏi cho tư vấn viên.</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <form th:action="@{/hoidaptuvanvien}">
+                            <div class="form-group">
+                                <label for="email">Địa chỉ email:</label>
+                                <input type="text" class="form-control" name="email" placeholder="Nhập email....">
+                            </div>
+                            <div class="form-group">
+                                <label>Chủ đề:</label>
+                                <input type="text" class="form-control" name="chude" placeholder="Chủ đề....">
+                            </div>
+                            <div class="form-group">
+                                <label>Nội dung:</label>
+                                <textarea placeholder="Viết nội dung...." class="form-control" rows="3" name="noidung"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Gửi câu hỏi</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <div style="width: 1415px;margin-right: 50px;margin-left: 50px;margin-top: 10px;overflow: auto;">
         <div id="demo" class="carousel slide" data-ride="carousel">
             <!-- Indicators -->
             <ul class="carousel-indicators">
@@ -200,39 +251,24 @@
                 <span class="carousel-control-next-icon"></span>
             </a>
         </div>
-        
-        <!--search bar-->
-        <div class="topnav bg-dark" style="margin-top: 25px;margin-left: 50px;margin-right: 50px;">
-            <a th:href="@{/trangdangnhap}" type="button" class="btn btn-info btn-lg" style="color: white;">Đăng nhập</a>
-            <a th:href="@{/tranglaptop}" style="color: white;">Laptop</a>
-            <a href="#" style="color: white;">Điện thoại</a>
-            <a href="#" style="color: white;">Máy tính bảng</a>
-            <a href="#" data-toggle="modal" data-target="#tuongtacvoituvanvien" style="color: white;">Tư vấn, hỏi đáp</a>
-            <div class="search-container">
-                <form th:action="@{/trangtimkiemsanpham}">
-                    <input type="text" placeholder="Tên sản phẩm cần tìm..." name="tensanpham">
-                    <button type="submit">Tìm kiếm</button>
-                </form>
-            </div>
-        </div>
-        
+
         <div style="margin-top: 25px;margin-left: 50px;margin-right: 50px;overflow: auto;">
             <div style="float: left;width: 250px;">
-            
+
                 <form id="hang" th:action="@{/locmaytinh}">
                     <div style="font-weight: bold;font-size: 20px;">
                         Hãng sản xuất
                     </div>
 
                     <div style="margin-top: 15px;" th:if="${tenhang} == 'tatca_maytinh'">
-                    	<input type="radio" name="tenhang" onclick="hangsubmit()" value="tatca_maytinh" checked>
-                       	<label>Tất cả</label>	         
-                    </div>  
-                    <div style="margin-top: 15px;" th:unless="${tenhang} == 'tatca_maytinh'">
-                    	<input type="radio" name="tenhang" onclick="hangsubmit()" value="tatca_maytinh">
-                       	<label>Tất cả</label>	         
+                        <input type="radio" name="tenhang" onclick="hangsubmit()" value="tatca_maytinh" checked>
+                        <label>Tất cả</label>
                     </div>
-                    
+                    <div style="margin-top: 15px;" th:unless="${tenhang} == 'tatca_maytinh'">
+                        <input type="radio" name="tenhang" onclick="hangsubmit()" value="tatca_maytinh">
+                        <label>Tất cả</label>
+                    </div>
+
                     <div th:if="${tenhang} == 'Acer'">
                         <input type="radio" name="tenhang" onclick="hangsubmit()" value="Acer" checked>
                         <label>Acer</label>
@@ -241,7 +277,7 @@
                         <input type="radio" name="tenhang" onclick="hangsubmit()" value="Acer">
                         <label>Acer</label>
                     </div>
-                    
+
                     <div th:if="${tenhang} == 'Asus'">
                         <input type="radio" name="tenhang" onclick="hangsubmit()" value="Asus" checked>
                         <label>Asus</label>
@@ -250,7 +286,7 @@
                         <input type="radio" name="tenhang" onclick="hangsubmit()" value="Asus">
                         <label>Asus</label>
                     </div>
-                    
+
                     <div th:if="${tenhang} == 'Dell'">
                         <input type="radio" name="tenhang" onclick="hangsubmit()" value="Dell" checked>
                         <label>Dell</label>
@@ -259,7 +295,7 @@
                         <input type="radio" name="tenhang" onclick="hangsubmit()" value="Dell">
                         <label>Dell</label>
                     </div>
-                    
+
                     <div th:if="${tenhang} == 'HP'">
                         <input type="radio" name="tenhang" onclick="hangsubmit()" value="HP" checked>
                         <label>HP</label>
@@ -268,7 +304,7 @@
                         <input type="radio" name="tenhang" onclick="hangsubmit()" value="HP">
                         <label>HP</label>
                     </div>
-                    
+
                     <div th:if="${tenhang} == 'Lenovo'">
                         <input type="radio" name="tenhang" onclick="hangsubmit()" value="Lenovo" checked>
                         <label>Lenovo</label>
@@ -277,12 +313,12 @@
                         <input type="radio" name="tenhang" onclick="hangsubmit()" value="Lenovo">
                         <label>Lenovo</label>
                     </div>
-                
+
                     <div style="font-weight: bold;font-size: 20px;">
                         Mức giá
                     </div>
 
-					<div th:if="${mucgia} == 'tatca_gia'" style="margin-top: 15px;">
+                    <div th:if="${mucgia} == 'tatca_gia'" style="margin-top: 15px;">
                         <input type="radio" name="mucgia" onclick="hangsubmit()" value="tatca_gia" checked>
                         <label>Tất cả</label>
                     </div>
@@ -291,7 +327,7 @@
                         <label>Tất cả</label>
                     </div>
 
-					<div th:if="${mucgia} == '_435'">
+                    <div th:if="${mucgia} == '_435'">
                         <input type="radio" name="mucgia" onclick="hangsubmit()" value="_435" checked>
                         <label>Dưới 435 USD</label>
                     </div>
@@ -299,7 +335,7 @@
                         <input type="radio" name="mucgia" onclick="hangsubmit()" value="_435">
                         <label>Dưới 435 USD</label>
                     </div>
-                    
+
                     <div th:if="${mucgia} == '435_655'">
                         <input type="radio" name="mucgia" onclick="hangsubmit()" value="435_655" checked>
                         <label>Từ 435 - 655 USD</label>
@@ -308,8 +344,8 @@
                         <input type="radio" name="mucgia" onclick="hangsubmit()" value="435_655">
                         <label>Từ 435 - 655 USD</label>
                     </div>
-                  
-                  	<div th:if="${mucgia} == '655_870'">
+
+                    <div th:if="${mucgia} == '655_870'">
                         <input type="radio" name="mucgia" onclick="hangsubmit()" value="655_870" checked>
                         <label>Từ 655 - 870 USD</label>
                     </div>
@@ -326,7 +362,7 @@
                         <input type="radio" name="mucgia" onclick="hangsubmit()" value="870_1087">
                         <label>Từ 870 - 1087 USD</label>
                     </div>
-                    
+
                     <div th:if="${mucgia} == '1087_'">
                         <input type="radio" name="mucgia" onclick="hangsubmit()" value="1087_" checked>
                         <label>Trên 1087 USD</label>
@@ -340,29 +376,29 @@
                         Màn hình
                     </div>
 
-					<div th:if="${manhinh} == 'tatca_manhinh'" style="margin-top: 15px;">
+                    <div th:if="${manhinh} == 'tatca_manhinh'" style="margin-top: 15px;">
                         <input type="radio" name="manhinh" onclick="hangsubmit()" value="tatca_manhinh" checked>
                         <label>Tất cả</label>
                     </div>
-                    <div th:unless="${manhinh} == 'tatca_manhinh'" style="margin-top: 15px;"> 
+                    <div th:unless="${manhinh} == 'tatca_manhinh'" style="margin-top: 15px;">
                         <input type="radio" name="manhinh" onclick="hangsubmit()" value="tatca_manhinh">
                         <label>Tất cả</label>
                     </div>
-                    
+
                     <div th:if="${manhinh} == '13'">
                         <input type="radio" name="manhinh" onclick="hangsubmit()" value="13" checked>
                         <label>Khoảng 13 inch</label>
                     </div>
-                    <div th:unless="${manhinh} == '13'"> 
+                    <div th:unless="${manhinh} == '13'">
                         <input type="radio" name="manhinh" onclick="hangsubmit()" value="13">
                         <label>Khoảng 13 inch</label>
                     </div>
-					
+
                     <div th:if="${manhinh} == '14'">
                         <input type="radio" name="manhinh" onclick="hangsubmit()" value="14" checked>
                         <label>Khoảng 14 inch</label>
                     </div>
-                    <div th:unless="${manhinh} == '14'"> 
+                    <div th:unless="${manhinh} == '14'">
                         <input type="radio" name="manhinh" onclick="hangsubmit()" value="14">
                         <label>Khoảng 14 inch</label>
                     </div>
@@ -371,7 +407,7 @@
                         <input type="radio" name="manhinh" onclick="hangsubmit()" value="15" checked>
                         <label>Khoảng 15 inch</label>
                     </div>
-                    <div th:unless="${manhinh} == '15'"> 
+                    <div th:unless="${manhinh} == '15'">
                         <input type="radio" name="manhinh" onclick="hangsubmit()" value="15">
                         <label>Khoảng 15 inch</label>
                     </div>
@@ -380,96 +416,96 @@
                         CPU
                     </div>
 
-					<div th:if="${cpu} == 'tatca_cpu'" style="margin-top: 15px;">
+                    <div th:if="${cpu} == 'tatca_cpu'" style="margin-top: 15px;">
                         <input type="radio" name="cpu" onclick="hangsubmit()" value="tatca_cpu" checked>
                         <label>Tất cả</label>
                     </div>
-                    <div th:unless="${cpu} == 'tatca_cpu'" style="margin-top: 15px;"> 
+                    <div th:unless="${cpu} == 'tatca_cpu'" style="margin-top: 15px;">
                         <input type="radio" name="cpu" onclick="hangsubmit()" value="tatca_cpu">
                         <label>Tất cả</label>
-                    </div>	
+                    </div>
 
                     <div th:if="${cpu} == 'Celeron'">
                         <input type="radio" name="cpu" onclick="hangsubmit()" value="Celeron" checked>
                         <label>Intel celeron</label>
                     </div>
-                    <div th:unless="${cpu} == 'Celeron'"> 
+                    <div th:unless="${cpu} == 'Celeron'">
                         <input type="radio" name="cpu" onclick="hangsubmit()" value="Celeron">
                         <label>Intel celeron</label>
-                    </div>	
+                    </div>
 
-					<div th:if="${cpu} == 'Pentium'">
+                    <div th:if="${cpu} == 'Pentium'">
                         <input type="radio" name="cpu" onclick="hangsubmit()" value="Pentium" checked>
                         <label>Intel pentium</label>
                     </div>
-                    <div th:unless="${cpu} == 'Pentium'"> 
+                    <div th:unless="${cpu} == 'Pentium'">
                         <input type="radio" name="cpu" onclick="hangsubmit()" value="Pentium">
                         <label>Intel pentium</label>
-                    </div>	
+                    </div>
 
                     <div th:if="${cpu} == 'Core i3'">
                         <input type="radio" name="cpu" onclick="hangsubmit()" value="Core i3" checked>
                         <label>Intel core i3</label>
                     </div>
-                    <div th:unless="${cpu} == 'Core i3'"> 
+                    <div th:unless="${cpu} == 'Core i3'">
                         <input type="radio" name="cpu" onclick="hangsubmit()" value="Core i3">
                         <label>Intel core i3</label>
-                    </div>	
+                    </div>
 
                     <div th:if="${cpu} == 'Core i5'">
                         <input type="radio" name="cpu" onclick="hangsubmit()" value="Core i5" checked>
                         <label>Intel Core i5</label>
                     </div>
-                    <div th:unless="${cpu} == 'Core i5'"> 
+                    <div th:unless="${cpu} == 'Core i5'">
                         <input type="radio" name="cpu" onclick="hangsubmit()" value="Core i5">
                         <label>Intel Core i5</label>
-                    </div>	
+                    </div>
 
                     <div th:if="${cpu} == 'Core i7'">
                         <input type="radio" name="cpu" onclick="hangsubmit()" value="Core i7" checked>
                         <label>Intel Core i7</label>
                     </div>
-                    <div th:unless="${cpu} == 'Core i7'"> 
+                    <div th:unless="${cpu} == 'Core i7'">
                         <input type="radio" name="cpu" onclick="hangsubmit()" value="Core i7">
                         <label>Intel Core i7</label>
-                    </div>	
+                    </div>
 
-					<div th:if="${cpu} == 'Ryzen 3'">
+                    <div th:if="${cpu} == 'Ryzen 3'">
                         <input type="radio" name="cpu" onclick="hangsubmit()" value="Ryzen 3" checked>
                         <label>AMD Ryzen 3</label>
                     </div>
-                    <div th:unless="${cpu} == 'Ryzen 3'"> 
+                    <div th:unless="${cpu} == 'Ryzen 3'">
                         <input type="radio" name="cpu" onclick="hangsubmit()" value="Ryzen 3">
                         <label>AMD Ryzen 3</label>
                     </div>
-                    
+
                     <div th:if="${cpu} == 'Ryzen 5'">
                         <input type="radio" name="cpu" onclick="hangsubmit()" value="Ryzen 5" checked>
                         <label>AMD Ryzen 5</label>
                     </div>
-                    <div th:unless="${cpu} == 'Ryzen 5'"> 
+                    <div th:unless="${cpu} == 'Ryzen 5'">
                         <input type="radio" name="cpu" onclick="hangsubmit()" value="Ryzen 5">
                         <label>AMD Ryzen 5</label>
-                    </div>		
+                    </div>
 
                     <div th:if="${cpu} == 'Ryzen 7'">
                         <input type="radio" name="cpu" onclick="hangsubmit()" value="Ryzen 7" checked>
                         <label>AMD Ryzen 7</label>
                     </div>
-                    <div th:unless="${cpu} == 'Ryzen 7'"> 
+                    <div th:unless="${cpu} == 'Ryzen 7'">
                         <input type="radio" name="cpu" onclick="hangsubmit()" value="Ryzen 7">
                         <label>AMD Ryzen 7</label>
                     </div>
-                                     
+
                     <div style="font-weight: bold;font-size: 20px;">
                         RAM
                     </div>
 
-					<div th:if="${ram} == 'tatca_ram'" style="margin-top: 15px;">
+                    <div th:if="${ram} == 'tatca_ram'" style="margin-top: 15px;">
                         <input type="radio" name="ram" onclick="hangsubmit()" value="tatca_ram" checked>
                         <label>Tất cả</label>
                     </div>
-                    <div th:unless="${ram} == 'tatca_ram'" style="margin-top: 15px;"> 
+                    <div th:unless="${ram} == 'tatca_ram'" style="margin-top: 15px;">
                         <input type="radio" name="ram" onclick="hangsubmit()" value="tatca_ram">
                         <label>Tất cả</label>
                     </div>
@@ -478,7 +514,7 @@
                         <input type="radio" name="ram" onclick="hangsubmit()" value="4" checked>
                         <label>4 GB</label>
                     </div>
-                    <div th:unless="${ram} == '4'"> 
+                    <div th:unless="${ram} == '4'">
                         <input type="radio" name="ram" onclick="hangsubmit()" value="4">
                         <label>4 GB</label>
                     </div>
@@ -487,7 +523,7 @@
                         <input type="radio" name="ram" onclick="hangsubmit()" value="8" checked>
                         <label>8 GB</label>
                     </div>
-                    <div th:unless="${ram} == '8'"> 
+                    <div th:unless="${ram} == '8'">
                         <input type="radio" name="ram" onclick="hangsubmit()" value="8">
                         <label>8 GB</label>
                     </div>
@@ -496,7 +532,7 @@
                         <input type="radio" name="ram" onclick="hangsubmit()" value="16" checked>
                         <label>16 GB</label>
                     </div>
-                    <div th:unless="${ram} == '16'"> 
+                    <div th:unless="${ram} == '16'">
                         <input type="radio" name="ram" onclick="hangsubmit()" value="16">
                         <label>16 GB</label>
                     </div>
@@ -505,29 +541,29 @@
                         <input type="radio" name="ram" onclick="hangsubmit()" value="32" checked>
                         <label>32 GB</label>
                     </div>
-                    <div th:unless="${ram} == '32'"> 
+                    <div th:unless="${ram} == '32'">
                         <input type="radio" name="ram" onclick="hangsubmit()" value="32">
                         <label>32 GB</label>
                     </div>
-                 
+
                     <div style="font-weight: bold;font-size: 20px;">
                         Card đồ họa
                     </div>
-                    
+
                     <div th:if="${dohoa} == 'tatca_dohoa'" style="margin-top: 15px;">
                         <input type="radio" name="dohoa" onclick="hangsubmit()" value="tatca_dohoa" checked>
                         <label>Tất cả</label>
                     </div>
-                    <div th:unless="${dohoa} == 'tatca_dohoa'" style="margin-top: 15px;"> 
+                    <div th:unless="${dohoa} == 'tatca_dohoa'" style="margin-top: 15px;">
                         <input type="radio" name="dohoa" onclick="hangsubmit()" value="tatca_dohoa">
                         <label>Tất cả</label>
                     </div>
 
-   					<div th:if="${dohoa} == 'UHD Graphics'">
+                    <div th:if="${dohoa} == 'UHD Graphics'">
                         <input type="radio" name="dohoa" onclick="hangsubmit()" value="UHD Graphics" checked>
                         <label>Intel UHD Graphics</label>
                     </div>
-                    <div th:unless="${dohoa} == 'UHD Graphics'"> 
+                    <div th:unless="${dohoa} == 'UHD Graphics'">
                         <input type="radio" name="dohoa" onclick="hangsubmit()" value="UHD Graphics">
                         <label>Intel UHD Graphics</label>
                     </div>
@@ -536,7 +572,7 @@
                         <input type="radio" name="dohoa" onclick="hangsubmit()" value="Radeon Graphics" checked>
                         <label>AMD Radeon Graphics</label>
                     </div>
-                    <div th:unless="${dohoa} == 'Radeon Graphics'"> 
+                    <div th:unless="${dohoa} == 'Radeon Graphics'">
                         <input type="radio" name="dohoa" onclick="hangsubmit()" value="Radeon Graphics">
                         <label>AMD Radeon Graphics</label>
                     </div>
@@ -545,7 +581,7 @@
                         <input type="radio" name="dohoa" onclick="hangsubmit()" value="Radeon RX Graphics" checked>
                         <label>AMD Radeon RX Graphics</label>
                     </div>
-                    <div th:unless="${dohoa} == 'Radeon RX Graphics'"> 
+                    <div th:unless="${dohoa} == 'Radeon RX Graphics'">
                         <input type="radio" name="dohoa" onclick="hangsubmit()" value="Radeon RX Graphics">
                         <label>AMD Radeon RX Graphics</label>
                     </div>
@@ -554,29 +590,29 @@
                         <input type="radio" name="dohoa" onclick="hangsubmit()" value="HD Graphics" checked>
                         <label>Intel HD Graphics</label>
                     </div>
-                    <div th:unless="${dohoa} == 'HD Graphics'"> 
+                    <div th:unless="${dohoa} == 'HD Graphics'">
                         <input type="radio" name="dohoa" onclick="hangsubmit()" value="HD Graphics">
                         <label>Intel HD Graphics</label>
                     </div>
-               
+
                     <div style="font-weight: bold;font-size: 20px;">
                         Ổ cứng
                     </div>
 
-					<div th:if="${ocung} == 'tatca_ocung'" style="margin-top: 15px;">
+                    <div th:if="${ocung} == 'tatca_ocung'" style="margin-top: 15px;">
                         <input type="radio" name="ocung" onclick="hangsubmit()" value="tatca_ocung" checked>
                         <label>Tất cả</label>
                     </div>
-                    <div th:unless="${ocung} == 'tatca_ocung'" style="margin-top: 15px;"> 
+                    <div th:unless="${ocung} == 'tatca_ocung'" style="margin-top: 15px;">
                         <input type="radio" name="ocung" onclick="hangsubmit()" value="tatca_ocung">
                         <label>Tất cả</label>
                     </div>
-                    
+
                     <div th:if="${ocung} == '1000'">
                         <input type="radio" name="ocung" onclick="hangsubmit()" value="1000" checked>
                         <label>SSD 1000 GB</label>
                     </div>
-                    <div th:unless="${ocung} == '1000'"> 
+                    <div th:unless="${ocung} == '1000'">
                         <input type="radio" name="ocung" onclick="hangsubmit()" value="1000">
                         <label>SSD 1000 GB</label>
                     </div>
@@ -585,16 +621,16 @@
                         <input type="radio" name="ocung" onclick="hangsubmit()" value="512" checked>
                         <label>SSD 512 GB</label>
                     </div>
-                    <div th:unless="${ocung} == '512'"> 
+                    <div th:unless="${ocung} == '512'">
                         <input type="radio" name="ocung" onclick="hangsubmit()" value="512">
                         <label>SSD 512 GB</label>
                     </div>
 
-					<div th:if="${ocung} == '256'">
+                    <div th:if="${ocung} == '256'">
                         <input type="radio" name="ocung" onclick="hangsubmit()" value="256" checked>
                         <label>SSD 256 GB</label>
                     </div>
-                    <div th:unless="${ocung} == '256'"> 
+                    <div th:unless="${ocung} == '256'">
                         <input type="radio" name="ocung" onclick="hangsubmit()" value="256">
                         <label>SSD 256 GB</label>
                     </div>
@@ -603,7 +639,7 @@
                         <input type="radio" name="ocung" onclick="hangsubmit()" value="128" checked>
                         <label>SSD 128 GB</label>
                     </div>
-                    <div th:unless="${ocung} == '128'"> 
+                    <div th:unless="${ocung} == '128'">
                         <input type="radio" name="ocung" onclick="hangsubmit()" value="128">
                         <label>SSD 128 GB</label>
                     </div>
@@ -619,42 +655,42 @@
                 </div>
                 <br>
 
-				<th:block th:each="dslt:${danhsachlaptop}">
-					<div class="column" style="padding: 10px;border-radius: 10px;border-bottom: 1px solid rgb(228, 226, 226);overflow: auto;">
-	                    <div style="float: left;">
-	                        <a th:href="@{/trangchitietmaytinh/{masanpham}(masanpham=${dslt.masanpham})}">
-	                            <div style="padding-left: 25px;padding-top: 20px;padding-bottom: 20px;padding-right: 25px;">
-	                                <img th:src="@{${dslt.hinhanh}}" style="width: 200px;height: 150px;">
-	                            </div>
-	                        </a>
-	                    </div>
-	                    <div style="float: left;padding-top: 10px;padding-left: 10px;padding-right: 10px;">
-	                        <div style="font-weight: bold;font-size: 15px;" th:utext="${dslt.tensanpham}">
-	                           
-	                        </div>	                        
-	                        <div th:utext="${dslt.gia} + ' USD'" style="padding: 10px;border-radius: 10px;background-color: rgb(255, 133, 133);font-weight: bold;float: left;margin-top: 10px;">
-	                            
-	                        </div>
-	                        <div style="clear: both;padding-top: 10px;">
-	                            <i class="fas fa-memory" style="color: gray;"> SSD <span th:utext="${dslt.dungluongbonho}"></span> GB</i>
-		                        <i class="fas fa-microchip" style="margin-left: 15px;color: gray;"> <span th:utext="${dslt.dungluongram}"></span> GB</i>
-	                        </div>
-	                        <div>
-	                            <i class="fas fa-laptop" style="color: gray;"> <span th:utext="${dslt.kichthuocmanhinh}"></span>''</i>
-		                        <i class="fas fa-server" style="margin-left: 15px;color: gray;"> <span th:utext="${dslt.congnghecpu}"></span></i>
-	                        </div>
-	                        <div style="margin-top: 15px;">
-	                            <a type="button" class="btn btn-primary" th:href="@{/trangchitietmaytinh/{masanpham}(masanpham=${dslt.masanpham})}">Xem chi tiết sản phẩm</a>
-	                        </div>
-	                    </div>
-	                </div>
-				</th:block>
-                       
+                <th:block th:each="dslt:${danhsachlaptop}">
+                    <div class="column" style="padding: 10px;border-radius: 10px;border-bottom: 1px solid rgb(228, 226, 226);overflow: auto;">
+                        <div style="float: left;">
+                            <a th:href="@{/trangchitietmaytinh/{masanpham}(masanpham=${dslt.masanpham})}">
+                                <div style="padding-left: 25px;padding-top: 20px;padding-bottom: 20px;padding-right: 25px;">
+                                    <img th:src="@{${dslt.hinhanh}}" style="width: 200px;height: 150px;">
+                                </div>
+                            </a>
+                        </div>
+                        <div style="float: left;padding-top: 10px;padding-left: 10px;padding-right: 10px;">
+                            <div style="font-weight: bold;font-size: 15px;" th:utext="${dslt.tensanpham}">
+
+                            </div>
+                            <div th:utext="${dslt.gia} + ' USD'" style="padding: 10px;border-radius: 10px;background-color: rgb(255, 133, 133);font-weight: bold;float: left;margin-top: 10px;">
+
+                            </div>
+                            <div style="clear: both;padding-top: 10px;">
+                                <i class="fas fa-memory" style="color: gray;"> SSD <span th:utext="${dslt.dungluongbonho}"></span> GB</i>
+                                <i class="fas fa-microchip" style="margin-left: 15px;color: gray;"> <span th:utext="${dslt.dungluongram}"></span> GB</i>
+                            </div>
+                            <div>
+                                <i class="fas fa-laptop" style="color: gray;"> <span th:utext="${dslt.kichthuocmanhinh}"></span>''</i>
+                                <i class="fas fa-server" style="margin-left: 15px;color: gray;"> <span th:utext="${dslt.congnghecpu}"></span></i>
+                            </div>
+                            <div style="margin-top: 15px;">
+                                <a type="button" class="btn btn-primary" th:href="@{/trangchitietmaytinh/{masanpham}(masanpham=${dslt.masanpham})}">Xem chi tiết sản phẩm</a>
+                            </div>
+                        </div>
+                    </div>
+                </th:block>
+
             </div>
         </div>
     </div>
 
-    <div style="background-color: white;overflow: auto;margin-top: 25px;">
+    <div style="background-color: white;overflow: auto;margin-top: 10px;display: flex;width: 1515px;">
         <div style="margin-right: 100px;margin-left: 100px;margin-top: 25px;overflow: auto;">
 
             <div style="float: left;margin-bottom: 25px;">
@@ -747,7 +783,7 @@
         </div>
     </div>
 
-	<script>
+    <script>
         // Get the elements with class="column"
         var elements = document.getElementsByClassName("column");
 
@@ -767,10 +803,10 @@
                 elements[i].style.width = "33.33%";
             }
         }
-        
+
         function hangsubmit() {
             document.getElementById("hang").submit();
-       	}
+        }
         /* Optional: Add active class to the current button (highlight it) */
     </script>
 

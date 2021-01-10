@@ -228,6 +228,16 @@
             </nav>
             <div class="content-wrapper">
                 <h2>Thông tin chất liệu</h2>
+                
+                <div class="container main-content list" style="margin-top:15px">
+		            <div th:if="${success}" class="row alert alert-success alert-dismissible">
+		                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					    	<span aria-hidden="true">×</span>
+					   	</button>
+		                <span th:text="${success}"></span>
+		            </div>
+		        </div>
+                
                 <form th:action="@{/trangquantri/savebonho}">
                 	<table class="table table-striped" style="font-size: 14px;color: black;clear: both;">
 	                	<thead>
@@ -243,19 +253,19 @@
 	                    <tbody>
 	                    	<tr>
 			                    <td>
-			                        <input class="col-sm-12" name="mabonho" type="text" th:value="${mabonho1}" />
+			                        <input required class="col-sm-12" name="mabonho" type="text" th:value="${mabonho1}" />
 			                    </td>
 			                    <td>
-			                        <input class="col-sm-12" name="kieu" type="text" id="kieu1" />
+			                        <input required class="col-sm-12" name="kieu" type="text" id="kieu1" />
 			                    </td>
 			                    <td>
-			                        <input class="col-sm-12" name="dungluong" type="text" id="dungluong1" />
+			                        <input required class="col-sm-12" name="dungluong" type="text" id="dungluong1" />
 			                    </td>
 			                    <td>
-			                        <input class="col-sm-12" name="tocdodocghi" type="text" id="tocdodocghi1" />
+			                        <input required class="col-sm-12" name="tocdodocghi" type="text" id="tocdodocghi1" />
 			                    </td>
 			                    <td >
-			                        <input class="col-sm-12" name="sokhecam" type="text" id="sokhecam1" />
+			                        <input required class="col-sm-12" name="sokhecam" type="text" id="sokhecam1" />
 			                    </td>					                    		                    	                    
 			                    <td>
 			                    	<a id="timkiemkhop" class="btn btn-danger">Nhấn</a>		                           	
@@ -298,6 +308,10 @@
     <script>
         $(document).ready(function() {
 
+        	$("#sidebarCollapse").on('click', function() {
+                $("#sidebar").toggleClass('active');
+            });
+        	
             $("#timkiemkhop").click(function() {
                 
                 const kieu1 = $("#kieu1").val().toLowerCase();

@@ -5,19 +5,15 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import sonmt.banmaytinh.pac.model.Khachhang;
-import sonmt.banmaytinh.pac.repository.KhachHang_VaiTroRepository;
 
 public class CustomKhachHangDetails implements UserDetails {
 	
-	public CustomKhachHangDetails(sonmt.banmaytinh.pac.model.Khachhang khachhang,int mavaitro) {
+	public CustomKhachHangDetails(Khachhang khachhang,int mavaitro) {
 		super();
 		this.khachhang = khachhang;
 		this.mavaitro = mavaitro;

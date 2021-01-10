@@ -228,6 +228,16 @@
             </nav>
             <div class="content-wrapper">
                 <h2>Quản lý máy tính</h2>
+                
+                <div class="container main-content list" style="margin-top:15px">
+		            <div th:if="${success}" class="row alert alert-success alert-dismissible">
+		                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					    	<span aria-hidden="true">×</span>
+					   	</button>
+		                <span th:text="${success}"></span>
+		            </div>
+		        </div>
+                
                 <table class="table table-striped" style="font-size: 14px;color: black;clear: both;">
                     <thead>
                         <tr>
@@ -242,14 +252,13 @@
                     <tbody>
                     	<th:block th:each="dsmt:${danhsachmaytinh}">
                     		<tr>
-	                            <td><a th:utext="'#' + ${dsmt.mamaytinh}" href="#" style="text-decoration: none;color: black;"></a></td>
+	                            <td><a th:utext="'#' + ${dsmt.mamaytinh}" th:href="@{/trangchitietmaytinh/{masanpham}(masanpham=${dsmt.mamaytinh})}" style="text-decoration: none;color: black;"></a></td>
 	                            <td th:utext="${dsmt.tensanpham}"></td>
 	                            <td th:utext="${dsmt.xuatxu}"></td>
 	                            <td th:utext="${dsmt.soluong} + ' chiếc'"></td>
-	                            <td th:utext="${dsmt.gia} + ' USD'"></td>
+	                            <td th:utext="${dsmt.gia} + ',000 USD'"></td>
 	                            <td>
-	                            	<a href="#" class="btn btn-danger">Cập nhật thông tin</a>
-	                            	<a href="#" class="btn btn-warning">Xóa</a>
+	                            	<a th:href="@{/trangquantri/trangsuathongtinsanpham/{masanpham}(masanpham=${dsmt.mamaytinh})}" class="btn btn-danger">Cập nhật thông tin</a>	                            	
 	                            </td>
 	                        </tr>
                     	</th:block>

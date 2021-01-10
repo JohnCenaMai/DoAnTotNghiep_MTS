@@ -36,7 +36,7 @@ public class Khachhang {
 	@Column(name = "matkhau",length = 100,nullable = false)
 	private String matkhau;
 	
-	@Column(name = "diachi",length = 50,nullable = false)
+	@Column(name = "diachi",length = 50,nullable = true)
 	private String diachi;
 	
 	@Column(name = "sodienthoai",length = 10,unique = true)
@@ -56,5 +56,8 @@ public class Khachhang {
 	
 	@Column(name = "isenabled")
 	private boolean isenabled;
+	
+	@Column(name = "ngaydangky")
+	private Date ngaydangky;
 	
 }

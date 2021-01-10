@@ -26,5 +26,8 @@ public interface BinhLuanRepository extends JpaRepository<Binhluan, Integer> {
 	@Transactional
 	@Query(value = "update binhluan set chophepan = ?1 where mabinhluan = ?2",nativeQuery = true)
 	void ChoPhepAnComment(boolean chophepan,int mabinhluan);
+
+	@Query(value = "select * from binhluan where month(ngaybinhluan) = ?1 and year(ngaybinhluan) = ?2",nativeQuery = true)
+	List<Binhluan> getBinhLuanTrongThang(int month,int year);
 	
 }

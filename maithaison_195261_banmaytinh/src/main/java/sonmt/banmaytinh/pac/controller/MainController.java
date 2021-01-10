@@ -20,6 +20,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
@@ -29,10 +30,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import sonmt.banmaytinh.pac.config.CustomKhachHangDetails;
 import sonmt.banmaytinh.pac.model.Binhluan;
 import sonmt.banmaytinh.pac.model.ChiTietBinhLuan;
 import sonmt.banmaytinh.pac.model.DanhSachMayTinhTimKiem;
+import sonmt.banmaytinh.pac.model.Khachhang;
 import sonmt.banmaytinh.pac.model.Phanhoi;
+import sonmt.banmaytinh.pac.model.facebook.CustomUser;
 import sonmt.banmaytinh.pac.model.google.GooglePojo;
 import sonmt.banmaytinh.pac.repository.BanPhimRepository;
 import sonmt.banmaytinh.pac.repository.BinhLuanRepository;
@@ -41,6 +45,8 @@ import sonmt.banmaytinh.pac.repository.BoXuLyRepository;
 import sonmt.banmaytinh.pac.repository.DoHoaRepository;
 import sonmt.banmaytinh.pac.repository.HeDieuHanhRepository;
 import sonmt.banmaytinh.pac.repository.HopThuRepository;
+import sonmt.banmaytinh.pac.repository.KhachHangRepository;
+import sonmt.banmaytinh.pac.repository.KhachHang_VaiTroRepository;
 import sonmt.banmaytinh.pac.repository.LoaRepository;
 import sonmt.banmaytinh.pac.repository.ManHinhRepository;
 import sonmt.banmaytinh.pac.repository.MayTinhHinhAnhRepository;
@@ -64,6 +70,12 @@ import sonmt.banmaytinh.pac.service.JoinQueryService;
 
 @Controller
 public class MainController {
+	
+	@Autowired
+	private KhachHangRepository khachHangRepository;
+	
+	@Autowired
+	private KhachHang_VaiTroRepository khachHang_VaiTroRepository;
 	
 	@Autowired
 	private AuthenticationManager authenticationManager;
@@ -159,7 +171,7 @@ public class MainController {
 	public String GetTrangChu(Model hotenkhachhang)
 	{
 		hotenkhachhang.addAttribute("hoten", SecurityContextHolder.getContext().getAuthentication().getName());
-		//System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
+		System.out.println("ho ten: " + SecurityContextHolder.getContext().getAuthentication().getName());
 		return "TrangChu";
 	}
 	
@@ -305,6 +317,7 @@ public class MainController {
 			//System.out.println(authorities.get(0));
 			if(authorities.get(0).toString().equals("ROLE_ADMIN"))
 			{
+				redirect.addFlashAttribute("success","Đăng nhập thành công!!!");
 				return "redirect:/trangquantri/";
 			}
 		} catch (BadCredentialsException e) {
@@ -318,6 +331,7 @@ public class MainController {
 			return "redirect:/trangdangnhap";
 		}
 		//return ResponseEntity.ok(new JwtResponse(token));
+		redirect.addFlashAttribute("success","Đăng nhập thành công!!!");
 		return "redirect:/trangchu";
 	}
 		
@@ -338,13 +352,47 @@ public class MainController {
 	
 	@RequestMapping(value = "/trangtimkiemsanpham")
 	public String TrangTimKiemSanPham(@RequestParam(required = false) String tensanpham,
-			Model danhsachsanpham)
+			Model danhsachsanpham,
+			Model danhsachsanpham1,
+			Model vaitro)
 	{
 		List<DanhSachMayTinhTimKiem> listsp = new ArrayList<DanhSachMayTinhTimKiem>();
 		listsp.addAll(joinQueryService.TimKiemMayTinh(tensanpham, "maytinh"));
+		danhsachsanpham1.addAttribute("loaisanpham1", (int)0);
+		
+		if(!listsp.isEmpty())
+		{
+			//System.out.println("có máy tính");
+			danhsachsanpham1.addAttribute("loaisanpham1", (int)1);
+			danhsachsanpham.addAttribute("danhsachsanpham", listsp);
+			@SuppressWarnings("unchecked")
+			List<SimpleGrantedAuthority> authorities = (List<SimpleGrantedAuthority>)SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+			//System.out.println(authorities.get(0));
+			vaitro.addAttribute("vaitro", authorities.get(0).toString());
+			return "TrangTimKiemSanPham";
+		}
+		
 		listsp.addAll(joinQueryService.TimKiemMayTinh(tensanpham, "dienthoai"));
+		if(!listsp.isEmpty())
+		{
+			danhsachsanpham1.addAttribute("loaisanpham1", (int)2);
+			danhsachsanpham.addAttribute("danhsachsanpham", listsp);
+			@SuppressWarnings("unchecked")
+			List<SimpleGrantedAuthority> authorities = (List<SimpleGrantedAuthority>)SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+			//System.out.println(authorities.get(0));
+			vaitro.addAttribute("vaitro", authorities.get(0).toString());
+			return "TrangTimKiemSanPham";
+		}
 		
 		danhsachsanpham.addAttribute("danhsachsanpham", listsp);
+		
+		@SuppressWarnings("unchecked")
+		List<SimpleGrantedAuthority> authorities = (List<SimpleGrantedAuthority>)SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+		//System.out.println(authorities.get(0));
+		vaitro.addAttribute("vaitro", authorities.get(0).toString());
+		
+		//System.out.println("Vai trò: " + authorities.get(0).toString());
+		
 		return "TrangTimKiemSanPham";
 	}
 	
@@ -921,31 +969,71 @@ public class MainController {
 	    }
 	    String accessToken = restFb.getToken(code);
 	    
-	    com.restfb.types.User user = restFb.getUserInfo(accessToken);
+	    CustomUser user = restFb.getUserInfo(accessToken);
+	    
+	    //System.out.println("user: " + user.getEmail());
+	    
+	    String matkhau = "default";
+	    
+	    Khachhang khachhang = khachHangRepository.findByUsername(user.getFullName());
+	    
+	    if(khachhang==null)
+	    {
+	    	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+			matkhau = passwordEncoder.encode(matkhau);
+			khachHangRepository.ThemKhachHang(user.getFullName(), user.getFullName(), matkhau, "", "", null, true, true, true, true);
+			khachHang_VaiTroRepository.ThemThongTinKH_VT(khachHangRepository.LayMaKhachHang(user.getFullName()), 1);
+	    }
+	    
+	    Khachhang khachhang2 = khachHangRepository.findByUsername(user.getFullName());
+	    
 	    UserDetails userDetail = restFb.buildUser(user);
-	    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetail, null,
+	    
+	    CustomKhachHangDetails customKhachHangDetails = new CustomKhachHangDetails(khachhang2, 1);
+	    
+	    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(customKhachHangDetails, null,
 	        userDetail.getAuthorities());
+	    
 	    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+	    
 	    SecurityContextHolder.getContext().setAuthentication(authentication);
+	    
 	    return "redirect:/trangchu";
 	}
 	  
 	@RequestMapping("/login-google")
 	public String loginGoogle(HttpServletRequest request) throws ClientProtocolException, IOException {
 	    String code = request.getParameter("code");
-	    System.out.println(code);
+	   
 	    if (code == null || code.isEmpty()) {
 	      return "redirect:/login?google=error";
 	    }
 	    String accessToken = googleUtils.getToken(code);
 	    
 	    GooglePojo googlePojo = googleUtils.getUserInfo(accessToken);
+	    
+	    String matkhau = "default";
+	    
+	    Khachhang khachhang = khachHangRepository.findByUsername(googlePojo.getEmail());
+	    
+	    if(khachhang==null)
+	    {
+	    	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+			matkhau = passwordEncoder.encode(matkhau);
+			khachHangRepository.ThemKhachHang(googlePojo.getEmail(), googlePojo.getEmail(), matkhau, "", "", null, true, true, true, true);
+			khachHang_VaiTroRepository.ThemThongTinKH_VT(khachHangRepository.LayMaKhachHang(googlePojo.getEmail()), 1);
+	    }
+	    
+	    Khachhang khachhang2 = khachHangRepository.findByUsername(googlePojo.getEmail());
 	    UserDetails userDetail = googleUtils.buildUser(googlePojo);
 	    
-	    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetail, null,
+	    CustomKhachHangDetails customKhachHangDetails = new CustomKhachHangDetails(khachhang2, 1);
+	    
+	    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(customKhachHangDetails, null,
 	        userDetail.getAuthorities());
 	    
 	    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+	    
 	    SecurityContextHolder.getContext().setAuthentication(authentication);
 	    
 	    return "redirect:/trangchu";

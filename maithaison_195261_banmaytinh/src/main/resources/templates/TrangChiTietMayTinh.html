@@ -164,7 +164,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-    <div style="width: 100%;height: 75px;background-color: red;">
+    <div style="width: 1515px;height: 75px;background-color: red;display: flex;">
         <div style="float: left;width: 75px;height: 75px;margin-left: 30px;">
             <a href="#">
                 <i class="fas fa-gem" style="color: gold;font-size: 35px;margin-top: 20px;margin-left: 20px;"></i>
@@ -193,26 +193,82 @@
                 Giỏ hàng
             </div>
         </div>
+        
+        
         <div style="float: left;height: 75px;margin-left: 50px;">
             <div style="text-align: center;margin-top: 10px;">
-                <i class="fas fa-cart-plus" style="color: white;font-size: 30px;"></i>
+                <i class="fas fa-user" style="color: white;font-size: 30px;"></i>    
             </div>
             <div style="color: white;font-weight: bold;">
-                Giỏ hàng
+                User
             </div>
         </div>
+        
         <div style="float: left;height: 75px;margin-left: 50px;">
             <div style="text-align: center;margin-top: 10px;">
-                <i class="fas fa-cart-plus" style="color: white;font-size: 30px;"></i>
+            	<i class="fas fa-sign-out-alt" style="color: white;font-size: 30px;"></i>              
             </div>
             <div style="color: white;font-weight: bold;">
                 <a th:href="@{/dangxuat}" style="color: white;font-weight: bold;">Đăng xuất</a>
             </div>
         </div>
+        
     </div>
 
+    <!--search bar-->
+    <div class="topnav bg-dark" style="display: flex;width: 1515px;">
+        <a class="active" th:href="@{/trangchu}">Home</a>
+        <a th:href="@{/tranglaptop}" style="color: white;">Laptop</a>
+        <a th:href="@{/trangdienthoai}" style="color: white;">Điện thoại</a>
+        <a href="#" style="color: white;">Máy tính bảng</a>
+        <a href="#" style="color: white;">Đồng hồ</a>
+        <a href="#" style="color: white;">Phụ kiện</a>
+        <a href="#" style="color: white;">Sim thẻ</a>
+        <a href="#" style="color: white;">Khuyến mãi</a>
+        <a href="#" style="color: white;">Trả góp</a>
+        <a href="#" data-toggle="modal" data-target="#tuongtacvoituvanvien" style="color: white;">Tư vấn, hỏi đáp</a>
+        <div class="search-container">
+            <form th:action="@{/trangtimkiemsanpham}">
+                <input type="text" placeholder="Tên sản phẩm cần tìm..." name="tensanpham">
+                <button type="submit">Tìm kiếm</button>
+            </form>
+        </div>
+    </div>
+    
+    <div id="tuongtacvoituvanvien" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Gửi câu hỏi cho tư vấn viên.</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <form th:action="@{/hoidaptuvanvien}">
+                            <div class="form-group">
+                                <label for="email">Địa chỉ email:</label>
+                                <input type="text" class="form-control" name="email" placeholder="Nhập email....">
+                            </div>
+                            <div class="form-group">
+                                <label>Chủ đề:</label>
+                                <input type="text" class="form-control" name="chude" placeholder="Chủ đề....">
+                            </div>
+                            <div class="form-group">
+                                <label>Nội dung:</label>
+                                <textarea placeholder="Viết nội dung...." class="form-control" rows="3" name="noidung"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Gửi câu hỏi</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     <!--common frame-->
-    <div style="margin-right: 50px;margin-left: 50px;margin-top: 10px;overflow: auto;">
+    <div style="width: 1415px;margin-right: 50px;margin-left: 50px;margin-top: 10px;overflow: auto;">
         <!--carousel-->
         <div id="demo" class="carousel slide" data-ride="carousel">
             <!-- Indicators -->
@@ -258,20 +314,6 @@
             <a class="carousel-control-next" href="#demo" data-slide="next">
                 <span class="carousel-control-next-icon"></span>
             </a>
-        </div>
-
-        <!--search bar-->
-        <div class="topnav bg-dark" style="margin-top: 25px;margin-left: 50px;margin-right: 50px;">
-            <a class="active" th:href="@{/trangchu}">Home</a>
-            <a th:href="@{/tranglaptop}" style="color: white;">Laptop</a>
-            <a href="#" style="color: white;">Điện thoại</a>
-            <a href="#" style="color: white;">Máy tính bảng</a>
-            <div class="search-container">
-                <form th:action="@{/trangtimkiemsanpham}">
-                    <input type="text" placeholder="Tên sản phẩm cần tìm.." name="tensanpham">
-                    <button type="submit">Tìm kiếm</button>
-                </form>
-            </div>
         </div>
 
         <!--computer in detail-->
@@ -578,59 +620,58 @@
             <div style="padding: 15px;float: left;width: 58%;margin-left: 25px;overflow: auto;background-color: white">
                 <div style="font-weight: bold;font-size: 20px;">
                     Bình luận và đánh giá
-                </div>           
+                </div>
                 <form th:action="@{/trangkhachhang/luubinhluan/{masanpham}(masanpham=${chitietsanpham.mamaytinh})}" style="margin-top: 10px;">
                     <div class="form-group">
                         <textarea placeholder="Viết bình luận...." class="form-control" rows="2" id="comment" name="binhluan"></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary">Gửi bình luận</button>
                 </form>
-                
+
                 <div style="margin-top: 15px;">
                     <p>phần bình luận của khách hàng</p>
                     <!--phan comment-->
                     <div>
-                    	<th:block th:each="bl:${chitietbinhluan}">
-                    		<th:block th:unless="${bl.binhluan.chophepan}">
-                    			<div>
-		                            <span style="color: blue;" th:utext="'Được đăng bởi: #' + ${bl.binhluan.makhachhang}"></span>
-		                            <span style="color: green;" th:utext="',vào ngày: ' + ${bl.binhluan.ngaybinhluan}"></span>
-		                        </div>
-		                        <!--nội dung bình luận-->
-		                        <div>
-		                            <span style="color: red;" th:utext="'Nội dung: ' + ${bl.binhluan.noidung}"></span>
-		                            <th:block th:if="${vaitro} == 'ROLE_ADMIN'">
-		                            	<span style="color: green;margin-left: 25px;">
+                        <th:block th:each="bl:${chitietbinhluan}">
+                            <th:block th:unless="${bl.binhluan.chophepan}">
+                                <div>
+                                    <span style="color: blue;" th:utext="'Được đăng bởi: #' + ${bl.binhluan.makhachhang}"></span>
+                                    <span style="color: green;" th:utext="',vào ngày: ' + ${bl.binhluan.ngaybinhluan}"></span>
+                                </div>
+                                <!--nội dung bình luận-->
+                                <div>
+                                    <span style="color: red;" th:utext="'Nội dung: ' + ${bl.binhluan.noidung}"></span>
+                                    <th:block th:if="${vaitro} == 'ROLE_ADMIN'">
+                                        <span style="color: green;margin-left: 25px;">
 		                            		<a th:href="@{/trangquantri/chophepanbinhluan/{masanpham}/{mabinhluan}(masanpham=${chitietsanpham.mamaytinh},mabinhluan=${bl.binhluan.mabinhluan})}">
 		                            			Nội dung xấu, cho phép ẩn
 		                            		</a>
-		                            	</span> 
-		                            </th:block>                                    
-		                        </div>	                                           
-		                        <th:block th:each="ph:${bl.phanhois}">
-				                	<div style="margin-left: 30px;padding: 10px;">
-				                        <span th:utext="${ph.noidung}"></span>
-				                    </div>
-				                </th:block>  	
-				                <p style="margin-left: 30px;">Trả lời</p>
-		                        <form th:action="@{/trangkhachhang/luuphanhoi/{masanpham}/{mabinhluan}(masanpham=${chitietsanpham.mamaytinh},mabinhluan=${bl.binhluan.mabinhluan})}" style="margin-top: 0px;margin-left: 30px;">
-		                            <div class="form-group">
-		                                <textarea placeholder="Viết bình luận...." class="form-control" rows="2" name="phanhoi"></textarea>
-		                            </div>
-		                            <button type="submit" class="btn btn-success">Lưu phản hồi</button>
-		                        </form> 
-                    		</th:block>	
-                        </th:block>     
+		                            	</span>
+                                    </th:block>
+                                </div>
+                                <th:block th:each="ph:${bl.phanhois}">
+                                    <div style="margin-left: 30px;padding: 10px;">
+                                        <span th:utext="${ph.noidung}"></span>
+                                    </div>
+                                </th:block>
+                                <p style="margin-left: 30px;">Trả lời</p>
+                                <form th:action="@{/trangkhachhang/luuphanhoi/{masanpham}/{mabinhluan}(masanpham=${chitietsanpham.mamaytinh},mabinhluan=${bl.binhluan.mabinhluan})}" style="margin-top: 0px;margin-left: 30px;">
+                                    <div class="form-group">
+                                        <textarea placeholder="Viết bình luận...." class="form-control" rows="2" name="phanhoi"></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-success">Lưu phản hồi</button>
+                                </form>
+                            </th:block>
+                        </th:block>
                     </div>
                 </div>
-                          
+
             </div>
         </div>
     </div>
 
-    <div style="background-color: white;overflow: auto;margin-top: 25px;">
+    <div style="background-color: white;overflow: auto;margin-top: 10px;display: flex;width: 1515px;">
         <div style="margin-right: 100px;margin-left: 100px;margin-top: 25px;overflow: auto;">
-
             <div style="float: left;margin-bottom: 25px;">
                 <div>
                     <a style="font-size: 14px;" href="#">Giới thiệu về công ty</a>

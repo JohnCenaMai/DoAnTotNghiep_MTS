@@ -114,7 +114,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-    <div style="width: 100%;height: 75px;background-color: red;">
+    <div style="width: 1515px;height: 75px;background-color: red;display: flex;">
         <div style="float: left;width: 75px;height: 75px;margin-left: 30px;">
             <a href="#">
                 <i class="fas fa-gem" style="color: gold;font-size: 35px;margin-top: 20px;margin-left: 20px;"></i>
@@ -153,8 +153,22 @@
         </div>
     </div>
 
-    <div style="margin-right: 50px;margin-left: 50px;margin-top: 10px;overflow: auto;">
+    <!--search bar-->
+    <div class="topnav bg-dark" style="display: flex;width: 1515px;">
+        <a class="active" th:href="@{/trangchu}">Home</a>
+        <a th:href="@{/tranglaptop}" style="color: white;">Laptop</a>
+        <a th:href="@{/trangdienthoai}" style="color: white;">Điện thoại</a>
+        <a href="#" style="color: white;">Máy tính bảng</a>
+        <a href="#" data-toggle="modal" data-target="#tuongtacvoituvanvien" style="color: white;">Tư vấn, hỏi đáp</a>
+        <div class="search-container">
+            <form th:action="@{/trangtimkiemsanpham}">
+                <input type="text" placeholder="Tên sản phẩm cần tìm..." name="tensanpham">
+                <button type="submit">Tìm kiếm</button>
+            </form>
+        </div>
+    </div>
 
+    <div style="width: 1415px;margin-right: 50px;margin-left: 50px;margin-top: 10px;overflow: auto;">
         <div id="demo" class="carousel slide" data-ride="carousel">
             <!-- Indicators -->
             <ul class="carousel-indicators">
@@ -200,39 +214,24 @@
                 <span class="carousel-control-next-icon"></span>
             </a>
         </div>
-        
-        <!--search bar-->
-        <div class="topnav bg-dark" style="margin-top: 25px;margin-left: 50px;margin-right: 50px;">
-            <a th:href="@{/trangdangnhap}" type="button" class="btn btn-info btn-lg" style="color: white;">Đăng nhập</a>
-            <a th:href="@{/tranglaptop}" style="color: white;">Laptop</a>
-            <a href="#" style="color: white;">Điện thoại</a>
-            <a href="#" style="color: white;">Máy tính bảng</a>
-            <a href="#" data-toggle="modal" data-target="#tuongtacvoituvanvien" style="color: white;">Tư vấn, hỏi đáp</a>
-            <div class="search-container">
-                <form th:action="@{/trangtimkiemsanpham}">
-                    <input type="text" placeholder="Tên sản phẩm cần tìm..." name="tensanpham">
-                    <button type="submit">Tìm kiếm</button>
-                </form>
-            </div>
-        </div>
-        
+
         <div style="margin-top: 25px;margin-left: 50px;margin-right: 50px;overflow: auto;">
             <div style="float: left;width: 250px;">
-            
+
                 <form id="hang" th:action="@{/locdienthoai}">
                     <div style="font-weight: bold;font-size: 20px;">
                         Hãng sản xuất
                     </div>
 
                     <div style="margin-top: 15px;" th:if="${tenhang} == 'tatca_dienthoai'">
-                    	<input type="radio" name="tenhang" onclick="hangsubmit()" value="tatca_dienthoai" checked>
-                       	<label>Tất cả</label>	         
-                    </div>  
-                    <div style="margin-top: 15px;" th:unless="${tenhang} == 'tatca_dienthoai'">
-                    	<input type="radio" name="tenhang" onclick="hangsubmit()" value="tatca_dienthoai">
-                       	<label>Tất cả</label>	         
+                        <input type="radio" name="tenhang" onclick="hangsubmit()" value="tatca_dienthoai" checked>
+                        <label>Tất cả</label>
                     </div>
-                    
+                    <div style="margin-top: 15px;" th:unless="${tenhang} == 'tatca_dienthoai'">
+                        <input type="radio" name="tenhang" onclick="hangsubmit()" value="tatca_dienthoai">
+                        <label>Tất cả</label>
+                    </div>
+
                     <div th:if="${tenhang} == 'iPhone'">
                         <input type="radio" name="tenhang" onclick="hangsubmit()" value="iPhone" checked>
                         <label>Apple</label>
@@ -241,7 +240,7 @@
                         <input type="radio" name="tenhang" onclick="hangsubmit()" value="iPhone">
                         <label>Apple</label>
                     </div>
-                    
+
                     <div th:if="${tenhang} == 'Nokia'">
                         <input type="radio" name="tenhang" onclick="hangsubmit()" value="Nokia" checked>
                         <label>Nokia</label>
@@ -250,7 +249,7 @@
                         <input type="radio" name="tenhang" onclick="hangsubmit()" value="Nokia">
                         <label>Nokia</label>
                     </div>
-                    
+
                     <div th:if="${tenhang} == 'Oppo'">
                         <input type="radio" name="tenhang" onclick="hangsubmit()" value="Oppo" checked>
                         <label>Oppo</label>
@@ -259,7 +258,7 @@
                         <input type="radio" name="tenhang" onclick="hangsubmit()" value="Oppo">
                         <label>Oppo</label>
                     </div>
-                    
+
                     <div th:if="${tenhang} == 'Samsung'">
                         <input type="radio" name="tenhang" onclick="hangsubmit()" value="Samsung" checked>
                         <label>Samsung</label>
@@ -268,7 +267,7 @@
                         <input type="radio" name="tenhang" onclick="hangsubmit()" value="Samsung">
                         <label>Samsung</label>
                     </div>
-                    
+
                     <div th:if="${tenhang} == 'Vsmart'">
                         <input type="radio" name="tenhang" onclick="hangsubmit()" value="Vsmart" checked>
                         <label>Vsmart</label>
@@ -277,12 +276,12 @@
                         <input type="radio" name="tenhang" onclick="hangsubmit()" value="Vsmart">
                         <label>Vsmart</label>
                     </div>
-                
+
                     <div style="font-weight: bold;font-size: 20px;">
                         Mức giá
                     </div>
 
-					<div th:if="${mucgia} == 'tatca_gia'" style="margin-top: 15px;">
+                    <div th:if="${mucgia} == 'tatca_gia'" style="margin-top: 15px;">
                         <input type="radio" name="mucgia" onclick="hangsubmit()" value="tatca_gia" checked>
                         <label>Tất cả</label>
                     </div>
@@ -291,7 +290,7 @@
                         <label>Tất cả</label>
                     </div>
 
-					<div th:if="${mucgia} == '_87'">
+                    <div th:if="${mucgia} == '_87'">
                         <input type="radio" name="mucgia" onclick="hangsubmit()" value="_87" checked>
                         <label>Dưới 87 USD</label>
                     </div>
@@ -299,7 +298,7 @@
                         <input type="radio" name="mucgia" onclick="hangsubmit()" value="_87">
                         <label>Dưới 87 USD</label>
                     </div>
-                    
+
                     <div th:if="${mucgia} == '87_174'">
                         <input type="radio" name="mucgia" onclick="hangsubmit()" value="87_174" checked>
                         <label>Từ 87 - 174 USD</label>
@@ -308,8 +307,8 @@
                         <input type="radio" name="mucgia" onclick="hangsubmit()" value="87_174">
                         <label>Từ 87 - 174 USD</label>
                     </div>
-                  
-                  	<div th:if="${mucgia} == '174_305'">
+
+                    <div th:if="${mucgia} == '174_305'">
                         <input type="radio" name="mucgia" onclick="hangsubmit()" value="174_305" checked>
                         <label>Từ 174 - 305 USD</label>
                     </div>
@@ -326,7 +325,7 @@
                         <input type="radio" name="mucgia" onclick="hangsubmit()" value="305_565">
                         <label>Từ 305 - 565 USD</label>
                     </div>
-                    
+
                     <div th:if="${mucgia} == '565_'">
                         <input type="radio" name="mucgia" onclick="hangsubmit()" value="565_" checked>
                         <label>Trên 565 USD</label>
@@ -340,29 +339,29 @@
                         Màn hình
                     </div>
 
-					<div th:if="${manhinh} == 'tatca_manhinh'" style="margin-top: 15px;">
+                    <div th:if="${manhinh} == 'tatca_manhinh'" style="margin-top: 15px;">
                         <input type="radio" name="manhinh" onclick="hangsubmit()" value="tatca_manhinh" checked>
                         <label>Tất cả</label>
                     </div>
-                    <div th:unless="${manhinh} == 'tatca_manhinh'" style="margin-top: 15px;"> 
+                    <div th:unless="${manhinh} == 'tatca_manhinh'" style="margin-top: 15px;">
                         <input type="radio" name="manhinh" onclick="hangsubmit()" value="tatca_manhinh">
                         <label>Tất cả</label>
                     </div>
-                    
+
                     <div th:if="${manhinh} == '_5'">
                         <input type="radio" name="manhinh" onclick="hangsubmit()" value="_5" checked>
                         <label>Màn hình nhỏ: dưới 5.0 inch</label>
                     </div>
-                    <div th:unless="${manhinh} == '_5'"> 
+                    <div th:unless="${manhinh} == '_5'">
                         <input type="radio" name="manhinh" onclick="hangsubmit()" value="_5">
                         <label>Màn hình nhỏ: dưới 5.0 inch</label>
                     </div>
-					
+
                     <div th:if="${manhinh} == '_6'">
                         <input type="radio" name="manhinh" onclick="hangsubmit()" value="_6" checked>
                         <label>Nhỏ gọn vừa tay: dưới 6.0 inch</label>
                     </div>
-                    <div th:unless="${manhinh} == '_6'"> 
+                    <div th:unless="${manhinh} == '_6'">
                         <input type="radio" name="manhinh" onclick="hangsubmit()" value="_6">
                         <label>Nhỏ gọn vừa tay: dưới 6.0 inch</label>
                     </div>
@@ -371,29 +370,29 @@
                         <input type="radio" name="manhinh" onclick="hangsubmit()" value="6_" checked>
                         <label>Trên 6.0 inch</label>
                     </div>
-                    <div th:unless="${manhinh} == '6_'"> 
+                    <div th:unless="${manhinh} == '6_'">
                         <input type="radio" name="manhinh" onclick="hangsubmit()" value="6_">
                         <label>Trên 6.0 inch</label>
                     </div>
-                  
+
                     <div style="font-weight: bold;font-size: 20px;">
                         Dung lượng PIN
                     </div>
 
-					<div th:if="${pin} == 'tatca_pin'" style="margin-top: 15px;">
+                    <div th:if="${pin} == 'tatca_pin'" style="margin-top: 15px;">
                         <input type="radio" name="pin" onclick="hangsubmit()" value="tatca_pin" checked>
                         <label>Tất cả</label>
                     </div>
-                    <div th:unless="${pin} == 'tatca_pin'" style="margin-top: 15px;"> 
+                    <div th:unless="${pin} == 'tatca_pin'" style="margin-top: 15px;">
                         <input type="radio" name="pin" onclick="hangsubmit()" value="tatca_pin">
                         <label>Tất cả</label>
                     </div>
-                    
+
                     <div th:if="${pin} == '_3000'">
                         <input type="radio" name="pin" onclick="hangsubmit()" value="_3000" checked>
                         <label>Dưới 3000 mah</label>
                     </div>
-                    <div th:unless="${pin} == '_3000'"> 
+                    <div th:unless="${pin} == '_3000'">
                         <input type="radio" name="pin" onclick="hangsubmit()" value="_3000">
                         <label>Dưới 3000 mah</label>
                     </div>
@@ -402,16 +401,16 @@
                         <input type="radio" name="pin" onclick="hangsubmit()" value="3000_4000" checked>
                         <label>Từ 3000 - 4000 mah</label>
                     </div>
-                    <div th:unless="${pin} == '3000_4000'"> 
+                    <div th:unless="${pin} == '3000_4000'">
                         <input type="radio" name="pin" onclick="hangsubmit()" value="3000_4000">
                         <label>Từ 3000 - 4000 mah</label>
                     </div>
 
-					<div th:if="${pin} == '4000_'">
+                    <div th:if="${pin} == '4000_'">
                         <input type="radio" name="pin" onclick="hangsubmit()" value="4000_" checked>
                         <label>Siêu trâu: trên 4000 mah</label>
                     </div>
-                    <div th:unless="${pin} == '4000_'"> 
+                    <div th:unless="${pin} == '4000_'">
                         <input type="radio" name="pin" onclick="hangsubmit()" value="4000_">
                         <label>Siêu trâu: trên 4000 mah</label>
                     </div>
@@ -427,42 +426,42 @@
                 </div>
                 <br>
 
-				<th:block th:each="dsdt:${danhsachdienthoai}">
-					<div class="column" style="padding: 10px;border-radius: 10px;border-bottom: 1px solid rgb(228, 226, 226);overflow: auto;">
-	                    <div style="float: left;">
-	                        <a th:href="@{/trangchitietdienthoai/{masanpham}(masanpham=${dsdt.masanpham})}">
-	                            <div style="padding-left: 25px;padding-top: 20px;padding-bottom: 20px;padding-right: 25px;">
-	                                <img th:src="@{${dsdt.hinhanh}}" style="width: 200px;height: 150px;">
-	                            </div>
-	                        </a>
-	                    </div>
-	                    <div style="float: left;padding-top: 10px;padding-left: 10px;padding-right: 10px;">
-	                        <div style="font-weight: bold;font-size: 15px;" th:utext="${dsdt.tensanpham}">
-	                           
-	                        </div>	                        
-	                        <div th:utext="${dsdt.gia} + ' USD'" style="padding: 10px;border-radius: 10px;background-color: rgb(255, 133, 133);font-weight: bold;float: left;margin-top: 10px;">
-	                            
-	                        </div>
-	                        <div style="clear: both;padding-top: 10px;">
-	                            <i class="fas fa-memory" style="color: gray;"> SSD  GB</i>
-		                        <i class="fas fa-microchip" style="margin-left: 15px;color: gray;">GB</i>
-	                        </div>
-	                        <div>
-	                            <i class="fas fa-laptop" style="color: gray;"> <span th:utext="${dsdt.kichthuocmanhinh}"></span>''</i>
-		                        <i class="fas fa-server" style="margin-left: 15px;color: gray;"> <span th:utext="${dsdt.dungluongpin}"></span></i>
-	                        </div>
-	                        <div style="margin-top: 15px;">
-	                            <a type="button" class="btn btn-primary" th:href="@{/trangchitietdienthoai/{masanpham}(masanpham=${dsdt.masanpham})}">Xem chi tiết sản phẩm</a>
-	                        </div>
-	                    </div>
-	                </div>
-				</th:block>
-                       
+                <th:block th:each="dsdt:${danhsachdienthoai}">
+                    <div class="column" style="padding: 10px;border-radius: 10px;border-bottom: 1px solid rgb(228, 226, 226);overflow: auto;">
+                        <div style="float: left;">
+                            <a th:href="@{/trangchitietdienthoai/{masanpham}(masanpham=${dsdt.masanpham})}">
+                                <div style="padding-left: 25px;padding-top: 20px;padding-bottom: 20px;padding-right: 25px;">
+                                    <img th:src="@{${dsdt.hinhanh}}" style="width: 200px;height: 300px;">
+                                </div>
+                            </a>
+                        </div>
+                        <div style="float: left;padding-top: 10px;padding-left: 10px;padding-right: 10px;">
+                            <div style="font-weight: bold;font-size: 15px;" th:utext="${dsdt.tensanpham}">
+
+                            </div>
+                            <div th:utext="${dsdt.gia} + ' USD'" style="padding: 10px;border-radius: 10px;background-color: rgb(255, 133, 133);font-weight: bold;float: left;margin-top: 10px;">
+
+                            </div>
+                            <div style="clear: both;padding-top: 10px;">
+                                <i class="fas fa-memory" style="color: gray;"> SSD  GB</i>
+                                <i class="fas fa-microchip" style="margin-left: 15px;color: gray;">GB</i>
+                            </div>
+                            <div>
+                                <i class="fas fa-laptop" style="color: gray;"> <span th:utext="${dsdt.kichthuocmanhinh}"></span>''</i>
+                                <i class="fas fa-server" style="margin-left: 15px;color: gray;"> <span th:utext="${dsdt.dungluongpin} + ' mAh'"></span></i>
+                            </div>
+                            <div style="margin-top: 15px;">
+                                <a type="button" class="btn btn-primary" th:href="@{/trangchitietdienthoai/{masanpham}(masanpham=${dsdt.masanpham})}">Xem chi tiết sản phẩm</a>
+                            </div>
+                        </div>
+                    </div>
+                </th:block>
+
             </div>
         </div>
     </div>
 
-    <div style="background-color: white;overflow: auto;margin-top: 25px;">
+    <div style="background-color: white;overflow: auto;margin-top: 10px;display: flex;width: 1515px;">
         <div style="margin-right: 100px;margin-left: 100px;margin-top: 25px;overflow: auto;">
 
             <div style="float: left;margin-bottom: 25px;">
@@ -555,7 +554,7 @@
         </div>
     </div>
 
-	<script>
+    <script>
         // Get the elements with class="column"
         var elements = document.getElementsByClassName("column");
 
@@ -575,10 +574,10 @@
                 elements[i].style.width = "33.33%";
             }
         }
-        
+
         function hangsubmit() {
             document.getElementById("hang").submit();
-       	}
+        }
         /* Optional: Add active class to the current button (highlight it) */
     </script>
 

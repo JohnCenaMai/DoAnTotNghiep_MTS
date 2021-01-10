@@ -228,6 +228,16 @@
             </nav>
             <div class="content-wrapper">
             	<h4 style="font-weight: bold;color: black;">Thông tin máy tính</h4>
+            	
+            	<div class="container main-content list" style="margin-top:15px">
+		            <div th:if="${success}" class="row alert alert-success alert-dismissible">
+		                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					    	<span aria-hidden="true">×</span>
+					   	</button>
+		                <span th:text="${success}"></span>
+		            </div>
+		        </div>
+            	
 	                <form method="POST" th:action="@{/trangquantri/savemaytinh}" enctype="multipart/form-data">
 	                	<div class="form-group">
 	                        <label style="color: black;">Mã máy tính:</label>
@@ -275,9 +285,9 @@
 	                    </div>
 	                    <div class="form-group">
 	                        <label style="color: black;">Hình ảnh:</label>
-	                        <input class="form-control" type="file" placeholder="hình ảnh..." name="hinhanh" accept="image/*" required>
+	                        <input type="file" name="hinhanh" accept="image/*" required>
 	                    </div>
-	                    <button type="submit" class="btn btn-primary">Submit</button>
+	                    <button type="submit" class="btn btn-primary">Thêm thông tin máy tính</button>
 	                </form>    
                 						
                 <div class="line"></div>

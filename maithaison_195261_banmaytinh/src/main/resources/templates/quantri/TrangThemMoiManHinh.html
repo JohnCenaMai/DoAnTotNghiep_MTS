@@ -228,6 +228,16 @@
             </nav>
             <div class="content-wrapper">
                 <h2>Thông tin màn hình</h2>
+                
+                <div class="container main-content list" style="margin-top:15px">
+		            <div th:if="${success}" class="row alert alert-success alert-dismissible">
+		                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					    	<span aria-hidden="true">×</span>
+					   	</button>
+		                <span th:text="${success}"></span>
+		            </div>
+		        </div>
+                
                 <form th:action="@{/trangquantri/savemanhinh}">
                 	<table class="table table-striped" style="font-size: 14px;color: black;clear: both;">
 	                	<thead>
@@ -251,40 +261,40 @@
 	                    <tbody>
 	                    	<tr>
 			                    <td>
-			                        <input class="col-sm-12" name="mamanhinh" type="text" th:value="${mamanhinh1}" />
+			                        <input required class="col-sm-12" name="mamanhinh" type="text" th:value="${mamanhinh1}" />
 			                    </td>
 			                    <td>
-			                        <input class="col-sm-12" name="loaicamung" type="text" id="loaicamung1" />
+			                        <input required class="col-sm-12" name="loaicamung" type="text" id="loaicamung1" />
 			                    </td>
 			                    <td>
-			                        <input class="col-sm-12" name="manhinhcamung" type="text" id="manhinhcamung1" />
+			                        <input required class="col-sm-12" name="manhinhcamung" type="text" id="manhinhcamung1" />
 			                    </td>
 			                    <td>
-			                        <input class="col-sm-12" name="dotuongphan" type="text" id="dotuongphan1" />
+			                        <input required class="col-sm-12" name="dotuongphan" type="text" id="dotuongphan1" />
 			                    </td>
 			                    <td >
-			                        <input class="col-sm-12" name="tylemanhinh" type="text" id="tylemanhinh1" />
+			                        <input required class="col-sm-12" name="tylemanhinh" type="text" id="tylemanhinh1" />
 			                    </td>
 			                    <td>
-			                        <input class="col-sm-12" name="dophumau" type="text" id="dophumau1" />
+			                        <input required class="col-sm-12" name="dophumau" type="text" id="dophumau1" />
 			                    </td>
 			                    <td>
-			                        <input class="col-sm-12" name="congnghe" type="text" id="congnghe1" />
+			                        <input required class="col-sm-12" name="congnghe" type="text" id="congnghe1" />
 			                    </td>
 			                    <td>
-			                        <input class="col-sm-12" name="dosang" type="text" id="dosang1" />
+			                        <input required class="col-sm-12" name="dosang" type="text" id="dosang1" />
 			                    </td>
 			                    <td>
-			                        <input class="col-sm-12" name="dophangiai" type="text" id="dophangiai1" />
+			                        <input required class="col-sm-12" name="dophangiai" type="text" id="dophangiai1" />
 			                    </td>
 			                    <td >
-			                        <input class="col-sm-12" name="tansoquet" type="number" id="tansoquet1" />
+			                        <input required class="col-sm-12" name="tansoquet" type="number" id="tansoquet1" />
 			                    </td>
 			                    <td>
-			                        <input class="col-sm-12" name="loaimanhinh" type="text" id="loaimanhinh1" />
+			                        <input required class="col-sm-12" name="loaimanhinh" type="text" id="loaimanhinh1" />
 			                    </td>
 			                    <td >
-			                        <input class="col-sm-12" name="kichthuocmanhinh" type="text" id="kichthuocmanhinh1" />
+			                        <input required class="col-sm-12" name="kichthuocmanhinh" type="text" id="kichthuocmanhinh1" />
 			                    </td>
 			                    					                    		                    	                    
 			                    <td>
@@ -342,6 +352,10 @@
     <script>
         $(document).ready(function() {
 
+        	$("#sidebarCollapse").on('click', function() {
+                $("#sidebar").toggleClass('active');
+            });
+        	
             $("#timkiemkhop").click(function() {
                 
                 const loaicamung1 = $("#loaicamung1").val().toLowerCase();

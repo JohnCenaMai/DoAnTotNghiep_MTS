@@ -25,8 +25,8 @@ public interface KhachHangRepository extends JpaRepository<Khachhang, Long> {
 	
 	@Modifying
 	@Transactional
-	@Query(value = "insert into khachhang(email,tenkhachhang,matkhau,diachi,sodienthoai,ngaysinh) values(?1,?2,?3,?4,?5,?6)",nativeQuery = true)
-	void ThemKhachHang(String email,String tenkhachhang,String matkhau,String diachi,String sodienthoai,String ngaysinh);
+	@Query(value = "insert into khachhang(email,tenkhachhang,matkhau,diachi,sodienthoai,ngaysinh,isaccountnonexpired,isaccountnonlocked,iscredentialsnonexpired,isenabled) values(?1,?2,?3,?4,?5,?6,?7,?8,?9,?10)",nativeQuery = true)
+	void ThemKhachHang(String email,String tenkhachhang,String matkhau,String diachi,String sodienthoai,String ngaysinh, boolean isaccountnonexpired,boolean isaccountnonlocked,boolean iscredentialsnonexpired,boolean isenabled);
 
 	@Modifying
 	@Transactional
@@ -72,5 +72,8 @@ public interface KhachHangRepository extends JpaRepository<Khachhang, Long> {
 			"on chitiethoadon.mahoadon = hoadon.mahoadon\r\n" + 
 			"where hoadon.makh = ?1 and month(hoadon.ngaydathang) = ?2",nativeQuery = true)
 	int TongTienChiTrongThang(int makh,int thang);
+	
+	@Query(value = "select * from khachhang where month(ngaydangky) = ?1 and year(ngaydangky) = ?2",nativeQuery = true)
+	List<Khachhang> getSoNguoiDungMoiDangKy(int month,int year);
 	
 }

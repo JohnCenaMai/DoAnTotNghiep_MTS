@@ -2,15 +2,14 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Thêm mới loa</title>
+    <title>Trang sửa thông tin sản phẩm</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.css">
-
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.css">
     <style>
         @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
         body {
@@ -164,6 +163,26 @@
                 display: none;
             }
         }
+        
+        #baocao {
+            width: 1065px;
+            height: 125px;
+            display: flex;
+            margin-top: 25px;
+            display: flex;
+            justify-content: center;
+        }
+        
+        #baocao div {
+            width: 175px;
+            height: 100px;
+            border-radius: 5px;
+            box-shadow: 10px 10px 5px grey;
+        }
+        
+        #baocao div:hover {
+            opacity: 0.75;
+        }
     </style>
 
 </head>
@@ -184,38 +203,51 @@
             </div>
             <ul class="list-unstyled components">
                 <li>
-                	<a th:href="@{/trangquantri/trangquanlymaytinh}">
-                		<i class="fas fa-info-circle">
-	                		<span style="margin-left: 10px;">
-	                			Danh sách máy tính
-	                		</span>
-                		</i>
-                	</a> 
+                    <a class="mau nav-link active" id="v-pills-tc-tab" data-toggle="pill" href="#v-pills-tc" role="tab" aria-controls="v-pills-home" aria-selected="true">
+                        <i class="fas fa-space-shuttle"><span style="margin-left: 10px;">Báo cáo tổng hợp</span></i>
+                    </a>
                 </li>
-                <li> 
-                	<a th:href="@{/trangquantri/trangthemmoimaytinh}">
-                		<i class="fas fa-info-circle">
-	                		<span style="margin-left: 10px;">
-	                			Thông tin máy tính
-	                		</span>
-                		</i>
-                	</a> 
+                <li>
+                    <a class="mau nav-link" id="v-pills-qlmt-tab" th:href="@{/trangquantri/trangquanlymaytinh}">
+                        <i class="fas fa-desktop"><span style="margin-left: 10px;">Quản lý máy tính</span></i>
+                    </a>
                 </li>
-                <li> <a th:href="@{/trangquantri/trangthemmoiboxuly}"><i class="fas fa-microchip"><span style="margin-left: 10px;">Thông tin CPU</span></i></a> </li>
-                <li> <a th:href="@{/trangquantri/trangthemmoiram}"><i class="fas fa-memory"><span style="margin-left: 10px;">Thông tin RAM</span></i></a> </li>
-                <li> <a th:href="@{/trangquantri/trangthemmoidohoa}"><i class="fab fa-affiliatetheme"><span style="margin-left: 10px;font-weight: bold;">Thông tin đồ họa</span></i></a> </li>
-                <li> <a th:href="@{/trangquantri/trangthemmoimanhinh}"><i class="fas fa-desktop"><span style="margin-left: 10px;">Thông tin màn hình</span></i></a> </li>
-                <li> <a th:href="@{/trangquantri/trangthemmoiloa}"><i class="fas fa-volume-up"><span style="margin-left: 10px;">Thông tin loa</span></i></a> </li>
-                <li> <a th:href="@{/trangquantri/trangthemmoihedieuhanh}"><i class="fas fa-info-circle"><span style="margin-left: 10px;">Thông tin hệ điều hành</span></i></a> </li>
-                <li> <a th:href="@{/trangquantri/trangthemmoichatlieu}"><i class="fab fa-mdb"><span style="margin-left: 10px;">Thông tin chất liệu</span></i></a> </li>
-                <li> <a th:href="@{/trangquantri/trangthemmoibanphim}"><i class="fas fa-keyboard"><span style="margin-left: 10px;">Thông tin bàn phím</span></i></a> </li>
-                <li> <a th:href="@{/trangquantri/trangthemmoibonho}"><i class="fas fa-memory"><span style="margin-left: 10px;">Thông tin bộ nhớ</span></i></a> </li>
+                <li>
+                    <a class="mau nav-link" id="v-pills-qldt-tab" data-toggle="pill" href="#v-pills-qldt" role="tab" aria-controls="v-pills-profile" aria-selected="false">
+                        <i class="fas fa-mobile-alt"><span style="margin-left: 10px;">Quản lý điện thoại</span></i>
+                    </a>
+                </li>
+                <li>
+                    <a class="mau nav-link" id="v-pills-qlmtb-tab" data-toggle="pill" href="#v-pills-qlmtb" role="tab" aria-controls="v-pills-profile" aria-selected="false">
+                        <i class="fas fa-tablet"><span style="margin-left: 10px;">Quản lý máy tính bảng</span></i>
+                    </a>
+                </li>
+                <li>
+                    <a class="mau nav-link" id="v-pills-qlkh-tab" th:href="@{/trangquantri/trangquanlykhachhang}">
+                        <i class="fas fa-user-friends"><span style="margin-left: 10px;">Quản lý khách hàng</span></i>
+                    </a>
+                </li>
+                <li>
+                    <a class="mau nav-link" id="v-pills-qlbl-tab" th:href="@{/trangquantri/trangquanlybinhluan}">
+                        <i class="fas fa-comments"><span style="margin-left: 10px;">Quản lý bình luận</span></i>
+                    </a>
+                </li>
+                <li>
+                    <a class="mau nav-link" id="v-pills-qlhd-tab" th:href="@{/trangquantri/trangquanlyhoadon}">
+                        <i class="fas fa-money-bill"><span style="margin-left: 10px;">Quản lý hóa đơn</span></i>
+                    </a>
+                </li>
+                <li>
+                    <a class="mau nav-link" id="v-pills-qlht-tab" th:href="@{/trangquantri/trangquanlyhopthu}">
+                        <i class="fas fa-envelope-square"><span style="margin-left: 10px;">Quản lý hộp thư</span></i>
+                    </a>
+                </li>
             </ul>
             <ul class="list-unstyled CTAs">
                 <li> <a th:href="@{/dangxuat}" class="download">Đăng xuất</a> </li>
             </ul>
         </nav>
-        
+
         <div class="content">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <button type="button" id="sidebarCollapse" class="btn btn-info">
@@ -227,86 +259,43 @@
                 </form>
             </nav>
             <div class="content-wrapper">
-                <h2>Thêm mới loa</h2>
-                
-                <div class="container main-content list" style="margin-top:15px">
-		            <div th:if="${success}" class="row alert alert-success alert-dismissible">
-		                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-					    	<span aria-hidden="true">×</span>
-					   	</button>
-		                <span th:text="${success}"></span>
-		            </div>
-		        </div>
-                
-                <form th:action="@{/trangquantri/saveloa}">
-                	<table class="table table-striped" style="font-size: 14px;color: black;clear: both;">
-	                	<thead>
-	                        <tr>
-	                            <th>Mã loa</th>
-	                            <th>Số loa</th>
-	                            <th>Công nghệ âm thanh</th>	                                          
-	                        </tr>
-	                    </thead>
-	                    <tbody>
-	                    	<tr>
-			                    <td>
-			                        <input required class="col-sm-12" name="maloa" type="text" th:value="${maloa1}" />
-			                    </td>
-			                    <td>
-			                        <input required class="col-sm-12" name="soloa" type="number" id="soloa1" />
-			                    </td>
-			                    <td>
-			                        <input required class="col-sm-12" name="congngheamthanh" type="text" id="congngheamthanh1" />
-			                    </td>	                    		                    
-			                    <td>
-			                    	<a id="timkiemkhop" class="btn btn-danger">Nhấn</a>		                           	
-		                           	<button type="submit" class="btn btn-warning">Thêm</button>		                            
-		                        </td>
-			                </tr>
-	                    </tbody>
-	                </table>
+                <h4 style="font-weight: bold;color: black;" th:utext="'Sửa thông tin sản phẩm ' + ${masanpham1}"></h4>
+                <form th:action="@{/trangquantri/xulysuathongtinsanpham/{masanpham}(masanpham=${masanpham1})}">
+                    <div class="form-group">
+                        <label>Tên máy tính:</label>
+                        <input type="text" name="tenmaytinh" class="form-control" placeholder="Điền tên máy tính mơí...">
+                    </div>
+                    <div class="form-group">
+                        <label>Giá cả:</label>
+                        <input type="number" name="gia" min="0" class="form-control" placeholder="Điền giá cả mới..." required>
+                    </div>
+                    <div class="form-group">
+                        <label>Thời hạn bảo hành:</label>
+                        <input type="number" name="thoigianbaohanh" min="0" class="form-control" placeholder="Thời hạn bảo hành..." required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Cập nhật thông tin</button>
                 </form>
-                <table class="table table-striped" style="font-size: 14px;color: black;clear: both;">
-                    <thead>
-                        <tr>
-	                    	<th>Mã loa</th>
-	                        <th>Số loa</th>
-	                        <th>Công nghệ âm thanh</th>	                                          
-	                    </tr>
-                    </thead>
-                    <tbody id="myTable">         	
-                    	<th:block th:each="dsl:${danhsachloa}">
-                    		<tr>
-	                            <td><a th:utext="'#' + ${dsl.maloa}" href="#" style="text-decoration: none;color: black;"></a></td>
-	                            <td th:utext="${dsl.soloa}"></td>
-	                            <td th:utext="${dsl.congngheamthanh}"></td>               
-	                        </tr>
-                    	</th:block>
-                    </tbody>
-                </table>
-                				
-                <div class="line"></div>
-            </div>        	            
-        </div>        
-        
+                <div class="line" style="margin-top: 15px;"></div>
+                <h4 style="font-weight: bold;color: black;margin-top: 15px;">Thêm ảnh</h4>
+
+                <form method="POST" enctype="multipart/form-data" th:action="@{/trangquantri/xulythemhinhanh/{masanpham}(masanpham=${masanpham1})}">
+                    <div class="form-group">
+                        <label style="color: black;">Hình ảnh:</label>
+                        <input type="file" name="hinhanh" accept="image/*" required>
+                    </div>
+                    <button type="submit" class="btn btn-warning">Thêm mới hình ảnh</button>
+                </form>
+
+                <div class="line" style="margin-top: 15px;"></div>
+            </div>
+        </div>
+
     </div>
 
     <script>
         $(document).ready(function() {
-
-        	$("#sidebarCollapse").on('click', function() {
+            $("#sidebarCollapse").on('click', function() {
                 $("#sidebar").toggleClass('active');
-            });
-        	
-            $("#timkiemkhop").click(function() {
-                
-                const soloa1 = $("#soloa1").val().toLowerCase();
-                const congngheamthanh1 = $("#congngheamthanh1").val().toLowerCase();
-                   
-                $("#myTable tr").filter(function() {
-                    $(this).toggle($(this).find("td:eq(1)").text().toLowerCase().indexOf(soloa1) > -1 &&
-                        $(this).find("td:eq(2)").text().toLowerCase().indexOf(congngheamthanh1) > -1);
-                });
             });
         });
     </script>

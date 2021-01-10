@@ -238,7 +238,7 @@
 
         <div style="float: left;height: 75px;margin-left: 50px;">
             <div style="text-align: center;margin-top: 10px;">
-                <i class="fas fa-cart-plus" style="color: white;font-size: 30px;"></i>
+                <i class="fas fa-user" style="color: white;font-size: 30px;"></i>
             </div>
             <div style="color: white;font-weight: bold;">
                 <a th:href="@{/trangkhachhang/trangthongtinkhachhang/{makh}(makh=${hoten})}" th:text="${hoten}" style="text-decoration: none;color: white;"></a>
@@ -247,7 +247,7 @@
 
         <div style="float: left;height: 75px;margin-left: 50px;">
             <div style="text-align: center;margin-top: 10px;">
-                <i class="fas fa-cart-plus" style="color: white;font-size: 30px;"></i>
+                <i class="fas fa-sign-out-alt" style="color: white;font-size: 30px;"></i>
             </div>
             <div style="color: white;font-weight: bold;">
                 <a th:href="@{/dangxuat}" style="color: white;font-weight: bold;">Đăng xuất</a>
@@ -389,7 +389,7 @@
                 	<th:block th:each="cthd:${chitiethoadon}">
                 		<tr>
 	                        <td th:utext="${cthd.tensanpham}"></td>
-	                        <td th:utext="${cthd.gia}"></td>
+	                        <td th:utext="${cthd.gia} + ' USD'"></td>
 	                        <td th:utext="${cthd.soluong}"></td>                                             
 	                    </tr>
                 	</th:block>                 

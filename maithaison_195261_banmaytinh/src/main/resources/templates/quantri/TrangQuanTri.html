@@ -317,6 +317,7 @@
                     </tbody>
                 </table>
             </div>
+            
             <!--quản lý khách hàng-->
             <div style="padding: 15px;" class="tab-pane fade" id="v-pills-qlkh" role="tabpanel" aria-labelledby="v-pills-messages-tab">
                 <h4 style="font-weight: bold;color: rgb(255, 255, 255);">Quản lý khách hàng</h4>
@@ -333,7 +334,7 @@
                     <tbody>
                     	<th:block th:each="dskh:${danhsachkhachhang}">
 	                    	<tr>
-	                            <td><a th:href="@{/trangquantri/trangquanlykhachhang/{makh}(makh=${dskh.makh})}" th:utext="'#' + ${dskh.makh}" style="text-decoration: none;color: white;"></a></td>
+	                            <td><a th:href="@{/trangquantri/trangchitietkhachhang/{makh}(makh=${dskh.makh})}" th:utext="'#' + ${dskh.makh}" style="text-decoration: none;color: white;"></a></td>
 	                            <td th:utext="${dskh.email}" style="color: white;"></td>
 	                            <td th:utext="${dskh.tenkhachhang}" style="color: white;"></td>
 	                            <td th:utext="${dskh.sodienthoai}" style="color: white;"></td>                           
@@ -343,6 +344,7 @@
                     </tbody>
                 </table>
             </div>
+            
             <!--quản lý bình luận-->
             <div style="padding: 15px;" class="tab-pane fade" id="v-pills-qlbl" role="tabpanel" aria-labelledby="v-pills-settings-tab">
                 <h4 style="font-weight: bold;color: rgb(255, 255, 255);">Quản lý bình luận</h4>

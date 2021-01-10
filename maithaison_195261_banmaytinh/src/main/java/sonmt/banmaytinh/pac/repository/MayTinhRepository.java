@@ -39,7 +39,22 @@ public interface MayTinhRepository extends JpaRepository<Maytinh, Long> {
 	void ThemMoiMayTinh(String mamaytinh,String tensanpham,String xuatxu,
 			byte thoigianbaohanh,float chieurong,float chieucao,float chieusau,
 			String namramat,float trongluong,int soluong,int gia,String hinhanh);
-		
+	
+	@Modifying
+	@Transactional
+	@Query(value = "update maytinh set tensanpham = ?1 where mamaytinh = ?2",nativeQuery = true)
+	void SuaThongTinTen(String tenmaytinh,String mamaytinh);
+	
+	@Modifying
+	@Transactional
+	@Query(value = "update maytinh set gia = ?1 where mamaytinh = ?2",nativeQuery = true)
+	void SuaThongTinGia(int gia,String mamaytinh);
+	
+	@Modifying
+	@Transactional
+	@Query(value = "update maytinh set thoigianbaohanh = ?1 where mamaytinh = ?2",nativeQuery = true)
+	void SuaThongTinTGBH(byte thoigianbaohanh,String mamaytinh);
+	
 }
 
 
