@@ -1,5 +1,7 @@
 package sonmt.banmaytinh.pac.controller;
 
+import static java.lang.String.format;
+
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -8,7 +10,14 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -24,10 +33,13 @@ import com.paypal.api.payments.ShippingAddress;
 import com.paypal.api.payments.Transaction;
 import com.paypal.base.rest.PayPalRESTException;
 
+import sonmt.banmaytinh.pac.event.WebSocketEventListener;
 import sonmt.banmaytinh.pac.model.Giohang;
 import sonmt.banmaytinh.pac.model.Hoadon;
 import sonmt.banmaytinh.pac.model.Maytinh;
 import sonmt.banmaytinh.pac.model.OrderDetail;
+import sonmt.banmaytinh.pac.model.chatroom.ChatMessage;
+import sonmt.banmaytinh.pac.model.chatroom.ChatMessage.MessageType;
 import sonmt.banmaytinh.pac.model.dienthoai.Dienthoai;
 import sonmt.banmaytinh.pac.paypal.PaymentServices;
 import sonmt.banmaytinh.pac.repository.BinhLuanRepository;
@@ -444,6 +456,43 @@ public class KhachHangController {
 		
 		return "/khachhang/TrangChiTietHoaDon";
 	}
+	
+	@RequestMapping(value = "/trangchat/{makh}")
+	public String GetTrangChat(@PathVariable int makh)
+	{
+		
+		return "/khachhang/TrangChat";
+	}
+	
+	private static final Logger logger = LoggerFactory.getLogger(WebSocketEventListener.class);
+
+	@Autowired
+	private SimpMessageSendingOperations messagingTemplate;
+
+	@MessageMapping("/chat/{roomId}/sendMessage")
+	public void sendMessage(@DestinationVariable String roomId, @Payload ChatMessage chatMessage) {
+		//System.out.println(chatMessage);
+		messagingTemplate.convertAndSend(format("/channel/%s", roomId), chatMessage);
+	}
+
+	@MessageMapping("/chat/{roomId}/addUser")
+	public void addUser(@DestinationVariable String roomId, @Payload ChatMessage chatMessage,
+	    SimpMessageHeaderAccessor headerAccessor) {
+		  
+	    String currentRoomId = (String) headerAccessor.getSessionAttributes().put("room_id", roomId);
+	    //System.out.println(currentRoomId);
+	    
+	    if (currentRoomId != null) {
+	    	ChatMessage leaveMessage = new ChatMessage();
+	    	leaveMessage.setType(MessageType.LEAVE);
+	    	leaveMessage.setSender(chatMessage.getSender());
+	    	messagingTemplate.convertAndSend(format("/channel/%s", currentRoomId), leaveMessage);
+	    }
+	    
+	    headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
+	    messagingTemplate.convertAndSend(format("/channel/%s", roomId), chatMessage);
+	    
+	}	
 	
 	@RequestMapping(value = "/xoataikhoan/{makh}")
 	public String XoaTaiKhoan(@PathVariable int makh)
