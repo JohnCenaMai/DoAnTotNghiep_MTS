@@ -1,5 +1,7 @@
 package sonmt.banmaytinh.pac.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import sonmt.banmaytinh.pac.model.Khachhang;
+import sonmt.banmaytinh.pac.model.chatroom.Chat;
+import sonmt.banmaytinh.pac.model.chatroom.Room;
 import sonmt.banmaytinh.pac.repository.KhachHangRepository;
 import sonmt.banmaytinh.pac.repository.KhachHang_VaiTroRepository;
+import sonmt.banmaytinh.pac.repository.chatroom.RoomRepository;
 
 @Controller
 @RequestMapping(value = "/trangdangky")
@@ -21,6 +26,9 @@ public class DangKyController {
 	
 	@Autowired
 	private KhachHang_VaiTroRepository khachHang_VaiTroRepository;
+	
+	@Autowired 
+	private RoomRepository roomRepository;
 	
 	@RequestMapping(value = "")
 	public String GetTrangDangKy()
@@ -65,6 +73,15 @@ public class DangKyController {
 						if(vaitro.equals("USER"))
 						{							
 							khachHang_VaiTroRepository.ThemThongTinKH_VT(khachHangRepository.LayMaKhachHang(email), 1);
+							Date date = new Date();
+							
+							//SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+							//String ngaytao = formatter.format(date);  
+							
+							Room room = new Room();
+							room.setRoom_id(khachHangRepository.LayMaKhachHang(email));
+							room.setNgaytao(date);
+							roomRepository.save(room);
 						}
 					}
 					else {

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <title>Chat với quản trị viên</title>
+  <link rel="stylesheet" href="/css/main.css" />
+</head>
+<body>
+<noscript>
+  <h2>Xin lỗi! Trình duyệt của bạn không hỗ trợ javascript</h2>
+</noscript>
+
+<div id="username-page">
+  <div class="username-page-container">
+    <h1 class="title">Tên người dùng và phòng chat</h1>
+    <form id="usernameForm" name="usernameForm">
+      <div class="form-group">
+        <input disabled type="text" id="name" th:value="${makhachhang}" autocomplete="off" class="form-control" />
+      </div>
+      <div class="form-group">
+        <input hidden type="text" id="room-id" th:value="${room_id}" autocomplete="off" class="form-control" />
+      </div>
+      <div class="form-group">
+        <button type="submit" class="accent username-submit">Bắt đầu chat</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div id="chat-page" class="hidden">
+  <div class="chat-container">
+    <div class="chat-header">
+      <h2>Phòng chat số [<span id="room-id-display"></span>]</h2>
+    </div>
+    <div class="connecting">
+    	Đang kết nối.....
+    </div>
+    <ul id="messageArea">
+    	<th:block th:each="dschat:${danhsachchat}">
+    		<li th:utext="${dschat.noidung}"></li>
+    	</th:block>
+    </ul>
+    <form id="messageForm" name="messageForm" nameForm="messageForm">
+      <div class="form-group">
+        <div class="input-group clearfix">
+          <input type="text" id="message" placeholder="Điền tin nhắn vào đoạn text...."
+                 autocomplete="off" class="form-control"/>
+          <button type="submit" class="primary">Gửi</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="/webjars/jquery/jquery.min.js"></script>
+<script src="/webjars/sockjs-client/sockjs.min.js"></script>
+<script src="/webjars/stomp-websocket/stomp.min.js"></script>
+<script src="/webjars/js-cookie/js.cookie.js"></script>
+<script src="/js/main2.js"></script>
+</body>
+</html>

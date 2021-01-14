@@ -43,7 +43,7 @@ public class WebSocketEventListener {
 	      chatMessage.setType(MessageType.LEAVE);
 	      chatMessage.setSender(username);
 
-	      messagingTemplate.convertAndSend(format("/channel/%s", roomId), chatMessage);
+	      messagingTemplate.convertAndSend(format("/room/%s", roomId), chatMessage);
 	    }
 	  }
 	

@@ -38,6 +38,7 @@ import sonmt.banmaytinh.pac.model.Giohang;
 import sonmt.banmaytinh.pac.model.Hoadon;
 import sonmt.banmaytinh.pac.model.Maytinh;
 import sonmt.banmaytinh.pac.model.OrderDetail;
+import sonmt.banmaytinh.pac.model.chatroom.Chat;
 import sonmt.banmaytinh.pac.model.chatroom.ChatMessage;
 import sonmt.banmaytinh.pac.model.chatroom.ChatMessage.MessageType;
 import sonmt.banmaytinh.pac.model.dienthoai.Dienthoai;
@@ -50,6 +51,8 @@ import sonmt.banmaytinh.pac.repository.HopThuRepository;
 import sonmt.banmaytinh.pac.repository.KhachHangRepository;
 import sonmt.banmaytinh.pac.repository.MayTinhRepository;
 import sonmt.banmaytinh.pac.repository.PhanHoiRepository;
+import sonmt.banmaytinh.pac.repository.chatroom.ChatRepository;
+import sonmt.banmaytinh.pac.repository.chatroom.RoomRepository;
 import sonmt.banmaytinh.pac.repository.dienthoai.DienThoaiRepository;
 import sonmt.banmaytinh.pac.service.JoinQueryService;
 
@@ -457,22 +460,42 @@ public class KhachHangController {
 		return "/khachhang/TrangChiTietHoaDon";
 	}
 	
+	@Autowired
+	private RoomRepository roomRepository;
+	
 	@RequestMapping(value = "/trangchat/{makh}")
-	public String GetTrangChat(@PathVariable int makh)
+	public String GetTrangChat(@PathVariable int makh,
+			Model thongtinkhachhang)
 	{
-		
-		return "/khachhang/TrangChat";
+		//khachHangRepository.findByMakh(makh).getTenkhachhang()
+		thongtinkhachhang.addAttribute("makhachhang", makh);
+		thongtinkhachhang.addAttribute("room_id", roomRepository.getIdRoom(makh));
+		thongtinkhachhang.addAttribute("danhsachchat", chatRepository.getAllNoidung(makh));
+		return "/khachhang/TrangChat2";
 	}
 	
 	private static final Logger logger = LoggerFactory.getLogger(WebSocketEventListener.class);
 
 	@Autowired
 	private SimpMessageSendingOperations messagingTemplate;
+	
+	@Autowired 
+	private ChatRepository chatRepository;
 
 	@MessageMapping("/chat/{roomId}/sendMessage")
 	public void sendMessage(@DestinationVariable String roomId, @Payload ChatMessage chatMessage) {
-		//System.out.println(chatMessage);
-		messagingTemplate.convertAndSend(format("/channel/%s", roomId), chatMessage);
+		
+		Date date = new Date();
+		
+		Chat chat = new Chat();
+		chat.setRoom_id(Integer.parseInt(roomId));
+		chat.setFrom_makh(Integer.parseInt(chatMessage.getSender()));
+		chat.setNoidung(chatMessage.getContent());
+		chat.setNgaygui(date);
+		
+		chatRepository.save(chat);
+		
+		messagingTemplate.convertAndSend(format("/room/%s", roomId), chatMessage);
 	}
 
 	@MessageMapping("/chat/{roomId}/addUser")
@@ -486,11 +509,11 @@ public class KhachHangController {
 	    	ChatMessage leaveMessage = new ChatMessage();
 	    	leaveMessage.setType(MessageType.LEAVE);
 	    	leaveMessage.setSender(chatMessage.getSender());
-	    	messagingTemplate.convertAndSend(format("/channel/%s", currentRoomId), leaveMessage);
+	    	messagingTemplate.convertAndSend(format("/room/%s", currentRoomId), leaveMessage);
 	    }
 	    
 	    headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
-	    messagingTemplate.convertAndSend(format("/channel/%s", roomId), chatMessage);
+	    messagingTemplate.convertAndSend(format("/room/%s", roomId), chatMessage);
 	    
 	}	
 	
