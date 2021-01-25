@@ -1,6 +1,6 @@
 'use strict';
 
-var nameInput = $('#name');
+var nameInput = $('#maadmin');
 var roomInput = $('#room-id');
 var usernamePage = document.querySelector('#username-page');
 var chatPage = document.querySelector('#chat-page');
@@ -24,6 +24,7 @@ var colors = [
 ];
 
 function connect(event) {
+	console.log("đã kết nối");
   username = nameInput.val().trim();
   Cookies.set('name', username);
   if (username) {
@@ -115,7 +116,7 @@ function onMessageReceived(payload) {
 
   var textElement = document.createElement('p');
   var messageText = document.createTextNode(message.content);
-  textElement.appendChild(messageText);	
+  textElement.appendChild(messageText);
 
   messageElement.appendChild(textElement);
 
@@ -134,6 +135,7 @@ function getAvatarColor(messageSender) {
 
 $(document).ready(function() {
   var savedName = Cookies.get('name');
+  
   if (savedName) {
     nameInput.val(savedName);
   }

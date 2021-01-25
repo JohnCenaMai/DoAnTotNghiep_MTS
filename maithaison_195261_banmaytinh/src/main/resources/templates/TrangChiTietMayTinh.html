@@ -320,7 +320,7 @@
         <div style="background-color: white;overflow: auto;margin-top: 25px;">
 
             <div style="padding: 15px;font-weight: bold;font-size: 20px;">
-                <span th:text="${chitietsanpham.tensanpham}"></span>
+                <span th:text="${chitietsanpham.tensanpham} + ', số lượng còn lại: ' + ${chitietsanpham.soluong} + ' chiếc'"></span>
             </div>
 
             <div>
@@ -380,7 +380,7 @@
                                 Mua online giá sốc
                             </div>
                             <div style="font-weight: bold;text-align: center;">
-                                <span style="color: red;font-weight: bold;" th:text="${chitietsanpham.gia} + ' USD'"></span>
+                                <span style="color: red;font-weight: bold;" th:text="${chitietsanpham.gia} + ',000 USD'"></span>
                             </div>
                         </div>
                         <div style="width: 50%;float: left;margin-left: 11px;background-color: rgb(202, 197, 197);padding-left: 20px;padding-right: 20px;padding-top: 5px;padding-bottom: 5px;">
@@ -388,7 +388,7 @@
                                 Giá thường
                             </div>
                             <div style="font-weight: bold;text-align: center;">
-                                <span style="color: red;font-weight: bold;" th:text="${chitietsanpham.gia} + 125 + ' USD'"></span>
+                                <span style="color: red;font-weight: bold;" th:text="${chitietsanpham.gia} + 125 + ',000 USD'"></span>
                             </div>
                         </div>
                     </div>

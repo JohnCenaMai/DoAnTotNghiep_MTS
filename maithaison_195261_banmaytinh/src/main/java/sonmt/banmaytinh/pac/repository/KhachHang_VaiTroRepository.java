@@ -20,4 +20,7 @@ public interface KhachHang_VaiTroRepository extends JpaRepository<Khachhang_vait
 			"where khachhang.makh = ?1",nativeQuery = true)
 	int LayQuyen(int makh);
 	
+	@Query(value = "select id_vaitro from khachhang_vaitro where makh = ?1",nativeQuery = true)
+	int getMaVaiTro(int makh);
+	
 }

@@ -171,7 +171,7 @@ public class MainController {
 	public String GetTrangChu(Model hotenkhachhang)
 	{
 		hotenkhachhang.addAttribute("hoten", SecurityContextHolder.getContext().getAuthentication().getName());
-		System.out.println("ho ten: " + SecurityContextHolder.getContext().getAuthentication().getName());
+		//System.out.println("ho ten: " + SecurityContextHolder.getContext().getAuthentication().getName());
 		return "TrangChu";
 	}
 	
@@ -184,7 +184,7 @@ public class MainController {
 			Model chitietmanhinh,
 			Model chitietdohoa,
 			Model chitietbonho,
-			Model chitietamthanh,
+			Model chitietamthanh,	
 			Model chitietbanphim,
 			Model chitietpin,
 			Model hedieuhanh,
@@ -981,7 +981,7 @@ public class MainController {
 	    {
 	    	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 			matkhau = passwordEncoder.encode(matkhau);
-			khachHangRepository.ThemKhachHang(user.getFullName(), user.getFullName(), matkhau, "", "", null, true, true, true, true);
+			khachHangRepository.ThemKhachHang(user.getFullName(), user.getFullName(), matkhau, "", "", "1998-10-10", true, true, true, true);
 			khachHang_VaiTroRepository.ThemThongTinKH_VT(khachHangRepository.LayMaKhachHang(user.getFullName()), 1);
 	    }
 	    

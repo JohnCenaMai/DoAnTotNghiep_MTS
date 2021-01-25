@@ -2,6 +2,7 @@ package sonmt.banmaytinh.pac.service;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Service;
 import sonmt.banmaytinh.pac.model.DanhSachMayTinhTimKiem;
 import sonmt.banmaytinh.pac.model.DemBinhLuanPhanHoi;
 import sonmt.banmaytinh.pac.model.TongChiTheoThang;
+import sonmt.banmaytinh.pac.model.chatroom.Khachhang_messages;
+import sonmt.banmaytinh.pac.model.chatroom.Room_content;
 import sonmt.banmaytinh.pac.model.join.OrderBill;
 import sonmt.banmaytinh.pac.repository.JoinQuery;
 import sonmt.banmaytinh.pac.repository.dienthoai.DanhSachDienThoaiTimKiem;
@@ -94,6 +97,11 @@ public class JoinQueryService implements JoinQuery {
 				" on cthd.masanpham = mt.mamaytinh\r\n" + 
 				" where cthd.mahoadon = " + mahoadon);
 		
+		Query query1 = em.createQuery("select" + " dt.tensanpham,dt.gia,cthd.soluongmua \r\n" + 
+				" from Chitiethoadon cthd inner join Dienthoai dt \r\n" + 
+				" on cthd.masanpham = dt.madienthoai\r\n" + 
+				" where cthd.mahoadon = " + mahoadon);
+		
 		@SuppressWarnings("unchecked")
 		List<Object[]> list =(List<Object[]>)query.getResultList();
 		List<OrderBill> orderBills = new ArrayList<OrderBill>();
@@ -106,6 +114,20 @@ public class JoinQueryService implements JoinQuery {
 			OrderBill orderBill = new OrderBill(tensanpham, gia, soluong);
 			orderBills.add(orderBill);
 		}
+		
+		@SuppressWarnings("unchecked")
+		List<Object[]> list1 =(List<Object[]>)query1.getResultList();
+		//List<OrderBill> orderBills = new ArrayList<OrderBill>();
+		
+		for (Object[] objects : list1) {
+			String tensanpham = (String) objects[0];
+			int gia = (int) objects[1];
+			int soluong = (int)objects[2];
+			
+			OrderBill orderBill = new OrderBill(tensanpham, gia, soluong);
+			orderBills.add(orderBill);
+		}
+		
 		em.close();
 		return orderBills;
 	}
@@ -263,7 +285,6 @@ public class JoinQueryService implements JoinQuery {
        
         @SuppressWarnings("unchecked")
         List<Object[]> list =(List<Object[]>)query.getResultList();
-        //System.out.println("Student Name :");
         
         List<DanhSachDienThoaiTimKiem> list2 = new ArrayList<DanhSachDienThoaiTimKiem>();
         
@@ -282,6 +303,69 @@ public class JoinQueryService implements JoinQuery {
         //System.out.println("kich thuoc: " + list2.size());
         em.close();
         return list2;
+	}	
+
+	@Override
+	public List<Khachhang_messages> khachhang_messages() {
+		// TODO Auto-generated method stub
+		EntityManager em = emf.createEntityManager();
+		
+		Query query = em.createQuery("Select" + " kh.makh,kh.tenkhachhang,ct.noidung,ct.ngaygui\r\n" + 
+				"from Khachhang kh inner join Khachhang_vaitro kh_vt \r\n" + 
+				"on kh.makh = kh_vt.makh\r\n" + 
+				"inner join Chat ct on kh.makh = ct.from_makh\r\n" + 
+				"where ct.read_or_not_read = 0 and kh_vt.id_vaitro = 1 GROUP BY ct.from_makh ORDER BY ct.ngaygui ASC");
+		
+		@SuppressWarnings("unchecked")
+        List<Object[]> list =(List<Object[]>)query.getResultList();
+        
+        List<Khachhang_messages> list2 = new ArrayList<Khachhang_messages>();
+		
+        for (Object[] objects : list) {
+        	int makh = (int) objects[0];
+			String tenkh = (String) objects[1];
+			String noidung = (String) objects[2];
+			Date ngaygui = (Date) objects[3];
+			
+			Khachhang_messages khachhang_messages = new Khachhang_messages(makh, 
+					tenkh, noidung, ngaygui);
+			list2.add(khachhang_messages);
+		}
+        
+        em.close();
+		
+		return list2;
+	}
+
+	@Override
+	public List<Room_content> room_contents(int makh) {
+		// TODO Auto-generated method stub
+		EntityManager em = emf.createEntityManager();
+		
+		Query query = em.createNativeQuery("SELECT chat.room_id,chat.noidung,chat.ngaygui,khachhang_vaitro.id_vaitro\r\n" + 
+				"FROM chat INNER JOIN khachhang_vaitro \r\n" + 
+				"ON chat.room_id = khachhang_vaitro.makh\r\n" + 
+				"WHERE chat.room_id = " + makh);
+		
+		@SuppressWarnings("unchecked")
+        List<Object[]> list =(List<Object[]>)query.getResultList();
+        
+        List<Room_content> list2 = new ArrayList<Room_content>();
+		
+        for (Object[] objects : list) {
+        	int room_id = (int) objects[0];
+			String noidung = (String) objects[1];
+			Date ngaygui = (Date) objects[2];
+			int vaitro = (int) objects[3];
+			
+			Room_content room_content = new Room_content(room_id, 
+					noidung, ngaygui, vaitro);
+			list2.add(room_content);
+		}
+        
+        em.close();
+		
+		return list2;
 	}
 	
 }

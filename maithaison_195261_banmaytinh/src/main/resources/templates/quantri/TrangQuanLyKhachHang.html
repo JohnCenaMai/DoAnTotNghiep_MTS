@@ -228,18 +228,23 @@
 	                </a>
                 </li>
                 <li> 
-                	<a class="mau nav-link" id="v-pills-qlbl-tab" data-toggle="pill" href="#v-pills-qlbl" role="tab" aria-controls="v-pills-messages" aria-selected="false">
+                	<a class="mau nav-link" id="v-pills-qlbl-tab" th:href="@{/trangquantri/trangquanlybinhluan}">
 	                    <i class="fas fa-comments"><span style="margin-left: 10px;">Quản lý bình luận</span></i>
 	                </a>
                 </li>
                 <li> 
-                	<a class="mau nav-link" id="v-pills-qlhd-tab" data-toggle="pill" href="#v-pills-qlhd" role="tab" aria-controls="v-pills-settings" aria-selected="false">
+                	<a class="mau nav-link" id="v-pills-qlhd-tab" th:href="@{/trangquantri/trangquanlyhoadon}">
 	                    <i class="fas fa-money-bill"><span style="margin-left: 10px;">Quản lý hóa đơn</span></i>
 	                </a>
                 </li>
                 <li> 
-                	<a class="mau nav-link" id="v-pills-qlht-tab" data-toggle="pill" href="#v-pills-qlht" role="tab" aria-controls="v-pills-settings" aria-selected="false">
+                	<a class="mau nav-link" id="v-pills-qlht-tab" th:href="@{/trangquantri/trangquanlyhopthu}">
 	                    <i class="fas fa-envelope-square"><span style="margin-left: 10px;">Quản lý hộp thư</span></i>
+	                </a> 
+                </li>
+                <li> 
+                	<a class="mau nav-link" id="v-pills-qlht-tab" th:href="@{/trangquantri/trangquanlychat}">
+	                    <i class="fas fa-envelope-square"><span style="margin-left: 10px;">Quản lý Chát</span></i>
 	                </a> 
                 </li>
             </ul>
@@ -268,6 +273,7 @@
 	                            <th>Họ tên khách hàng</th>
 	                            <th>Số điện thoại</th>
 	                            <th>Địa chỉ</th>
+	                            <th>Thao tác</th>
 	                        </tr>
 	                    </thead>
 	                    <tbody>
@@ -278,6 +284,7 @@
 		                            <td th:utext="${dskh.tenkhachhang}"></td>
 		                            <td th:utext="${dskh.sodienthoai}"></td>                           
 		                            <td th:utext="${dskh.diachi}"></td>
+		                            <td><a th:href="@{/trangquantri/trangchitietkhachhang/{makh}(makh=${dskh.makh})}" class="btn btn-warning">Xem chi tiết khách hàng</a></td>
 		                        </tr>
 	                    	</th:block>                     
 	                    </tbody>

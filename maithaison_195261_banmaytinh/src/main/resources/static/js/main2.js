@@ -24,6 +24,7 @@ var colors = [
 ];
 
 function connect(event) {
+	//console.log("đã kết nối");
   username = nameInput.val().trim();
   Cookies.set('name', username);
   if (username) {
@@ -134,6 +135,7 @@ function getAvatarColor(messageSender) {
 
 $(document).ready(function() {
   var savedName = Cookies.get('name');
+  
   if (savedName) {
     nameInput.val(savedName);
   }

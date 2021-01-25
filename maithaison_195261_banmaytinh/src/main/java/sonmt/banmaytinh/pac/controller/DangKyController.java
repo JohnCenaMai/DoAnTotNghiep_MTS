@@ -9,6 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import sonmt.banmaytinh.pac.model.Khachhang;
 import sonmt.banmaytinh.pac.model.chatroom.Chat;
@@ -44,7 +45,8 @@ public class DangKyController {
 			@RequestParam String diachi,
 			@RequestParam String sodienthoai,
 			@RequestParam String ngaysinh,
-			@RequestParam String vaitro)
+			@RequestParam String vaitro,
+			RedirectAttributes redirect)
 	{
 		//System.out.println(vaitro);
 		//kiem tra dau vao
@@ -100,10 +102,10 @@ public class DangKyController {
 			}
 		}
 		else {
-			System.out.println("Email k hop le");
+			redirect.addFlashAttribute("success","Email không hợp lệ!!!");
 			return "redirect:/trangdangky";	
 		}
-		
+		redirect.addFlashAttribute("success","Đăng ký thành công");
 		return "redirect:/trangchu";
 	}
 	

@@ -31,6 +31,7 @@ import sonmt.banmaytinh.pac.model.Maytinhchitiet;
 import sonmt.banmaytinh.pac.model.Maytinhhinhanh;
 import sonmt.banmaytinh.pac.model.Ram;
 import sonmt.banmaytinh.pac.model.TongChiTheoThang;
+import sonmt.banmaytinh.pac.model.chatroom.Khachhang_messages;
 import sonmt.banmaytinh.pac.repository.BanPhimRepository;
 import sonmt.banmaytinh.pac.repository.BinhLuanRepository;
 import sonmt.banmaytinh.pac.repository.BoNhoRepository;
@@ -48,6 +49,7 @@ import sonmt.banmaytinh.pac.repository.MayTinhChiTietRepository;
 import sonmt.banmaytinh.pac.repository.MayTinhHinhAnhRepository;
 import sonmt.banmaytinh.pac.repository.MayTinhRepository;
 import sonmt.banmaytinh.pac.repository.RamRepository;
+import sonmt.banmaytinh.pac.repository.chatroom.ChatRepository;
 import sonmt.banmaytinh.pac.service.JoinQueryService;
 import sonmt.banmaytinh.pac.service.MayTinhService;
 
@@ -55,6 +57,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -1053,6 +1056,28 @@ public class QuanTriController {
 			
 		}
 		return "redirect:/trangquantri/trangquanlymaytinh";
+	}
+	
+	@Autowired
+	private ChatRepository chatRepository;
+	
+	@RequestMapping(value = "/trangquanlychat")
+	public String GetTrangQuanLyChat(Model danhsachchat)
+	{
+		//danhsachchat.addAttribute("maadmin", SecurityContextHolder.getContext().getAuthentication().getName());
+		danhsachchat.addAttribute("danhsachkhachhang", joinQueryService.khachhang_messages());
+		return "/quantri/TrangQuanLyChat";
+	}
+	
+	@RequestMapping(value = "/trangchat/{makh}")
+	public String GetTrangChat(@PathVariable int makh,
+			Model room)
+	{
+		room.addAttribute("maadmin", SecurityContextHolder.getContext().getAuthentication().getName());
+		room.addAttribute("room", makh);
+		room.addAttribute("danhsachchat", chatRepository.getAllNoidung(makh));
+		
+		return "/quantri/TrangChatQuanTri";
 	}
 	
 }

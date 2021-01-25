@@ -303,7 +303,7 @@
                     <label for="pwd">Số điện thoại:</label>
                     <input type="text" disabled th:value="${ttkh.sodienthoai}" class="form-control" id="pwd" placeholder="Nhập số điện thoại..." name="sodienthoai">
                 </div>
-                <a th:href="@{/trangkhachhang/xuathoadon/{makh}(makh=${ttkh.makh})}" class="btn btn-primary">Xuất hóa đơn</a>
+                <a th:href="@{/trangkhachhang/xuathoadon/{makh}(makh=${ttkh.makh})}" class="btn btn-primary">Thanh toán bằng tiền mặt</a>
                 <a th:href="@{/trangkhachhang/chonthanhtoanpaypal/{makh}(makh=${ttkh.makh})}" class="btn btn-primary">Thanh toán bằng Paypal</a>
             </div>
 

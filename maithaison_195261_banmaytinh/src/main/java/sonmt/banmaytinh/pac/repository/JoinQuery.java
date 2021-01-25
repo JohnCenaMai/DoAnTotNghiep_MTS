@@ -7,6 +7,8 @@ import org.springframework.stereotype.Repository;
 import sonmt.banmaytinh.pac.model.DanhSachMayTinhTimKiem;
 import sonmt.banmaytinh.pac.model.DemBinhLuanPhanHoi;
 import sonmt.banmaytinh.pac.model.TongChiTheoThang;
+import sonmt.banmaytinh.pac.model.chatroom.Khachhang_messages;
+import sonmt.banmaytinh.pac.model.chatroom.Room_content;
 import sonmt.banmaytinh.pac.model.join.OrderBill;
 import sonmt.banmaytinh.pac.repository.dienthoai.DanhSachDienThoaiTimKiem;
 
@@ -22,5 +24,8 @@ public interface JoinQuery {
 	List<TongChiTheoThang> tongChiTheoThangs(int makh);
 	List<TongChiTheoThang> doanhThuTheoNam(int nam);
 	List<DemBinhLuanPhanHoi> binhLuanPhanHoi();
+	
+	List<Khachhang_messages> khachhang_messages();
+	List<Room_content> room_contents(int makh);
 	
 }

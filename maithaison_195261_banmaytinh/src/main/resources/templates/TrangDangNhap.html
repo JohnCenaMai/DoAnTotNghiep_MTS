@@ -198,14 +198,22 @@
 
             </div>
         </div>
-
     </div>
+
+				<div class="container main-content list" style="margin-top:15px">
+		            <div th:if="${success}" class="row alert alert-success alert-dismissible">
+		                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				    <span aria-hidden="true">×</span>
+				   </button>
+		                <span th:text="${success}"></span>
+		            </div>
+		        </div>
 
     <!-- Form đăng nhập -->
     <div class="container login-container" style="clear: both;">
         <div class="row">
             <div class="col-md-6 login-form-1">
-                <h3>Đăng nhập thông thường</h3>
+                <h3>Đăng nhập băng tài khoản thường</h3>
                 <form th:action="@{/dangnhap}", method="POST">
                     <div class="form-group">
                         <input type="text" class="form-control" placeholder="Your Email *" name="email" />

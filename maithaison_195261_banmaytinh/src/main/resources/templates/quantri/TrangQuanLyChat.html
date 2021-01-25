@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Trang quản lý hộp thư</title>
+    <title>Trang quản lý khách hàng</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -10,6 +10,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.css">
+   
     <style>
         @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
         body {
@@ -182,7 +183,158 @@
         
         #baocao div:hover {
             opacity: 0.75;
-        }
+        }        
+
+		.hidden {
+		    display: none;
+		}
+		
+#username-page {
+    text-align: center;
+}
+
+.username-page-container {
+    background: #fff;
+    box-shadow: 0 1px 11px rgba(0, 0, 0, 0.27);
+    border-radius: 2px;
+    width: 100%;
+    max-width: 500px;
+    display: inline-block;
+    margin-top: 42px;
+    vertical-align: middle;
+    position: relative;
+    padding: 35px 55px 35px;
+    min-height: 250px;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    margin-top: -160px;
+}
+
+.username-page-container .username-submit {
+    margin-top: 10px;
+}
+
+
+#chat-page {
+    position: relative;
+    height: 100%;
+}
+
+.chat-container {
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #fff;
+    box-shadow: 0 1px 11px rgba(0, 0, 0, 0.27);
+    margin-top: 30px;
+    height: calc(100% - 60px);
+    max-height: 600px;
+    position: relative;
+}
+
+#chat-page ul {
+    list-style-type: none;
+    background-color: #FFF;
+    margin: 0;
+    overflow: auto;
+    overflow-y: scroll;
+    padding: 0 20px 0px 20px;
+    height: calc(100% - 150px);
+}
+
+#chat-page #messageForm {
+    padding: 20px;
+}
+
+#chat-page ul li {
+    line-height: 1.5rem;
+    padding: 10px 20px;
+    margin: 0;
+    border-bottom: 1px solid #f4f4f4;
+}
+
+#chat-page ul li p {
+    margin: 0;
+}
+
+#chat-page .event-message {
+    width: 100%;
+    text-align: center;
+    clear: both;
+}
+
+#chat-page .event-message p {
+    color: #777;
+    font-size: 14px;
+    word-wrap: break-word;
+}
+
+#chat-page .chat-message {
+    padding-left: 68px;
+    position: relative;
+}
+
+#chat-page .chat-message i {
+    position: absolute;
+    width: 42px;
+    height: 42px;
+    overflow: hidden;
+    left: 10px;
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 18px;
+    line-height: 42px;
+    color: #fff;
+    text-align: center;
+    border-radius: 50%;
+    font-style: normal;
+    text-transform: uppercase;
+}
+
+#chat-page .chat-message span {
+    color: #333;
+    font-weight: 600;
+}
+
+#chat-page .chat-message p {
+    color: #43464b;
+}
+
+#messageForm .input-group input {
+    float: left;
+    width: calc(100% - 85px);
+}
+
+#messageForm .input-group button {
+    float: left;
+    width: 80px;
+    height: 38px;
+    margin-left: 5px;
+}
+
+.chat-header {
+    text-align: center;
+    padding: 15px;
+    border-bottom: 1px solid #ececec;
+}
+
+.chat-header h2 {
+    margin: 0;
+    font-weight: 500;
+}
+
+.connecting {
+    padding-top: 5px;
+    text-align: center;
+    color: #777;
+    position: absolute;
+    top: 65px;
+    width: 100%;
+}
+
     </style>
 
 </head>
@@ -195,7 +347,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-    <div class="wrapper">
+    <div class="wrapper" id="username-page">
         <nav id="sidebar">
             <div class="sidebar-header">
                 <h4>QUẢN LÝ MÁY TÍNH</h4>
@@ -238,7 +390,7 @@
 	                </a>
                 </li>
                 <li> 
-                	<a class="mau nav-link" id="v-pills-qlht-tab" data-toggle="pill" href="#v-pills-qlht" role="tab" aria-controls="v-pills-settings" aria-selected="false">
+                	<a class="mau nav-link" id="v-pills-qlht-tab" th:href="@{/trangquantri/trangquanlyhopthu}">
 	                    <i class="fas fa-envelope-square"><span style="margin-left: 10px;">Quản lý hộp thư</span></i>
 	                </a> 
                 </li>
@@ -264,40 +416,64 @@
                 </form>
             </nav>
             <div class="content-wrapper">
-                <h4 style="font-weight: bold;color: black;">Quản lý hộp thư</h4>
-                <table class="table table-hover" style="font-size: 14px;color: black;">
-                    <thead>
-                        <tr>
-                            <th>Mã hộp thư</th>
-                            <th>Email</th>
-                            <th>Chủ đề</th>
-                            <th>Nội dung</th>
-                            <th>Ngày gửi</th>
-                            <th>Trạng thái</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    	<th:block th:each="dsht : ${danhsachhopthu}">
-                    		<tr>
-	                            <td th:utext="${dsht.idhopthu}" style="color: black;"></td>
-	                            <td th:utext="${dsht.email}" style="color: black;"></td>
-	                            <td th:utext="${dsht.chude}" style="color: black;"></td>	      
-	                            <td th:utext="${dsht.noidunggui}" style="color: black;"></td>	
-	                            <td th:utext="${dsht.ngaygui}" style="color: black;"></td>	                               
-	                            <td th:if="${dsht.trangthai}" th:utext="'Đã trả lời'" style="color: black;"></td>       
-	                            <td th:unless="${dsht.trangthai}">
-	                            	<a th:href="@{/trangquantri/trangsoanthu(emailkhachhang=${dsht.email},emailadmin=${ttqtv.email},chude=${dsht.chude},noidung=${dsht.noidunggui})}" style="color: black;" type="button" class="btn btn-danger">Soạn thư trả lời</a>
-	                            </td>                            
+                <h4 style="font-weight: bold;color: black;">Trả lời khách hàng</h4>
+	                <table class="table table-hover" style="font-size: 14px;color: black;">
+	                    <thead>                    	
+	                        <tr>
+	                        	<th>Mã khách hàng</th>
+	                            <th>Nội dung</th>
+	                            <th>Ngày gửi</th>	
+	                            <th>Thao tác</th>                            
 	                        </tr>
-                    	</th:block>                     
-                    </tbody>
-                </table>   				
+	                    </thead>
+	                    <tbody>
+	                    	<th:block th:each="dskh:${danhsachkhachhang}">
+		                    	<tr>    
+			                    	<td th:utext="'#' + ${dskh.makh}"></td>
+			                       	<td th:utext="${dskh.noidung}"></td>
+			                        <td th:utext="${dskh.ngaygui}"></td>
+			                        <td><a th:href="@{/trangquantri/trangchat/{makh}(makh=${dskh.makh})}" class="btn btn-warning">Trả lời</a></td>		                    		                            		                           
+		                        </tr>
+	                    	</th:block>                     
+	                    </tbody>
+	                </table>           				
                 <div class="line"></div>
             </div>        	            
         </div>        
         
     </div>
 
+	<div id="chat-page" class="hidden">
+	  <div class="chat-container">
+	    <div class="chat-header">
+	      <h2>Phòng chat số [<span id="room-id-display"></span>]</h2>
+	    </div>
+	    <div class="connecting">
+	    	Đang kết nối.....
+	    </div>
+	    <ul id="messageArea">
+	    	<th:block th:each="dschat:${danhsachchat}">
+	    		<li th:utext="${dschat.noidung}"></li>
+	    	</th:block>
+	    </ul>
+	    <form id="messageForm" name="messageForm" nameForm="messageForm">
+	      <div class="form-group">
+	        <div class="input-group clearfix">
+	          <input type="text" id="message" placeholder="Điền tin nhắn vào đoạn text...."
+	                 autocomplete="off" class="form-control"/>
+	          <button type="submit" class="primary">Gửi</button>
+	        </div>
+	      </div>
+	    </form>
+	  </div>
+	</div>
+
+	<script src="/webjars/jquery/jquery.min.js"></script>
+	<script src="/webjars/sockjs-client/sockjs.min.js"></script>
+	<script src="/webjars/stomp-websocket/stomp.min.js"></script>
+	<script src="/webjars/js-cookie/js.cookie.js"></script>
+	<script src="/js/QuanTriJS.js"></script>
+	
     <script>
         $(document).ready(function() {
             $("#sidebarCollapse").on('click', function() {

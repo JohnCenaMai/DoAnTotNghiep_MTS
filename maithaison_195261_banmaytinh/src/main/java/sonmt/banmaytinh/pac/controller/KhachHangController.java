@@ -1,7 +1,5 @@
 package sonmt.banmaytinh.pac.controller;
 
-import static java.lang.String.format;
-
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -10,14 +8,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.handler.annotation.DestinationVariable;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
-import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -33,21 +24,16 @@ import com.paypal.api.payments.ShippingAddress;
 import com.paypal.api.payments.Transaction;
 import com.paypal.base.rest.PayPalRESTException;
 
-import sonmt.banmaytinh.pac.event.WebSocketEventListener;
 import sonmt.banmaytinh.pac.model.Giohang;
 import sonmt.banmaytinh.pac.model.Hoadon;
 import sonmt.banmaytinh.pac.model.Maytinh;
 import sonmt.banmaytinh.pac.model.OrderDetail;
-import sonmt.banmaytinh.pac.model.chatroom.Chat;
-import sonmt.banmaytinh.pac.model.chatroom.ChatMessage;
-import sonmt.banmaytinh.pac.model.chatroom.ChatMessage.MessageType;
 import sonmt.banmaytinh.pac.model.dienthoai.Dienthoai;
 import sonmt.banmaytinh.pac.paypal.PaymentServices;
 import sonmt.banmaytinh.pac.repository.BinhLuanRepository;
 import sonmt.banmaytinh.pac.repository.ChiTietHoaDonRepository;
 import sonmt.banmaytinh.pac.repository.GioHangRepository;
 import sonmt.banmaytinh.pac.repository.HoaDonRepository;
-import sonmt.banmaytinh.pac.repository.HopThuRepository;
 import sonmt.banmaytinh.pac.repository.KhachHangRepository;
 import sonmt.banmaytinh.pac.repository.MayTinhRepository;
 import sonmt.banmaytinh.pac.repository.PhanHoiRepository;
@@ -119,7 +105,8 @@ public class KhachHangController {
 	
 	//xu ly them vao gio hang
 	@RequestMapping(value = "/xulythemvaogiohang/{masanpham}")
-	public String XuLyThemVaoGioHang(@PathVariable String masanpham)
+	public String XuLyThemVaoGioHang(@PathVariable String masanpham,
+			RedirectAttributes redirectAttributes)
 	{
 		//lay thong tin de chen
 		//ma khach hang
@@ -128,7 +115,13 @@ public class KhachHangController {
 		
 		if(masanpham.contains("mt"))
 		{
-			//System.out.println("Máy tính");
+			int soluong = mayTinhRepository.getSoLuongMayTinh(masanpham);
+			//System.out.println("Số lượng: " + soluong);
+			if(soluong <= 0)
+			{
+				redirectAttributes.addFlashAttribute("success", "Không còn hàng trong kho!!!");
+				return "redirect:/trangchu";
+			}
 			
 			Maytinh mt1 = mayTinhRepository.TimKiemMayTinh(masanpham);	
 			//tim kiem trong gio hang
@@ -190,8 +183,10 @@ public class KhachHangController {
 	
 	//xuat hoa don khong qua paypal
 	@RequestMapping(value = "/xuathoadon/{makh}")
-	public String XuatHoaDon(@PathVariable int makh)
+	public String XuatHoaDon(@PathVariable int makh,
+			RedirectAttributes redirectAttributes)
 	{
+		
 		//them hoa don
 		Date date = new Date();
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");  
@@ -205,6 +200,7 @@ public class KhachHangController {
 		List<Giohang> dssp = gioHangRepository.TimToanBoSanPham(makh);
 		for (Giohang sp : dssp) {
 			chiTietHoaDonRepository.ThemChiTietHoaDon(hoadon.getMahoadon(), sp.getMasanpham(), sp.getSoluong());
+		
 			//update so luong may tinh
 			mayTinhRepository.CapNhatSoLuong(sp.getMasanpham(), sp.getSoluong());
 		}
@@ -212,6 +208,7 @@ public class KhachHangController {
 		//xoa gio hang
 		gioHangRepository.XoaToanBoKhoiGioHang(makh);
 		
+		redirectAttributes.addFlashAttribute("success", "Mua hàng thành công!!!");
 		return "redirect:/trangchu";
 	}
 	
@@ -463,59 +460,25 @@ public class KhachHangController {
 	@Autowired
 	private RoomRepository roomRepository;
 	
+	@Autowired
+	private ChatRepository chatRepository;
+	
 	@RequestMapping(value = "/trangchat/{makh}")
 	public String GetTrangChat(@PathVariable int makh,
-			Model thongtinkhachhang)
+			Model thongtinkhachhang,RedirectAttributes redirect)
 	{
-		//khachHangRepository.findByMakh(makh).getTenkhachhang()
+//		if(SecurityContextHolder.getContext().getAuthentication() == null)
+//		{
+//			redirect.addFlashAttribute("success","Đăng ký thành công");
+//			return "redirect:/trangdangnhap";
+//		}
+//		System.out.println(makh);
 		thongtinkhachhang.addAttribute("makhachhang", makh);
 		thongtinkhachhang.addAttribute("room_id", roomRepository.getIdRoom(makh));
 		thongtinkhachhang.addAttribute("danhsachchat", chatRepository.getAllNoidung(makh));
+		
 		return "/khachhang/TrangChat2";
 	}
-	
-	private static final Logger logger = LoggerFactory.getLogger(WebSocketEventListener.class);
-
-	@Autowired
-	private SimpMessageSendingOperations messagingTemplate;
-	
-	@Autowired 
-	private ChatRepository chatRepository;
-
-	@MessageMapping("/chat/{roomId}/sendMessage")
-	public void sendMessage(@DestinationVariable String roomId, @Payload ChatMessage chatMessage) {
-		
-		Date date = new Date();
-		
-		Chat chat = new Chat();
-		chat.setRoom_id(Integer.parseInt(roomId));
-		chat.setFrom_makh(Integer.parseInt(chatMessage.getSender()));
-		chat.setNoidung(chatMessage.getContent());
-		chat.setNgaygui(date);
-		
-		chatRepository.save(chat);
-		
-		messagingTemplate.convertAndSend(format("/room/%s", roomId), chatMessage);
-	}
-
-	@MessageMapping("/chat/{roomId}/addUser")
-	public void addUser(@DestinationVariable String roomId, @Payload ChatMessage chatMessage,
-	    SimpMessageHeaderAccessor headerAccessor) {
-		  
-	    String currentRoomId = (String) headerAccessor.getSessionAttributes().put("room_id", roomId);
-	    //System.out.println(currentRoomId);
-	    
-	    if (currentRoomId != null) {
-	    	ChatMessage leaveMessage = new ChatMessage();
-	    	leaveMessage.setType(MessageType.LEAVE);
-	    	leaveMessage.setSender(chatMessage.getSender());
-	    	messagingTemplate.convertAndSend(format("/room/%s", currentRoomId), leaveMessage);
-	    }
-	    
-	    headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
-	    messagingTemplate.convertAndSend(format("/room/%s", roomId), chatMessage);
-	    
-	}	
 	
 	@RequestMapping(value = "/xoataikhoan/{makh}")
 	public String XoaTaiKhoan(@PathVariable int makh)

@@ -33,4 +33,7 @@ public class Chat {
 	@Column(name = "ngaygui")
 	private Date ngaygui;
 	
+	@Column(name = "read_or_not_read")
+	private Boolean read_or_not_read;
+	
 }

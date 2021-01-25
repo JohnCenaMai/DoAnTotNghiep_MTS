@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
   <title>Chat với quản trị viên</title>
@@ -37,7 +37,14 @@
     </div>
     <ul id="messageArea">
     	<th:block th:each="dschat:${danhsachchat}">
-    		<li th:utext="${dschat.noidung}"></li>
+    		<li th:if="${dschat.from_makh} == ${makhachhang}" class="chat-message">
+    			<span style="color: red;">Ban: </span>
+    			<span th:utext="${dschat.noidung}"></span>
+    		</li>
+    		<li th:unless="${dschat.from_makh} == ${makhachhang}" class="chat-message">
+    			<span style="color: green;">Admin: </span>
+    			<span th:utext="${dschat.noidung}"></span>
+    		</li>
     	</th:block>
     </ul>
     <form id="messageForm" name="messageForm" nameForm="messageForm">
@@ -57,5 +64,6 @@
 <script src="/webjars/stomp-websocket/stomp.min.js"></script>
 <script src="/webjars/js-cookie/js.cookie.js"></script>
 <script src="/js/main2.js"></script>
+
 </body>
 </html>
